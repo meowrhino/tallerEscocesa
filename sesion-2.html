@@ -22,6 +22,7 @@
 </span>
 <span class="sep"></span>
 <span class="util">
+<a href="chuleton.html">chuletón</a>
 <a href="muestrario/">muestrario</a>
 <button id="btn-leer" type="button">leer</button>
 <button id="btn-tema" type="button">tema</button>
@@ -37,7 +38,7 @@
 </div>
 <p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
 </header>
-<section class="lamina hueco" data-tipo="teoria" data-rotulo="el plan de hoy" id="plan">
+<section class="lamina hueco" data-rotulo="el plan de hoy" data-tipo="teoria" id="plan">
 <div>
 <div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
 <nav class="plan"><a href="#b1"><span class="hora">00:00</span><span class="que">qué es el css</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#b2"><span class="hora">00:15</span><span class="que">ejercicio 4 · elegir una dirección</span><span class="tipo" data-t="práctica">práctica</span><span class="min">10 min</span></a><a href="#b3"><span class="hora">00:25</span><span class="que">selectores y la caja</span><span class="tipo" data-t="teoría">teoría</span><span class="min">30 min</span></a><a href="#p1"><span class="hora">00:55</span><span class="que">ejercicio 5 · la base y la columna</span><span class="tipo" data-t="práctica">práctica</span><span class="min">25 min</span></a><a href="#b5"><span class="hora">01:20</span><span class="que">pausa</span><span class="tipo">—</span><span class="min">15 min</span></a><a href="#b4"><span class="hora">01:35</span><span class="que">tipografía</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#b6"><span class="hora">01:50</span><span class="que">color</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#p2"><span class="hora">02:05</span><span class="que">ejercicio 5 · titulares y menú</span><span class="tipo" data-t="práctica">práctica</span><span class="min">20 min</span></a><a href="#b7"><span class="hora">02:25</span><span class="que">composición</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a><a href="#b8"><span class="hora">02:35</span><span class="que">que funcione en el móvil</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a><a href="#b9"><span class="hora">02:45</span><span class="que">ejercicio 5 · el móvil y libre</span><span class="tipo" data-t="práctica">práctica</span><span class="min">15 min</span></a></nav>
@@ -199,27 +200,27 @@
 <div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">25 min</span></div>
 <h2>capas 1 y 2</h2>
 <p>Trabaja siempre sobre <code>estilo.css</code>. Este orden importa: si empiezas por los detalles, luego cambias la base y se descuadra todo.</p>
-<div class="dos">
-<div>
-<h3>1 · La base</h3>
-<ul class="casillas">
-<li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
-<li><code>font-family</code>: con remates (serif) o sin ellos (sans-serif).</li>
-<li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
-</ul>
-</div>
-<div>
-<h3>2 · La columna</h3>
-<ul class="casillas">
-<li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
-<li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
-</ul>
-<div class="aviso">
+
+<div class="capas"><div class="capa" data-capa="hay-que"><span class="et">hay que</span><ul><li><code>* { box-sizing: border-box; }</code> lo primero</li><li><code>background-color</code> y <code>color</code> en <code>body</code></li><li><code>font-family</code>: con remates o sin ellos</li><li><code>font-size</code> y <code>line-height</code></li><li><code>max-width</code> + <code>margin: 0 auto</code></li></ul></div><div class="capa" data-capa="puedes"><span class="et">puedes</span><ul><li>Probar 17, 18 y 20px y quedarte con uno</li><li>Probar 500, 640 y 900px de columna</li><li><code>padding</code> en el <code>body</code></li><li>Un color de acento en <code>a:hover</code></li></ul></div><div class="capa" data-capa="podrias"><span class="et">podrías</span><ul><li>Variables con <code>:root</code> y <code>var()</code></li><li>Una tipografía tuya con <code>@font-face</code></li><li><code>clamp()</code> en el <code>h1</code></li><li>Modo oscuro con <code>prefers-color-scheme</code></li></ul></div></div><div class="aviso">
 <span class="etiqueta">antes de cambios grandes</span>
 <p>Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple de poder volver atrás.</p>
+</div></div>
+</section><section class="lamina hueco" data-tipo="practica">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5 · capas 1 y 2</span><span class="sep"></span><span class="duracion">lo que puedes usar ahora</span></div>
+<h2>caja de herramientas · base y color</h2>
+<p>El fondo, la tinta, la letra y el ancho de la columna. Con esto ya se decide el 80% del carácter de una web.</p>
+<div class="herramientas">
+<div>
+<h3>esenciales</h3>
+<ul class="piezas"><li>box-sizing: border-box</li><li>background-color</li><li>color</li><li>font-family</li><li>font-size</li><li>line-height</li><li>font-weight</li><li>font-style</li><li>max-width</li><li>margin: 0 auto</li><li>padding</li><li>#hex</li><li>rgb()</li><li>nombres de color</li></ul>
+</div>
+<div class="avanzadas">
+<h3>avanzadas</h3>
+<ul class="piezas"><li>:root { --tinta: … }</li><li>var(--tinta)</li><li>@font-face</li><li>clamp()</li><li>hsl()</li><li>rgb(0 0 0 / 40%)</li><li>opacity</li><li>linear-gradient()</li><li>prefers-color-scheme</li><li>background-image</li><li>mix-blend-mode</li></ul>
 </div>
 </div>
-</div>
+<p class="alchuleton">cada una explicada, con todas sus opciones, en el <a href="chuleton.html#color">chuletón</a></p>
 </div>
 </section><section class="lamina bloque" data-tipo="pausa" id="b5">
 <div>
@@ -259,7 +260,6 @@
 </div>
 </section>
 <!-- ══════════════ pausa ══════════════ -->
-
 <!-- ══════════════ bloque 6 · color ══════════════ -->
 <section class="lamina bloque" data-tipo="teoria" id="b6">
 <div><span class="rotulo">teoría · lo explico yo</span>
@@ -305,33 +305,27 @@
 <div>
 <div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">20 min</span></div>
 <h2>capas 3, 4 y 5</h2>
-<div class="dos">
-<div>
-<h3>3 · Los titulares</h3>
-<ul class="casillas">
-<li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia.</li>
-<li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
-</ul>
-<h3>4 · El menú</h3>
-<ul class="casillas">
-<li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
-<li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
-<li>Un <code>:hover</code> que se note.</li>
-</ul>
-</div>
-<div>
-<h3>5 · Separar los bloques</h3>
-<ul class="casillas">
-<li><code>margin-bottom</code> en <code>article</code>.</li>
-<li>Una <code>border-bottom</code> fina entre proyectos.</li>
-<li>Aire arriba y abajo del <code>footer</code>.</li>
-</ul>
-<div class="aviso clave">
+
+<div class="capas"><div class="capa" data-capa="hay-que"><span class="et">hay que</span><ul><li>Tamaños distintos de <code>h1</code>, <code>h2</code> y <code>h3</code></li><li><code>display: flex</code> y <code>gap</code> en el <code>nav</code></li><li><code>text-decoration: none</code> en el menú</li><li>Un <code>:hover</code> que se note</li><li><code>margin-bottom</code> y <code>border-bottom</code> en <code>article</code></li><li>La regla de <code>img</code>: <code>max-width: 100%</code></li></ul></div><div class="capa" data-capa="puedes"><span class="et">puedes</span><ul><li><code>letter-spacing</code> en lo que esté en mayúsculas</li><li><code>text-transform: uppercase</code> en la ficha técnica</li><li><code>article:last-child</code> sin borde</li><li>Una <code>class</code> tuya para la ficha técnica</li><li><code>text-align</code> en algún sitio concreto</li></ul></div><div class="capa" data-capa="podrias"><span class="et">podrías</span><ul><li><code>grid</code> con <code>auto-fill</code> para la rejilla de obra</li><li><code>object-fit</code> y <code>aspect-ratio</code> para igualar fotos</li><li><code>position: sticky</code> en la cabecera</li><li><code>box-shadow</code> y <code>border-radius</code></li><li><code>transition</code> en los enlaces</li></ul></div></div><div class="aviso clave">
 <span class="etiqueta">la forma de aprender esto</span>
 <p>No es memorizar la chuleta: es cambiar un número, guardar, recargar y mirar. Cuarenta veces. No se rompe nada.</p>
+</div></div>
+</section><section class="lamina hueco" data-tipo="practica">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5 · capas 3, 4 y 5</span><span class="sep"></span><span class="duracion">lo que puedes usar ahora</span></div>
+<h2>caja de herramientas · caja y composición</h2>
+<p>Jerarquía, el menú en fila y separar los bloques. Aquí es donde una web deja de parecer un documento de Word.</p>
+<div class="herramientas">
+<div>
+<h3>esenciales</h3>
+<ul class="piezas"><li>text-transform</li><li>letter-spacing</li><li>text-align</li><li>text-decoration</li><li>display: flex</li><li>gap</li><li>flex-wrap</li><li>justify-content</li><li>align-items</li><li>margin</li><li>padding</li><li>border-bottom</li><li>border</li><li>max-width</li><li>:hover</li><li>img { max-width: 100% }</li></ul>
+</div>
+<div class="avanzadas">
+<h3>avanzadas</h3>
+<ul class="piezas"><li>display: grid</li><li>repeat(auto-fill, minmax())</li><li>object-fit: cover</li><li>aspect-ratio</li><li>position: sticky</li><li>z-index</li><li>box-shadow</li><li>border-radius</li><li>overflow</li><li>:first-child</li><li>:last-child</li><li>:nth-child()</li><li>columns</li><li>transition</li></ul>
 </div>
 </div>
-</div>
+<p class="alchuleton">cada una explicada, con todas sus opciones, en el <a href="chuleton.html#caja">chuletón</a></p>
 </div>
 </section><section class="lamina bloque" data-tipo="teoria" id="b7">
 <div><span class="rotulo">teoría · lo explico yo</span>
@@ -410,49 +404,28 @@
 <div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">a lo largo de la sesión</span></div>
 <h2>capa 6 · el móvil</h2>
 <p>Trabaja siempre sobre <code>estilo.css</code>. Ve en este orden: si empiezas por los detalles, luego cambias la base y se descuadra todo.</p>
-<div class="dos">
-<div>
-<h3>1 · La base</h3>
-<ul class="casillas">
-<li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
-<li><code>font-family</code>: con remates (serif) o sin ellos (sans-serif).</li>
-<li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
-</ul>
-<h3>2 · La columna</h3>
-<ul class="casillas">
-<li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
-<li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
-</ul>
-<h3>3 · Los titulares</h3>
-<ul class="casillas">
-<li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia.</li>
-<li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
-</ul>
-</div>
-<div>
-<h3>4 · El menú</h3>
-<ul class="casillas">
-<li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
-<li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
-<li>Un <code>:hover</code> que se note.</li>
-</ul>
-<h3>5 · Separar los bloques</h3>
-<ul class="casillas">
-<li><code>margin-bottom</code> en <code>article</code>.</li>
-<li>Una <code>border-bottom</code> fina entre proyectos.</li>
-<li>Aire arriba y abajo del <code>footer</code>.</li>
-</ul>
-<h3>6 · El móvil</h3>
-<ul class="casillas">
-<li>Una <code>@media (max-width: 600px)</code> al final del archivo.</li>
-<li>Dentro: bajar <code>font-size</code> del <code>body</code> y del <code>h1</code>, y reducir el <code>padding</code>.</li>
-</ul>
-</div>
-</div>
+
 <div class="aviso">
 <span class="etiqueta">antes de cambios grandes</span>
 <p>Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple que existe de poder volver atrás.</p>
 </div>
+<div class="capas"><div class="capa" data-capa="hay-que"><span class="et">hay que</span><ul><li><code>@media (max-width: 600px)</code> <strong>al final</strong> del archivo</li><li>Bajar el <code>font-size</code> del <code>body</code> y del <code>h1</code></li><li>Reducir el <code>padding</code></li><li>Comprobarlo estrechando la ventana</li></ul></div><div class="capa" data-capa="puedes"><span class="et">puedes</span><ul><li>El <code>nav</code> en columna en móvil</li><li>La rejilla a una sola columna</li><li>Esconder algo con <code>display: none</code></li><li>Trastear libremente lo que quieras</li></ul></div><div class="capa" data-capa="podrias"><span class="et">podrías</span><ul><li><code>transition</code> y <code>transform</code> en las fotos</li><li><code>filter: grayscale</code> que se quita al pasar por encima</li><li><code>clamp()</code> para no necesitar media query</li><li><code>scroll-snap</code>, como las expos del muestrario</li></ul></div></div></div>
+</section><section class="lamina hueco" data-tipo="practica">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5 · capa 6</span><span class="sep"></span><span class="duracion">lo que puedes usar ahora</span></div>
+<h2>caja de herramientas · móvil y efectos</h2>
+<p>Que se vea bien en el móvil es obligatorio. Lo de la derecha es el postre, y hay mucho.</p>
+<div class="herramientas">
+<div>
+<h3>esenciales</h3>
+<ul class="piezas"><li>@media (max-width: 600px)</li><li>meta viewport</li><li>px</li><li>%</li><li>rem</li><li>em</li><li>vw</li><li>vh</li><li>display: none</li><li>flex-direction: column</li><li>:hover</li><li>transition</li></ul>
+</div>
+<div class="avanzadas">
+<h3>avanzadas</h3>
+<ul class="piezas"><li>clamp()</li><li>svh</li><li>transform: scale()</li><li>transform: rotate()</li><li>filter: grayscale()</li><li>filter: blur()</li><li>filter: invert()</li><li>@keyframes</li><li>animation</li><li>cursor</li><li>scroll-snap-type</li><li>prefers-reduced-motion</li></ul>
+</div>
+</div>
+<p class="alchuleton">cada una explicada, con todas sus opciones, en el <a href="chuleton.html#movil">chuletón</a></p>
 </div>
 </section>
 <!-- ══════════════ chuleta ══════════════ -->

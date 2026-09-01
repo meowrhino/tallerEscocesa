@@ -31,8 +31,15 @@ marcadas y separadas, con un rótulo en cada lámina, para que en todo momento s
 escuchar o toca teclear.
 
 Dentro de cada sesión está **todo**: las explicaciones, los bloques de código con botón
-de copiar, los ejercicios con casillas, la chuleta y los enlaces al muestrario. No hace
-falta repartir nada más.
+de copiar, los ejercicios, la chuleta y los enlaces al muestrario. No hace falta repartir
+nada más.
+
+Cada práctica trae además:
+
+- **Tres capas** — lo que *hay que* hacer para dar el ejercicio por bueno, lo que *puedes*
+  hacer si acabas antes, y lo que *podrías* hacer en casa. Con casillas para tachar.
+- **Una caja de herramientas** — qué se puede usar en ese momento exacto, separado en
+  **esenciales** y **avanzadas**, con enlace al chuletón.
 
 ### Atajos
 
@@ -47,9 +54,27 @@ falta repartir nada más.
 
 ---
 
+## El chuletón
+
+[`chuleton.html`](chuleton.html) es la referencia para tener abierta en otra pestaña
+mientras se trastea, y para llevarse a casa. **75 fichas** organizadas en nueve bloques —
+html, reglas y selectores, texto, color, la caja, composición, móvil, efectos y
+plantillas—, cada una con:
+
+- qué hace, en una frase
+- **todas sus opciones**, listadas (`text-align` es `left · center · right · justify`)
+- un ejemplo de código con botón de copiar
+- las trampas: qué se rompe y por qué
+
+Lleva **buscador** (busca sin tildes: «movil» encuentra «móvil»), filtro por
+**esenciales / avanzadas**, y una sección de **plantillas enteras** para copiar: una página
+completa, un `estilo.css` de arranque comentado, un proyecto, una galería en rejilla, un
+CV y un menú desplegable sin JavaScript. Se imprime como dossier.
+
 ## Qué más hay aquí
 
 ```
+chuleton.html      la referencia completa: 75 fichas de HTML y CSS, con buscador
 muestrario/        26 páginas de ejemplo, cada una en un solo archivo muy comentado
 web-base/          punto de partida de la sesión 1, con los huecos comentados
 rescate/sesion-1/  cómo queda la web al terminar la primera sesión

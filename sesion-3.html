@@ -22,6 +22,7 @@
 </span>
 <span class="sep"></span>
 <span class="util">
+<a href="chuleton.html">chuletón</a>
 <a href="muestrario/">muestrario</a>
 <button id="btn-leer" type="button">leer</button>
 <button id="btn-tema" type="button">tema</button>
@@ -37,7 +38,7 @@
 </div>
 <p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
 </header>
-<section class="lamina hueco" data-tipo="teoria" data-rotulo="el plan de hoy" id="plan">
+<section class="lamina hueco" data-rotulo="el plan de hoy" data-tipo="teoria" id="plan">
 <div>
 <div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
 <nav class="plan"><a href="#b1"><span class="hora">00:00</span><span class="que">qué es todo esto</span><span class="tipo" data-t="teoría">teoría</span><span class="min">30 min</span></a><a href="#p1"><span class="hora">00:30</span><span class="que">checklist antes de publicar</span><span class="tipo" data-t="práctica">práctica</span><span class="min">15 min</span></a><a href="#b2"><span class="hora">00:45</span><span class="que">ejercicio 6 · subir y publicar</span><span class="tipo" data-t="práctica">práctica</span><span class="min">30 min</span></a><a href="#b3"><span class="hora">01:15</span><span class="que">un dominio propio</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#b4"><span class="hora">01:30</span><span class="que">pausa</span><span class="tipo">—</span><span class="min">15 min</span></a><a href="#b5"><span class="hora">01:45</span><span class="que">el ciclo de mantenimiento</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a><a href="#p2"><span class="hora">01:55</span><span class="que">ejercicio 7 · cambiar y volver a subir</span><span class="tipo" data-t="práctica">práctica</span><span class="min">35 min</span></a><a href="#b6"><span class="hora">02:30</span><span class="que">remates y cómo seguir</span><span class="tipo" data-t="teoría">teoría</span><span class="min">20 min</span></a><a href="#b7"><span class="hora">02:50</span><span class="que">consultorio</span><span class="tipo" data-t="práctica">práctica</span><span class="min">10 min</span></a></nav>
@@ -194,36 +195,15 @@ tu carpeta publicada</pre></div>
 <div>
 <div class="cabecera-lamina"><span class="reloj">ejercicio 6</span><span class="sep"></span><span class="duracion">30 min · paso a paso</span></div>
 <h2>subir y publicar</h2>
-<div class="dos">
-<div>
-<h3>Subir</h3>
-<ol>
-<li><a href="https://github.com">github.com</a> → <strong>New repository</strong>.</li>
-<li>Nombre <code>mi-web</code>, marcar <strong>Public</strong>, Create.</li>
-<li><strong>uploading an existing file</strong>.</li>
-<li>Arrastrar <strong>el contenido de la carpeta</strong>, no la carpeta.</li>
-<li><strong>Commit changes</strong>.</li>
-</ol>
-<h3>Publicar</h3>
-<ol>
-<li><strong>Settings → Pages</strong>.</li>
-<li>Branch: <code>main</code> → <strong>Save</strong>.</li>
-<li>Esperar un minuto y recargar.</li>
-</ol>
-</div>
-<div>
-<div class="aviso">
+
+<div class="capas"><div class="capa" data-capa="hay-que"><span class="et">hay que</span><ul><li>La checklist repasada entera</li><li><code>New repository</code> → nombre → <strong>Public</strong></li><li>Arrastrar <strong>el contenido</strong>, no la carpeta</li><li><code>Commit changes</code></li><li><code>Settings → Pages → main → Save</code></li><li>La dirección apuntada en papel</li></ul></div><div class="capa" data-capa="puedes"><span class="et">puedes</span><ul><li>Abrirla en tu móvil</li><li>Comprobar que los enlaces funcionan publicados</li><li>Comprobar que las imágenes se ven</li><li>Poner un <code>favicon</code></li></ul></div><div class="capa" data-capa="podrias"><span class="et">podrías</span><ul><li>Una <code>meta description</code> por página</li><li>Cloudflare Pages sobre el mismo repositorio</li><li>Un dominio propio (en casa, con calma)</li><li>Una página <code>404.html</code> tuya</li></ul></div></div><div class="aviso">
 <span class="etiqueta">si sale un 404</span>
 <p>Entra en tu repositorio: ¿ves <code>index.html</code> nada más abrirlo? Si lo que ves es una carpeta, subiste la carpeta contenedora. Bórralo y vuelve a subir solo el contenido.</p>
-</div>
-<div class="aviso clave">
+</div><div class="aviso clave">
 <span class="etiqueta">apunta aquí tu dirección</span>
 <p>tunombre.github.io / _______________</p>
 <p>En papel. Ahora. Y ábrela en el móvil: es donde se ve para qué servía la media query de la sesión pasada.</p>
-</div>
-</div>
-</div>
-</div>
+</div></div>
 </section>
 <!-- ══════════════ bloque 3 ══════════════ -->
 <section class="lamina bloque" data-tipo="teoria" id="b3">
@@ -291,40 +271,11 @@ tu carpeta publicada</pre></div>
 <div class="cabecera-lamina"><span class="reloj">ejercicio 7</span><span class="sep"></span><span class="duracion">30 min · el más importante del taller</span></div>
 <h2>cambiar algo y volver a subirlo</h2>
 <p>Publicar lo hace cualquiera una vez. Lo que hace que la web sea tuya es saber cambiarla dentro de seis meses. <strong>Hazlo tú sola, entera.</strong></p>
-<div class="dos">
-<div>
-<h3>El ciclo completo</h3>
-<ul class="casillas">
-<li>En VS Code, cambia algo que se note: una frase, un color, una imagen.</li>
-<li>Guarda.</li>
-<li>Ábrelo en tu navegador <strong>en local</strong> y comprueba que está bien.</li>
-<li>En GitHub: <strong>Add file → Upload files</strong>.</li>
-<li>Arrastra el archivo cambiado encima del que ya estaba.</li>
-<li><strong>Commit changes</strong>.</li>
-<li>Espera un minuto, recarga tu web publicada y comprueba el cambio.</li>
-</ul>
-<h3>Repítelo con otra cosa</h3>
-<ul class="casillas">
-<li>Añade un proyecto nuevo a <code>proyectos.html</code>.</li>
-<li>Súbelo tú sola, sin mirar los pasos de arriba.</li>
-</ul>
-</div>
-<div>
-<h3>Antes de irte</h3>
-<ul class="casillas">
-<li>Tengo mi dirección apuntada en papel.</li>
-<li>Tengo la carpeta guardada en mi ordenador.</li>
-<li>Sé entrar en mi cuenta de GitHub.</li>
-<li>He hecho el ciclo completo yo sola, al menos dos veces.</li>
-<li>Me llevo la guía y la chuleta.</li>
-</ul>
-<div class="aviso">
+
+<div class="capas"><div class="capa" data-capa="hay-que"><span class="et">hay que</span><ul><li>Cambiar algo que se note, en VS Code</li><li>Guardar y comprobarlo <strong>en local</strong></li><li><code>Add file → Upload files</code></li><li>Arrastrar el archivo encima del viejo</li><li><code>Commit changes</code> y ver el cambio online</li><li>Repetirlo una segunda vez, sin mirar los pasos</li></ul></div><div class="capa" data-capa="puedes"><span class="et">puedes</span><ul><li>Añadir un proyecto nuevo entero</li><li>Duplicar la carpeta con la fecha antes de tocar</li><li>Mirar el <code>History</code> del archivo en GitHub</li></ul></div><div class="capa" data-capa="podrias"><span class="et">podrías</span><ul><li>Editar directamente en GitHub con el lápiz</li><li>El panel <em>Control de código fuente</em> de VS Code</li><li>Un <code>README.md</code> en el repositorio</li></ul></div></div><div class="aviso">
 <span class="etiqueta">por qué esto y no otra cosa</span>
 <p>Hasta que no lo has hecho sola una vez, no lo sabes hacer. Todo lo demás del taller se puede recuperar leyendo la guía; esto no.</p>
-</div>
-</div>
-</div>
-</div>
+</div></div>
 </section>
 <!-- ══════════════ bloque 6 ══════════════ -->
 <section class="lamina bloque" data-tipo="teoria" id="b6">

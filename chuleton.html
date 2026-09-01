@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chuletón — todo el código del taller</title>
+<meta name="description" content="Referencia completa de HTML y CSS del taller de web autogestionada: todas las etiquetas, propiedades y valores, con ejemplos para copiar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/taller.css">
+<style>
+  /* el chuletón es un documento de consulta, no una presentación */
+  html { scroll-snap-type: none; scroll-behavior: smooth; }
+  body { font-size: 17px; }
+  main { padding: var(--alto-barra) 0 0; }
+
+  .cabeza { padding: clamp(48px,8vh,90px) var(--pad-x) 30px; max-width: 62rem; margin-inline: auto; }
+  .cabeza h1 { margin-bottom: .2em; }
+  .cabeza .entradilla { max-width: 38rem; }
+
+  .buscador {
+    position: sticky; top: var(--alto-barra); z-index: 90;
+    background: var(--papel);
+    padding: 12px var(--pad-x) 12px;
+    border-bottom: 1px solid var(--linea);
+  }
+  .buscador .fila { display: flex; gap: 14px; align-items: center; max-width: 62rem; margin-inline: auto; flex-wrap: wrap; }
+  .buscador input {
+    flex: 1 1 240px; min-width: 0;
+    padding: 8px 0;
+    background: none; border: 0; border-bottom: 1px solid var(--linea-fuerte);
+    font-family: var(--mono); font-size: 13px; color: var(--tinta);
+  }
+  .buscador input::placeholder { color: var(--tinta-tenue); }
+  .buscador input:focus { outline: none; border-bottom-color: var(--acento); }
+  .buscador .filtros { display: flex; gap: 16px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; }
+  .buscador .filtros button {
+    background: none; border: 0; padding: 0; cursor: pointer;
+    color: var(--tinta); opacity: .4; font: inherit;
+    transition: opacity var(--rapido);
+  }
+  .buscador .filtros button:hover { opacity: .8; }
+  .buscador .filtros button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+  .buscador .cuenta { font-family: var(--mono); font-size: 10.5px; color: var(--tinta-tenue); }
+
+  .seccion { padding: 40px var(--pad-x) 10px; max-width: 62rem; margin-inline: auto; }
+  .seccion > h2 {
+    font-size: clamp(24px,3vw,34px);
+    padding-bottom: 8px; margin-bottom: 4px;
+    border-bottom: 2px solid var(--tinta);
+  }
+  .seccion > .intro { color: var(--tinta-tenue); font-size: 15px; margin: 10px 0 22px; max-width: 40rem; }
+
+  .fichas { display: grid; gap: 0; }
+
+  .ficha {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--linea);
+    display: grid;
+    grid-template-columns: minmax(0,17rem) minmax(0,1fr);
+    gap: 8px 34px;
+    align-items: start;
+  }
+  @media (max-width: 760px) { .ficha { grid-template-columns: 1fr; } }
+
+  .ficha .clave { display: flex; flex-direction: column; gap: 7px; }
+  .ficha .nom {
+    font-family: var(--mono); font-size: 14px; font-weight: 600;
+    color: var(--tinta); word-break: break-word;
+  }
+  .ficha .nivel {
+    align-self: flex-start;
+    font-family: var(--mono); font-size: 8.5px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--tinta-tenue);
+  }
+  .ficha[data-nivel="avanzado"] .nivel { color: var(--practica-borde); }
+
+  .ficha .dice { font-size: 15px; line-height: 1.5; margin: 0 0 10px; max-width: none; }
+  .ficha .dice strong { font-weight: 600; }
+
+  .opciones { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 0 0 10px; padding: 0; list-style: none; max-width: none; }
+  .opciones li {
+    margin: 0;
+    font-family: var(--mono); font-size: 12px;
+    padding: 2px 8px;
+    background: var(--codigo-bg);
+    border-radius: 2px;
+    color: var(--tinta-suave);
+  }
+  .opciones li b { font-weight: 600; color: var(--tinta); }
+
+  .ficha .codigo { margin-bottom: 0; }
+  .ficha .codigo pre { padding: 13px 16px; font-size: 12.5px; line-height: 1.6; }
+
+  .nota {
+    font-size: 13.5px; color: var(--tinta-tenue);
+    margin: 8px 0 0; max-width: none;
+  }
+  .nota b { color: var(--tinta); font-weight: 600; }
+
+  .sinresultados { padding: 40px var(--pad-x); text-align: center; color: var(--tinta-tenue); display: none; }
+  body.vacio .sinresultados { display: block; }
+
+  .indicecorto {
+    padding: 0 var(--pad-x) 30px; max-width: 62rem; margin-inline: auto;
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em;
+  }
+  .indicecorto a { color: var(--tinta); opacity: .5; text-decoration: none; }
+  .indicecorto a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+
+  @media print {
+    .buscador, .indicecorto { display: none !important; }
+    .seccion { padding: 0 0 8pt; break-inside: auto; }
+    .seccion > h2 { break-after: avoid; font-size: 14pt; }
+    .ficha { break-inside: avoid; page-break-inside: avoid; padding: 6pt 0; grid-template-columns: 14rem 1fr; }
+    .ficha .codigo pre { font-size: 7.5pt !important; padding: 6pt 8pt; }
+    .opciones li { border: .5pt solid #ddd; background: none; font-size: 7.5pt; }
+    .cabeza { page-break-after: avoid; padding: 0 0 12pt; }
+  }
+</style>
+</head>
+<body class="leer">
+
+<nav class="barra no-imprimir">
+  <a class="marca" href="index.html">taller · la escocesa</a>
+  <span class="grupo">
+    <a href="sesion-1.html">1 · html</a>
+    <a href="sesion-2.html">2 · css</a>
+    <a href="sesion-3.html">3 · publicar</a>
+  </span>
+  <span class="sep"></span>
+  <span class="util">
+    <a href="chuleton.html" aria-current="page">chuletón</a>
+    <a href="muestrario/">muestrario</a>
+    <button id="btn-tema" type="button">tema</button>
+    <button id="btn-imprimir" type="button">imprimir</button>
+  </span>
+</nav>
+
+<main>
+
+<header class="cabeza">
+  <h1>chuletón</h1>
+  <p class="entradilla">Todo lo que puedes escribir, con lo que hace cada cosa y sus opciones. Para tenerlo abierto en otra pestaña mientras trasteas.</p>
+  <p class="nota" style="margin-top:18px">La forma de aprender esto no es leerlo entero: es <strong>buscar lo que necesitas, copiarlo, cambiar un número, guardar, recargar y mirar</strong>. Cuarenta veces. No se rompe nada.</p>
+</header>
+
+<div class="buscador no-imprimir">
+  <div class="fila">
+    <input id="buscar" type="search" placeholder="buscar: color, centrar, sombra, móvil, enlace…" autocomplete="off">
+    <span class="filtros">
+      <button type="button" data-nivel="todo" aria-pressed="true">todo</button>
+      <button type="button" data-nivel="esencial" aria-pressed="false">esenciales</button>
+      <button type="button" data-nivel="avanzado" aria-pressed="false">avanzadas</button>
+    </span>
+    <span class="cuenta" id="cuenta"></span>
+  </div>
+</div>
+
+<nav class="indicecorto no-imprimir">
+  <a href="#html">html</a>
+  <a href="#reglas">reglas y selectores</a>
+  <a href="#texto">texto</a>
+  <a href="#color">color</a>
+  <a href="#caja">la caja</a>
+  <a href="#composicion">composición</a>
+  <a href="#movil">móvil</a>
+  <a href="#efectos">efectos</a>
+  <a href="#plantillas">plantillas</a>
+  <a href="#averias">averías</a>
+</nav>
+
+<!-- ══════════════════ HTML ══════════════════ -->
+<section class="seccion" id="html">
+  <h2>html · las etiquetas</h2>
+  <p class="intro">El HTML dice <em>qué es</em> cada cosa. Estas son todas las que necesitas, y unas cuantas más.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="esqueleto plantilla base documento head body doctype">
+      <div class="clave"><span class="nom">el esqueleto</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Lo que lleva <strong>toda</strong> página, siempre igual. Copia esto en cada archivo nuevo.</p>
+        <div class="codigo"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="t">html</span> <span class="at">lang</span>=<span class="v">"es"</span>&gt;
+&lt;<span class="t">head</span>&gt;
+  &lt;<span class="t">meta</span> <span class="at">charset</span>=<span class="v">"UTF-8"</span>&gt;
+  &lt;<span class="t">meta</span> <span class="at">name</span>=<span class="v">"viewport"</span> <span class="at">content</span>=<span class="v">"width=device-width, initial-scale=1"</span>&gt;
+  &lt;<span class="t">title</span>&gt;Tu nombre — Proyectos&lt;/<span class="t">title</span>&gt;
+  &lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt;
+&lt;/<span class="t">head</span>&gt;
+&lt;<span class="t">body</span>&gt;
+
+&lt;/<span class="t">body</span>&gt;
+&lt;/<span class="t">html</span>&gt;</pre></div>
+        <p class="nota"><b>charset</b> hace que los acentos y la ñ no salgan rotos. <b>viewport</b> hace que el móvil no encoja la página. Los dos son obligatorios.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="header nav main footer article section estructura semantica">
+      <div class="clave"><span class="nom">&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;footer&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Las cajas grandes de la página. No hacen nada visible por sí solas: sirven para organizar y para que el CSS pueda apuntarles.</p>
+        <ul class="opciones">
+          <li><b>header</b> cabecera</li>
+          <li><b>nav</b> el menú</li>
+          <li><b>main</b> el contenido de esta página</li>
+          <li><b>footer</b> el pie</li>
+          <li><b>article</b> una unidad: un proyecto</li>
+          <li><b>section</b> un apartado</li>
+          <li><b>div</b> una caja sin significado</li>
+        </ul>
+        <div class="codigo"><pre>&lt;<span class="t">header</span>&gt;
+  &lt;<span class="t">h1</span>&gt;Rita Mestre&lt;/<span class="t">h1</span>&gt;
+  &lt;<span class="t">nav</span>&gt;
+    &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"index.html"</span>&gt;Inicio&lt;/<span class="t">a</span>&gt;
+    &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"proyectos.html"</span>&gt;Proyectos&lt;/<span class="t">a</span>&gt;
+  &lt;/<span class="t">nav</span>&gt;
+&lt;/<span class="t">header</span>&gt;</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="titulo h1 h2 h3 h4 h5 h6 jerarquia">
+      <div class="clave"><span class="nom">&lt;h1&gt; … &lt;h6&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Títulos, de más a menos importante. Es <strong>jerarquía, no tamaño</strong>: el tamaño lo decides luego en el CSS.</p>
+        <p class="nota"><b>Un solo h1 por página</b>, y no te saltes niveles: después de un h2 va un h3, no un h5.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="parrafo p texto br salto de linea hr separador">
+      <div class="clave"><span class="nom">&lt;p&gt; &lt;br&gt; &lt;hr&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Párrafo, salto de línea suelto y línea de separación.</p>
+        <div class="codigo"><pre>&lt;<span class="t">p</span>&gt;Un párrafo. Uno por idea.&lt;/<span class="t">p</span>&gt;
+&lt;<span class="t">p</span>&gt;Barcelona&lt;<span class="t">br</span>&gt;2026&lt;/<span class="t">p</span>&gt;   <span class="c">salto sin cambiar de párrafo</span>
+&lt;<span class="t">hr</span>&gt;                       <span class="c">una línea horizontal</span></pre></div>
+        <p class="nota"><b>br y hr no se cierran.</b> Y usa <b>br</b> poco: si quieres separar ideas, son dos párrafos.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="negrita cursiva strong em small mark destacar">
+      <div class="clave"><span class="nom">&lt;strong&gt; &lt;em&gt; &lt;small&gt; &lt;mark&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Marcar un trozo dentro de un texto.</p>
+        <ul class="opciones">
+          <li><b>strong</b> negrita</li>
+          <li><b>em</b> cursiva</li>
+          <li><b>small</b> letra pequeña</li>
+          <li><b>mark</b> subrayado con color</li>
+          <li><b>s</b> tachado</li>
+        </ul>
+        <div class="codigo"><pre>&lt;<span class="t">p</span>&gt;Pieza de &lt;<span class="t">strong</span>&gt;gres&lt;/<span class="t">strong</span>&gt; con &lt;<span class="t">em</span>&gt;engobe&lt;/<span class="t">em</span>&gt;.&lt;/<span class="t">p</span>&gt;</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="lista ul ol li numerada viñetas cv exposiciones">
+      <div class="clave"><span class="nom">&lt;ul&gt; &lt;ol&gt; &lt;li&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Listas. <code>ul</code> con puntos, <code>ol</code> numerada. Cada <code>li</code> es una línea. <strong>El CV entero es una lista.</strong></p>
+        <div class="codigo"><pre>&lt;<span class="t">ul</span>&gt;
+  &lt;<span class="t">li</span>&gt;2026 · &lt;<span class="t">em</span>&gt;Cámaras sordas&lt;/<span class="t">em</span>&gt;, La Escocesa, Barcelona&lt;/<span class="t">li</span>&gt;
+  &lt;<span class="t">li</span>&gt;2025 · &lt;<span class="t">em</span>&gt;Ruido blanco&lt;/<span class="t">em</span>&gt;, Sala X, Girona&lt;/<span class="t">li</span>&gt;
+&lt;/<span class="t">ul</span>&gt;</pre></div>
+        <p class="nota">Para quitar los puntos: <code>ul { list-style: none; padding-left: 0; }</code></p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="enlace a href link mailto telefono correo ancla nueva pestaña boton clicar descargar pdf">
+      <div class="clave"><span class="nom">&lt;a href&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Un enlace. <code>href</code> es a dónde va; lo de entre las etiquetas es lo que se ve y se clica.</p>
+        <div class="codigo"><pre>&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"cv.html"</span>&gt;CV&lt;/<span class="t">a</span>&gt;                        <span class="c">otra página tuya</span>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"https://neocities.org"</span>&gt;Neocities&lt;/<span class="t">a</span>&gt;   <span class="c">otra web (con https://)</span>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"mailto:rita@ejemplo.com"</span>&gt;Escríbeme&lt;/<span class="t">a</span>&gt;   <span class="c">abre el correo</span>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"tel:+34600000000"</span>&gt;Llámame&lt;/<span class="t">a</span>&gt;           <span class="c">llama, en el móvil</span>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"cv.pdf"</span> <span class="at">download</span>&gt;Descargar CV&lt;/<span class="t">a</span>&gt;      <span class="c">descarga un archivo</span>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"#contacto"</span>&gt;Ir al contacto&lt;/<span class="t">a</span>&gt;          <span class="c">baja a id="contacto"</span></pre></div>
+        <p class="nota">Para abrir en pestaña nueva: <code>target="_blank" rel="noopener"</code>. Úsalo solo para webs de fuera.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="imagen img src alt foto obra insertar poner añadir">
+      <div class="clave"><span class="nom">&lt;img src alt&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Una imagen. <code>src</code> es dónde está el archivo; <code>alt</code> la describe para quien no la ve.</p>
+        <div class="codigo"><pre>&lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"Cinco recipientes de gres sobre una mesa"</span>&gt;</pre></div>
+        <p class="nota"><b>No lleva cierre.</b> El nombre del archivo y el <code>src</code> tienen que coincidir exactamente: <code>.JPG</code> no es <code>.jpg</code>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="figure figcaption pie de foto ficha tecnica caption">
+      <div class="clave"><span class="nom">&lt;figure&gt; &lt;figcaption&gt;</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Una imagen <strong>con su pie</strong>, atados. Es lo correcto para una ficha técnica.</p>
+        <div class="codigo"><pre>&lt;<span class="t">figure</span>&gt;
+  &lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"…"</span>&gt;
+  &lt;<span class="t">figcaption</span>&gt;Cámaras sordas, 2026. Gres, 30 × 20 cm.&lt;/<span class="t">figcaption</span>&gt;
+&lt;/<span class="t">figure</span>&gt;</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="lazy loading carga peso rendimiento imagenes tamaño width height">
+      <div class="clave"><span class="nom">loading="lazy" · width · height</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Que las imágenes de más abajo no se carguen hasta que hagan falta, y que la página no dé saltos mientras cargan.</p>
+        <div class="codigo"><pre>&lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"…"</span>
+     <span class="at">width</span>=<span class="v">"1600"</span> <span class="at">height</span>=<span class="v">"1200"</span> <span class="at">loading</span>=<span class="v">"lazy"</span>&gt;</pre></div>
+        <p class="nota">Pon las medidas <b>reales</b> del archivo. El tamaño en pantalla lo sigue decidiendo el CSS.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="video audio sonido mp4 mp3 reproducir">
+      <div class="clave"><span class="nom">&lt;video&gt; &lt;audio&gt;</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Vídeo o sonido servido desde tu propia carpeta, sin YouTube de por medio.</p>
+        <div class="codigo"><pre>&lt;<span class="t">video</span> <span class="at">src</span>=<span class="v">"video/pieza.mp4"</span> <span class="at">controls</span> <span class="at">width</span>=<span class="v">"640"</span>&gt;&lt;/<span class="t">video</span>&gt;
+&lt;<span class="t">audio</span> <span class="at">src</span>=<span class="v">"audio/campo.mp3"</span> <span class="at">controls</span>&gt;&lt;/<span class="t">audio</span>&gt;</pre></div>
+        <p class="nota"><b>Ojo al peso.</b> GitHub Pages no sirve archivos de más de 100 MB, y un vídeo largo tarda en cargar. Para piezas largas, mejor un enlace o un iframe de Vimeo.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="iframe youtube vimeo bandcamp soundcloud mapa incrustar embed">
+      <div class="clave"><span class="nom">&lt;iframe&gt;</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Meter dentro de tu página algo que vive en otro sitio: un vídeo de Vimeo, un disco de Bandcamp, un mapa.</p>
+        <div class="codigo"><pre>&lt;<span class="t">iframe</span> <span class="at">src</span>=<span class="v">"https://player.vimeo.com/video/000000"</span>
+        <span class="at">width</span>=<span class="v">"640"</span> <span class="at">height</span>=<span class="v">"360"</span>
+        <span class="at">title</span>=<span class="v">"Documentación de la pieza"</span>
+        <span class="at">allowfullscreen</span>&gt;&lt;/<span class="t">iframe</span>&gt;</pre></div>
+        <p class="nota">En esas webs, botón <b>Compartir → Insertar</b> y te dan el código hecho. Para que se adapte al móvil: <code>iframe { max-width: 100%; }</code></p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="comentario nota recordatorio esconder">
+      <div class="clave"><span class="nom">&lt;!-- comentario --&gt;</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Una nota para ti que no se ve en el navegador. Sirve para dejarte recordatorios y para <strong>apagar</strong> un trozo sin borrarlo.</p>
+        <div class="codigo"><pre>&lt;!-- esto no se ve --&gt;
+&lt;!-- &lt;a href="tienda.html"&gt;Tienda&lt;/a&gt; --&gt;   <span class="c">apagado hasta que exista</span></pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="favicon icono pestaña meta description google buscador seo">
+      <div class="clave">
+        <span class="nom">favicon · meta description</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">El iconito de la pestaña y el texto que sale en Google. Van en el <code>&lt;head&gt;</code>.</p>
+        <div class="codigo"><pre>&lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"icon"</span> <span class="at">href</span>=<span class="v">"favicon.png"</span>&gt;
+&lt;<span class="t">meta</span> <span class="at">name</span>=<span class="v">"description"</span> <span class="at">content</span>=<span class="v">"Rita Mestre, cerámica y sonido. Barcelona."</span>&gt;</pre></div>
+        <p class="nota">El favicon, un PNG cuadrado de 64 × 64 en la raíz de tu carpeta. La descripción, una frase por página.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="class clase id nombre apuntar css">
+      <div class="clave"><span class="nom">class="…" · id="…"</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Ponerle un <strong>nombre</strong> a un trozo del HTML para que el CSS pueda apuntarle solo a él.</p>
+        <div class="codigo"><pre><span class="c">en el HTML</span>
+&lt;<span class="t">p</span> <span class="at">class</span>=<span class="v">"ficha"</span>&gt;2026 · Gres&lt;/<span class="t">p</span>&gt;
+&lt;<span class="t">section</span> <span class="at">id</span>=<span class="v">"contacto"</span>&gt;…&lt;/<span class="t">section</span>&gt;
+
+<span class="c">en el CSS</span>
+<span class="t">.ficha</span>  { <span class="at">color</span>: <span class="v">grey</span>; }        <span class="c">punto para class</span>
+<span class="t">#contacto</span> { <span class="at">margin-top</span>: <span class="v">80px</span>; }  <span class="c">almohadilla para id</span></pre></div>
+        <p class="nota"><b>class</b> se puede repetir todas las veces que quieras: es lo que usarás casi siempre. <b>id</b> es único en la página y sirve sobre todo para enlazar con <code>#</code>.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ REGLAS Y SELECTORES ══════════════════ -->
+<section class="seccion" id="reglas">
+  <h2>css · reglas y selectores</h2>
+  <p class="intro">Cómo se escribe una regla y a qué le apuntas con ella.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="regla sintaxis selector propiedad valor punto y coma llave">
+      <div class="clave"><span class="nom">la forma de una regla</span><span class="nivel">esencial</span></div>
+      <div>
+        <div class="codigo"><pre><span class="t">selector</span> {
+  <span class="at">propiedad</span>: <span class="v">valor</span>;
+}</pre></div>
+        <p class="nota"><b>Punto y coma al final de cada línea.</b> Si te lo olvidas, esa línea deja de funcionar y a veces la siguiente también, y no avisa nadie: no sale ningún error, simplemente no pasa nada.</p>
+        <p class="nota">Comentario en CSS: <code>/* así */</code>. Sirve para apagar una línea sin borrarla.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="selectores elemento coma descendiente hover clase">
+      <div class="clave"><span class="nom">a qué apunta cada selector</span><span class="nivel">esencial</span></div>
+      <div>
+        <div class="codigo"><pre><span class="t">p</span> { }                  <span class="c">todos los párrafos</span>
+<span class="t">.ficha</span> { }             <span class="c">todo lo que tenga class="ficha"</span>
+<span class="t">#contacto</span> { }          <span class="c">lo que tenga id="contacto"</span>
+<span class="t">header, footer</span> { }    <span class="c">los dos — la coma es "y también"</span>
+<span class="t">nav a</span> { }              <span class="c">los enlaces DENTRO de nav — el espacio es "dentro de"</span>
+<span class="t">a:hover</span> { }            <span class="c">cuando el ratón está encima</span>
+<span class="t">*</span> { }                  <span class="c">absolutamente todo</span></pre></div>
+        <p class="nota"><b>La confusión más común:</b> <code>header, a</code> son las cabeceras y todos los enlaces. <code>header a</code> son solo los enlaces de dentro de la cabecera. Una coma lo cambia todo.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="first-child last-child nth-child not primero ultimo alterno">
+      <div class="clave"><span class="nom">:first-child · :last-child · :nth-child()</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Apuntar a un elemento por su <strong>posición</strong> dentro de la serie.</p>
+        <div class="codigo"><pre><span class="t">article:first-child</span> { <span class="at">margin-top</span>: <span class="v">0</span>; }
+<span class="t">article:last-child</span>  { <span class="at">border-bottom</span>: <span class="v">none</span>; }
+<span class="t">li:nth-child(2)</span>     { <span class="at">color</span>: <span class="v">red</span>; }       <span class="c">el segundo</span>
+<span class="t">li:nth-child(odd)</span>   { <span class="at">background</span>: <span class="v">#f4f4f4</span>; } <span class="c">1º, 3º, 5º…</span>
+<span class="t">li:nth-child(even)</span>  { <span class="at">background</span>: <span class="v">#fff</span>; }    <span class="c">2º, 4º, 6º…</span></pre></div>
+        <p class="nota">Quitarle el borde al último de una serie es el uso que más vas a darle.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="cascada orden importante especificidad pisa sobrescribir">
+      <div class="clave"><span class="nom">la cascada · quién gana</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Cuando dos reglas dicen cosas distintas sobre lo mismo, gana:</p>
+        <ul class="opciones">
+          <li>1 · el selector <b>más específico</b> (id &gt; class &gt; elemento)</li>
+          <li>2 · a igualdad, el que esté <b>más abajo</b> en el archivo</li>
+        </ul>
+        <p class="nota">Por eso la media query del móvil va <b>siempre al final</b>. Y por eso <code>!important</code> casi nunca es la solución: si lo necesitas, normalmente es que hay dos reglas peleándose y conviene arreglar eso.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="variables root var custom properties color unico cambiar">
+      <div class="clave"><span class="nom">variables · :root y var()</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Guardar un valor con nombre y usarlo por toda la web. <strong>Cambias el color en un sitio y cambia en todas partes.</strong></p>
+        <div class="codigo"><pre><span class="t">:root</span> {
+  <span class="at">--tinta</span>: <span class="v">#12233a</span>;
+  <span class="at">--papel</span>: <span class="v">#fbfaf7</span>;
+  <span class="at">--acento</span>: <span class="v">#f2e94e</span>;
+}
+
+<span class="t">body</span>    { <span class="at">color</span>: <span class="v">var(--tinta)</span>; <span class="at">background</span>: <span class="v">var(--papel)</span>; }
+<span class="t">a:hover</span> { <span class="at">background</span>: <span class="v">var(--acento)</span>; }</pre></div>
+        <p class="nota">Es la mejora que más se agradece cuando ya tienes tres o cuatro páginas.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ TEXTO ══════════════════ -->
+<section class="seccion" id="texto">
+  <h2>css · texto</h2>
+  <p class="intro">Qué letra, de qué tamaño, cómo alineada y a cuánta distancia una línea de otra. Es lo que más cambia la sensación de una web.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="font-family tipografia letra serif sans mono fuente">
+      <div class="clave"><span class="nom">font-family</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Qué tipografía. Pones <strong>varias separadas por comas</strong> y el navegador usa la primera que encuentre instalada. La última es el comodín.</p>
+        <div class="codigo"><pre><span class="c">con remates — para leer, clásica</span>
+<span class="at">font-family</span>: <span class="v">"Iowan Old Style", Georgia, "Times New Roman", serif</span>;
+
+<span class="c">sin remates — limpia, neutra</span>
+<span class="at">font-family</span>: <span class="v">"Helvetica Neue", Arial, sans-serif</span>;
+
+<span class="c">de máquina de escribir — técnica, de archivo</span>
+<span class="at">font-family</span>: <span class="v">ui-monospace, "SF Mono", Menlo, monospace</span>;
+
+<span class="c">la del sistema — la que use quien te visite</span>
+<span class="at">font-family</span>: <span class="v">system-ui, sans-serif</span>;</pre></div>
+        <p class="nota">Estas cuatro no hay que descargarlas: ya están en todos los ordenadores.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="google fonts descargar tipografia woff2 font-face local privacidad">
+      <div class="clave"><span class="nom">usar una tipografía tuya</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Dos caminos. El rápido, desde Google Fonts, va en el <code>&lt;head&gt;</code> del HTML:</p>
+        <div class="codigo"><pre>&lt;<span class="t">link</span> <span class="at">href</span>=<span class="v">"https://fonts.googleapis.com/css2?family=EB+Garamond&amp;display=swap"</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span>&gt;</pre></div>
+        <p class="dice" style="margin-top:12px">El bueno: descargas el archivo, lo metes en <code>tipos/</code> y lo sirves tú. Carga más rápido y no le cuentas a nadie quién te visita.</p>
+        <div class="codigo"><pre><span class="t">@font-face</span> {
+  <span class="at">font-family</span>: <span class="v">"Mi Tipo"</span>;
+  <span class="at">src</span>: <span class="v">url("tipos/mi-tipo.woff2") format("woff2")</span>;
+  <span class="at">font-display</span>: <span class="v">swap</span>;
+}
+<span class="t">body</span> { <span class="at">font-family</span>: <span class="v">"Mi Tipo", Georgia, serif</span>; }</pre></div>
+        <p class="nota">Mira la licencia antes de subir una tipografía de pago. Gratis y buenas: <a href="https://fonts.google.com">Google Fonts</a>, <a href="https://velvetyne.fr">Velvetyne</a>, <a href="https://www.collletttivo.it">Collletttivo</a>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="font-size tamaño letra px rem grande pequeño">
+      <div class="clave"><span class="nom">font-size</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">El tamaño de la letra.</p>
+        <ul class="opciones">
+          <li><b>16px</b> lo mínimo cómodo</li>
+          <li><b>18px</b> agradable para leer</li>
+          <li><b>20px</b> generoso</li>
+          <li><b>1.2rem</b> proporcional al del navegador</li>
+        </ul>
+        <p class="nota">Prueba 17, 18 y 20 en el <code>body</code> y quédate con el que te canse menos. <b>Nunca bajes de 14px</b> en texto que haya que leer.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="clamp fluido responsive tamaño adaptable titular grande">
+      <div class="clave"><span class="nom">clamp()</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Un tamaño que <strong>crece con la pantalla</strong>, entre un mínimo y un máximo. Para titulares es magnífico: te ahorra la media query.</p>
+        <div class="codigo"><pre><span class="t">h1</span> { <span class="at">font-size</span>: <span class="v">clamp(32px, 7vw, 76px)</span>; }
+              <span class="c">   ↑mínimo  ↑crece  ↑tope</span></pre></div>
+        <p class="nota"><code>vw</code> es «por cien del ancho de la ventana». Compruébalo estrechando el navegador.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="line-height interlineado separacion lineas leer respirar">
+      <div class="clave"><span class="nom">line-height</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">La separación entre líneas. <strong>Es el ajuste que más cambia la sensación de una web y el que más se olvida.</strong></p>
+        <ul class="opciones">
+          <li><b>1.2</b> apretado — para titulares</li>
+          <li><b>1.5</b>–<b>1.6</b> cómodo — para leer</li>
+          <li><b>1.8</b> aireado</li>
+        </ul>
+        <p class="nota">Sin unidad: <code>line-height: 1.6</code>, no <code>1.6px</code>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="font-weight negrita bold grosor fino ligero">
+      <div class="clave"><span class="nom">font-weight · font-style</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Grosor y cursiva.</p>
+        <ul class="opciones">
+          <li><b>normal</b> / <b>400</b></li>
+          <li><b>bold</b> / <b>700</b></li>
+          <li><b>300</b> fino</li>
+          <li><b>900</b> negrísimo</li>
+          <li><b>font-style: italic</b></li>
+          <li><b>font-style: normal</b> quita la cursiva</li>
+        </ul>
+        <p class="nota">Los números solo funcionan si la tipografía tiene ese grosor. Si no, el navegador lo finge y queda mal.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="text-align alinear alinear izquierda derecha centro centrar justificado justify texto alineacion">
+      <div class="clave"><span class="nom">text-align</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Cómo se alinea el texto dentro de su caja.</p>
+        <ul class="opciones">
+          <li><b>left</b> por defecto</li>
+          <li><b>center</b> centrado</li>
+          <li><b>right</b> a la derecha</li>
+          <li><b>justify</b> cuadrado a los dos lados</li>
+        </ul>
+        <p class="nota"><b>justify</b> deja ríos de espacio feos en columnas estrechas: úsalo solo en columnas anchas. Y <b>center</b> para párrafos largos cansa; resérvalo para titulares y frases sueltas.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="text-transform mayusculas minusculas capitalizar">
+      <div class="clave"><span class="nom">text-transform</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Cambia las mayúsculas <strong>sin tocar el HTML</strong>: el texto de verdad sigue escrito como lo escribiste.</p>
+        <ul class="opciones">
+          <li><b>uppercase</b> TODO EN MAYÚSCULAS</li>
+          <li><b>lowercase</b> todo en minúsculas</li>
+          <li><b>capitalize</b> Primera De Cada Palabra</li>
+          <li><b>none</b> como está escrito</li>
+        </ul>
+        <p class="nota">Con <b>uppercase</b>, añade siempre algo de <code>letter-spacing</code>: las mayúsculas juntas se leen fatal.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="letter-spacing espaciado letras tracking apretado">
+      <div class="clave"><span class="nom">letter-spacing · word-spacing</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Separación entre letras y entre palabras.</p>
+        <ul class="opciones">
+          <li><b>-0.02em</b> apretado — titulares grandes</li>
+          <li><b>normal</b></li>
+          <li><b>0.08em</b> suelto — etiquetas en mayúsculas</li>
+          <li><b>0.3em</b> muy suelto — decorativo</li>
+        </ul>
+        <p class="nota">En <code>em</code>, no en píxeles: así se mantiene proporcional si cambias el tamaño.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="text-decoration subrayado quitar underline enlaces">
+      <div class="clave"><span class="nom">text-decoration</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">El subrayado. Los enlaces vienen subrayados de fábrica.</p>
+        <ul class="opciones">
+          <li><b>none</b> quitarlo</li>
+          <li><b>underline</b> ponerlo</li>
+          <li><b>line-through</b> tachado</li>
+        </ul>
+        <div class="codigo"><pre><span class="t">nav a</span> { <span class="at">text-decoration</span>: <span class="v">none</span>; }
+<span class="t">p a</span>   { <span class="at">text-underline-offset</span>: <span class="v">4px</span>; }  <span class="c">separarlo un poco</span></pre></div>
+        <p class="nota">Si quitas el subrayado, <b>deja otra pista</b> de que es un enlace —color, negrita, un <code>:hover</code> claro—, o nadie sabrá que se puede clicar.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="columns columnas texto largo periodico multicolumna">
+      <div class="clave"><span class="nom">columns</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Partir un texto largo en columnas, como un periódico.</p>
+        <div class="codigo"><pre><span class="t">.texto-largo</span> {
+  <span class="at">columns</span>: <span class="v">2</span>;
+  <span class="at">column-gap</span>: <span class="v">40px</span>;
+}</pre></div>
+        <p class="nota">En móvil vuelve a una sola columna con <code>columns: 1</code> dentro de la media query, o quedará ilegible.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="white-space nowrap pre preservar espacios poema verso">
+      <div class="clave"><span class="nom">white-space</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Qué hacer con los espacios y saltos de línea que escribiste.</p>
+        <ul class="opciones">
+          <li><b>normal</b> los junta todos</li>
+          <li><b>pre-wrap</b> respeta tus saltos</li>
+          <li><b>nowrap</b> nunca salta de línea</li>
+        </ul>
+        <p class="nota"><b>pre-wrap</b> es lo que quieres para un poema: escribes los versos tal cual en el HTML y salen tal cual.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ COLOR ══════════════════ -->
+<section class="seccion" id="color">
+  <h2>css · color</h2>
+  <p class="intro">Dos colores bien elegidos bastan. El tercero, solo para una cosa.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="color letra tinta texto fondo background cambiar color de fondo">
+      <div class="clave"><span class="nom">color · background-color</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice"><code>color</code> es la <strong>letra</strong>. <code>background-color</code> es el <strong>fondo</strong>. Se confunden todo el rato.</p>
+        <div class="codigo"><pre><span class="t">body</span> {
+  <span class="at">color</span>: <span class="v">#12233a</span>;             <span class="c">la letra</span>
+  <span class="at">background-color</span>: <span class="v">#fbfaf7</span>;  <span class="c">el fondo</span>
+}</pre></div>
+        <p class="nota">Se heredan: si lo pones en <code>body</code>, todo lo de dentro lo coge, salvo que se lo cambies.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="formatos hex rgb rgba hsl transparente nombre colores">
+      <div class="clave"><span class="nom">las formas de escribir un color</span><span class="nivel">esencial</span></div>
+      <div>
+        <ul class="opciones">
+          <li><b>red</b>, <b>black</b>, <b>ivory</b> nombres</li>
+          <li><b>#12233a</b> hexadecimal</li>
+          <li><b>#123</b> abreviado</li>
+          <li><b>rgb(18 35 58)</b></li>
+          <li><b>rgb(18 35 58 / 40%)</b> con transparencia</li>
+          <li><b>hsl(210 53% 15%)</b></li>
+          <li><b>transparent</b></li>
+        </ul>
+        <p class="nota"><b>hsl</b> es el útil para trastear: tono (0–360), saturación y luminosidad. Bajas el último número y tienes el mismo color más oscuro, sin buscar otro hex. Copia hex de <a href="https://coolors.co">coolors.co</a> o del cuentagotas del inspector.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="contraste legible accesible wcag gris claro sol movil">
+      <div class="clave"><span class="nom">contraste</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Si el texto no se lee con el móvil al sol, no se lee. <strong>Gris claro sobre blanco es la manera más común de hacer una web bonita e ilegible.</strong></p>
+        <p class="nota">Compruébalo en <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a>. Busca <b>4.5 o más</b> para texto normal, <b>3 o más</b> para titulares grandes.</p>
+        <p class="nota">Y negro puro sobre blanco puro cansa la vista: baja un poco los dos. Un blanco con algo de calidez (<code>#fbfaf7</code>) y un negro que en realidad sea azul muy oscuro (<code>#12233a</code>).</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="opacity transparencia opaco desvanecer">
+      <div class="clave"><span class="nom">opacity</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Transparencia de <strong>todo</strong> el elemento, contenido incluido. De 0 (invisible) a 1 (opaco).</p>
+        <div class="codigo"><pre><span class="t">.pie</span>          { <span class="at">opacity</span>: <span class="v">.55</span>; }
+<span class="t">.pie:hover</span>    { <span class="at">opacity</span>: <span class="v">1</span>; }</pre></div>
+        <p class="nota">Si solo quieres el <b>fondo</b> traslúcido y la letra opaca, no uses opacity: usa <code>rgb(0 0 0 / 40%)</code> en el background-color.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="gradiente degradado linear-gradient fondo imagen background-image">
+      <div class="clave"><span class="nom">background-image · degradados</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Un fondo que no es un color plano.</p>
+        <div class="codigo"><pre><span class="at">background-image</span>: <span class="v">linear-gradient(#f2e94e, #fbfaf7)</span>;
+<span class="at">background-image</span>: <span class="v">linear-gradient(90deg, black, transparent)</span>;
+<span class="at">background-image</span>: <span class="v">url("img/textura.jpg")</span>;</pre></div>
+        <p class="nota">Con una imagen, casi siempre querrás también:<br>
+        <code>background-size: cover; background-position: center; background-repeat: no-repeat;</code></p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="mix-blend-mode multiply fusion mezclar duotono teñir">
+      <div class="clave"><span class="nom">mix-blend-mode</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Mezclar un elemento con lo que tiene detrás, como las capas de Photoshop. <strong>Con imágenes da resultados muy buenos y cuesta una línea.</strong></p>
+        <ul class="opciones">
+          <li><b>multiply</b> oscurece, tiñe</li>
+          <li><b>screen</b> aclara</li>
+          <li><b>difference</b> invierte</li>
+          <li><b>overlay</b>, <b>luminosity</b>, <b>hue</b></li>
+        </ul>
+        <div class="codigo"><pre><span class="t">.foto</span> {
+  <span class="at">background-color</span>: <span class="v">#f2e94e</span>;
+}
+<span class="t">.foto img</span> {
+  <span class="at">mix-blend-mode</span>: <span class="v">multiply</span>;   <span class="c">la foto se tiñe de amarillo</span>
+  <span class="at">filter</span>: <span class="v">grayscale(1)</span>;         <span class="c">en blanco y negro primero</span>
+}</pre></div>
+        <p class="nota">Míralo funcionando en <a href="muestrario/15-css-blend-modes.html">el muestrario</a>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="modo oscuro dark mode prefers-color-scheme noche">
+      <div class="clave"><span class="nom">modo oscuro</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Que tu web siga el modo claro u oscuro del ordenador de quien la visita.</p>
+        <div class="codigo"><pre><span class="t">:root</span> { <span class="at">--papel</span>: <span class="v">#fbfaf7</span>; <span class="at">--tinta</span>: <span class="v">#12233a</span>; }
+
+<span class="t">@media</span> (<span class="at">prefers-color-scheme</span>: <span class="v">dark</span>) {
+  <span class="t">:root</span> { <span class="at">--papel</span>: <span class="v">#12131a</span>; <span class="at">--tinta</span>: <span class="v">#e8e8e8</span>; }
+}
+
+<span class="t">body</span> { <span class="at">background</span>: <span class="v">var(--papel)</span>; <span class="at">color</span>: <span class="v">var(--tinta)</span>; }</pre></div>
+        <p class="nota">Necesita variables. Es la razón principal para usarlas.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ LA CAJA ══════════════════ -->
+<section class="seccion" id="caja">
+  <h2>css · la caja</h2>
+  <p class="intro">Todo elemento es una caja: contenido, <code>padding</code> por dentro, <code>border</code>, y <code>margin</code> por fuera. <strong>El 70% de las dudas del taller son dudas de caja.</strong></p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="padding relleno interior espacio dentro">
+      <div class="clave"><span class="nom">padding</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Relleno <strong>por dentro</strong>: separa el contenido de su propio borde. Si la caja tiene fondo, el padding también lo tiene.</p>
+        <div class="codigo"><pre><span class="at">padding</span>: <span class="v">24px</span>;              <span class="c">los cuatro lados</span>
+<span class="at">padding</span>: <span class="v">16px 24px</span>;         <span class="c">arriba/abajo · izquierda/derecha</span>
+<span class="at">padding</span>: <span class="v">16px 24px 40px</span>;    <span class="c">arriba · lados · abajo</span>
+<span class="at">padding</span>: <span class="v">8px 16px 24px 32px</span>; <span class="c">arriba · derecha · abajo · izquierda</span>
+<span class="at">padding-top</span>: <span class="v">40px</span>;           <span class="c">un lado suelto</span></pre></div>
+        <p class="nota">El orden de los cuatro valores es <b>en el sentido de las agujas del reloj</b> desde arriba.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="margin margen exterior separacion aire centrar auto separar espacio">
+      <div class="clave"><span class="nom">margin</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Aire <strong>por fuera</strong>: separa la caja de sus vecinas. Se escribe igual que el padding.</p>
+        <div class="codigo"><pre><span class="at">margin</span>: <span class="v">0 0 32px 0</span>;   <span class="c">solo separación por debajo</span>
+<span class="at">margin</span>: <span class="v">0 auto</span>;       <span class="c">CENTRA la caja (si tiene max-width)</span>
+<span class="at">margin-top</span>: <span class="v">-20px</span>;    <span class="c">negativo: la sube, se solapa</span></pre></div>
+        <p class="nota"><code>auto</code> significa «reparte el espacio sobrante a los dos lados por igual». Por eso centra.</p>
+        <p class="nota">Dos márgenes verticales que se tocan <b>no se suman</b>: se queda el mayor. Es normal, no es un fallo.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="border borde linea marco grosor solid dashed">
+      <div class="clave"><span class="nom">border</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Una línea alrededor. Tres datos: grosor, tipo y color.</p>
+        <div class="codigo"><pre><span class="at">border</span>: <span class="v">1px solid #ccc</span>;          <span class="c">los cuatro lados</span>
+<span class="at">border-bottom</span>: <span class="v">1px solid #ccc</span>;   <span class="c">solo debajo — el más útil</span>
+<span class="at">border-left</span>: <span class="v">3px solid black</span>;   <span class="c">una banda lateral</span>
+<span class="at">border</span>: <span class="v">none</span>;                    <span class="c">quitarlo</span></pre></div>
+        <ul class="opciones">
+          <li><b>solid</b> continua</li>
+          <li><b>dashed</b> a rayas</li>
+          <li><b>dotted</b> de puntos</li>
+          <li><b>double</b> doble</li>
+        </ul>
+        <p class="nota"><code>border-bottom</code> fino entre proyectos es la forma más barata de que una web se vea ordenada.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="box-sizing border-box ancho descuadra sumar">
+      <div class="clave"><span class="nom">box-sizing: border-box</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Ponlo <strong>siempre</strong>, en la primera línea de tu CSS. Sin esto, una caja de 300px con 20px de padding mide 340 y todo se descuadra.</p>
+        <div class="codigo"><pre><span class="t">*</span> { <span class="at">box-sizing</span>: <span class="v">border-box</span>; }</pre></div>
+        <p class="nota">Con esto, 300px son 300px, padding y borde incluidos. Es la línea que más disgustos ahorra.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="max-width width height ancho alto columna medida legible 640 centrar tamaño">
+      <div class="clave"><span class="nom">width · max-width · height</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Ancho y alto. <strong>Usa <code>max-width</code>, no <code>width</code></strong>: pone un tope pero deja que encoja en el móvil.</p>
+        <div class="codigo"><pre><span class="t">main</span> {
+  <span class="at">max-width</span>: <span class="v">640px</span>;
+  <span class="at">margin</span>: <span class="v">0 auto</span>;
+}</pre></div>
+        <ul class="opciones">
+          <li><b>500px</b> estrecha, íntima</li>
+          <li><b>640px</b> cómoda de leer</li>
+          <li><b>900px</b> ancha, para imágenes</li>
+          <li><b>100%</b> todo el hueco disponible</li>
+          <li><b>min-height: 100vh</b> al menos toda la pantalla</li>
+        </ul>
+        <p class="nota">Sin tope, en una pantalla ancha las líneas se hacen larguísimas y al saltar de renglón te pierdes. <b>Entre 60 y 80 caracteres por línea</b> es lo cómodo.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="imagen fluida max-width 100% responsive deformar">
+      <div class="clave"><span class="nom">la regla de las imágenes</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Esta va en todas las webs, sin excepción.</p>
+        <div class="codigo"><pre><span class="t">img</span> {
+  <span class="at">max-width</span>: <span class="v">100%</span>;   <span class="c">nunca más ancha que su hueco</span>
+  <span class="at">height</span>: <span class="v">auto</span>;      <span class="c">no se deforma</span>
+  <span class="at">display</span>: <span class="v">block</span>;    <span class="c">sin el hueco raro de debajo</span>
+}</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="border-radius redondear esquinas circulo">
+      <div class="clave"><span class="nom">border-radius</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Esquinas redondeadas.</p>
+        <ul class="opciones">
+          <li><b>4px</b> apenas</li>
+          <li><b>16px</b> se nota</li>
+          <li><b>50%</b> círculo perfecto</li>
+          <li><b>999px</b> forma de pastilla</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="box-shadow sombra relieve elevar">
+      <div class="clave"><span class="nom">box-shadow</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Sombra. Cuatro datos: desplazamiento horizontal, vertical, difuminado y color.</p>
+        <div class="codigo"><pre><span class="at">box-shadow</span>: <span class="v">0 14px 34px rgb(0 0 0 / 12%)</span>;   <span class="c">levantada</span>
+<span class="at">box-shadow</span>: <span class="v">6px 6px 0 black</span>;                <span class="c">dura, gráfica</span>
+<span class="at">box-shadow</span>: <span class="v">inset 3px 0 0 #f2e94e</span>;          <span class="c">banda por dentro</span></pre></div>
+        <p class="nota">Sombras muy difuminadas y muy transparentes quedan naturales. Las duras y sin difuminar quedan de cartel.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="overflow desborde scroll recortar hidden">
+      <div class="clave"><span class="nom">overflow</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Qué hacer cuando el contenido no cabe.</p>
+        <ul class="opciones">
+          <li><b>visible</b> se sale (por defecto)</li>
+          <li><b>hidden</b> se recorta</li>
+          <li><b>auto</b> aparece barra de scroll si hace falta</li>
+          <li><b>scroll</b> barra siempre</li>
+        </ul>
+        <p class="nota"><code>overflow-x: auto</code> en una tabla ancha evita que la página entera se desplace de lado en el móvil.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ COMPOSICIÓN ══════════════════ -->
+<section class="seccion" id="composicion">
+  <h2>css · composición</h2>
+  <p class="intro">Colocar las cosas en la página: en fila, en rejilla, pegadas al scroll.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="display block inline none esconder ocultar">
+      <div class="clave"><span class="nom">display</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Cómo se comporta la caja.</p>
+        <ul class="opciones">
+          <li><b>block</b> ocupa toda la línea</li>
+          <li><b>inline</b> va dentro del texto</li>
+          <li><b>inline-block</b> en línea, pero con medidas</li>
+          <li><b>flex</b> pone a sus hijos en fila</li>
+          <li><b>grid</b> rejilla</li>
+          <li><b>none</b> desaparece del todo</li>
+        </ul>
+        <p class="nota"><code>display: none</code> es útil para esconder el menú de escritorio en el móvil.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="flex flexbox fila menu nav gap alinear centrar justify align horizontal vertical espaciar repartir">
+      <div class="clave"><span class="nom">flex · poner cosas en fila</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Lo pones en el <strong>padre</strong> y sus hijos se colocan en fila. Es lo que usarás para el menú.</p>
+        <div class="codigo"><pre><span class="t">nav</span> {
+  <span class="at">display</span>: <span class="v">flex</span>;
+  <span class="at">gap</span>: <span class="v">20px</span>;              <span class="c">separación entre ellos</span>
+  <span class="at">flex-wrap</span>: <span class="v">wrap</span>;         <span class="c">que salten si no caben</span>
+  <span class="at">justify-content</span>: <span class="v">center</span>; <span class="c">alineación horizontal</span>
+  <span class="at">align-items</span>: <span class="v">center</span>;     <span class="c">alineación vertical</span>
+}</pre></div>
+        <ul class="opciones">
+          <li>justify-content: <b>flex-start</b></li>
+          <li><b>center</b></li>
+          <li><b>flex-end</b></li>
+          <li><b>space-between</b> pegados a los extremos</li>
+          <li><b>space-around</b></li>
+          <li>flex-direction: <b>column</b> en vertical</li>
+        </ul>
+        <p class="nota"><b>space-between</b> es lo que quieres para «nombre a la izquierda, menú a la derecha».</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="grid rejilla galeria proyectos columnas auto-fill minmax">
+      <div class="clave"><span class="nom">grid · rejilla de proyectos</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Una rejilla que <strong>se adapta sola</strong> al ancho de la pantalla, sin media queries.</p>
+        <div class="codigo"><pre><span class="t">.proyectos</span> {
+  <span class="at">display</span>: <span class="v">grid</span>;
+  <span class="at">grid-template-columns</span>: <span class="v">repeat(auto-fill, minmax(240px, 1fr))</span>;
+  <span class="at">gap</span>: <span class="v">24px</span>;
+}</pre></div>
+        <p class="nota">Se lee: «tantas columnas como quepan, cada una de 240px como mínimo y repartiendo el sobrante». Cambia el 240 y mira qué pasa estrechando la ventana.</p>
+        <p class="nota">Para columnas fijas: <code>grid-template-columns: 1fr 2fr;</code> — la segunda el doble de ancha.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="object-fit cover contain recortar imagen misma altura galeria">
+      <div class="clave"><span class="nom">object-fit · aspect-ratio</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Que todas las fotos de una galería midan lo mismo aunque sean de proporciones distintas. <strong>Resuelve el problema más molesto de una rejilla de obra.</strong></p>
+        <div class="codigo"><pre><span class="t">.proyectos img</span> {
+  <span class="at">aspect-ratio</span>: <span class="v">4 / 3</span>;     <span class="c">todas con la misma forma</span>
+  <span class="at">object-fit</span>: <span class="v">cover</span>;       <span class="c">recorta lo que sobre</span>
+  <span class="at">object-position</span>: <span class="v">center</span>;  <span class="c">por dónde recorta</span>
+  <span class="at">width</span>: <span class="v">100%</span>;
+}</pre></div>
+        <ul class="opciones">
+          <li><b>cover</b> llena y recorta</li>
+          <li><b>contain</b> cabe entera, deja aire</li>
+          <li><b>1 / 1</b> cuadrado</li>
+          <li><b>3 / 4</b> vertical</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="position sticky fixed absolute relative pegado menu fijo">
+      <div class="clave"><span class="nom">position</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Sacar un elemento del flujo normal.</p>
+        <ul class="opciones">
+          <li><b>static</b> lo normal</li>
+          <li><b>relative</b> se mueve un poco, guarda su hueco</li>
+          <li><b>absolute</b> se coloca respecto al padre <code>relative</code></li>
+          <li><b>fixed</b> se queda quieto en la pantalla</li>
+          <li><b>sticky</b> normal hasta que llega arriba, y ahí se pega</li>
+        </ul>
+        <div class="codigo"><pre><span class="t">header</span> {
+  <span class="at">position</span>: <span class="v">sticky</span>;
+  <span class="at">top</span>: <span class="v">0</span>;
+  <span class="at">background</span>: <span class="v">white</span>;   <span class="c">o se transparenta al pasar por debajo</span>
+  <span class="at">z-index</span>: <span class="v">10</span>;          <span class="c">por encima de lo demás</span>
+}</pre></div>
+        <p class="nota"><b>sticky</b> es el más agradecido: menú que acompaña, o título de sección que se queda mientras lees.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="scroll-snap iman diapositivas expo pantalla completa">
+      <div class="clave"><span class="nom">scroll-snap</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Que el scroll se detenga <strong>con imán</strong> en cada sección, como una exposición de salas. Es lo que hace que esta misma presentación funcione.</p>
+        <div class="codigo"><pre><span class="t">html</span> {
+  <span class="at">scroll-snap-type</span>: <span class="v">y mandatory</span>;
+}
+<span class="t">section</span> {
+  <span class="at">scroll-snap-align</span>: <span class="v">start</span>;
+  <span class="at">min-height</span>: <span class="v">100vh</span>;
+}</pre></div>
+        <p class="nota">Para hacerlo en horizontal: <code>x mandatory</code> y <code>display: flex</code> en el contenedor. Míralo en <a href="muestrario/06-expo-scroll-horizontal.html">expo horizontal</a> y <a href="muestrario/20-expo-scroll-vertical.html">expo vertical</a>.</p>
+        <p class="nota"><b>Cuidado:</b> no lo combines con <code>scroll-behavior: smooth</code>; en Chrome se cancelan entre sí.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ MÓVIL ══════════════════ -->
+<section class="seccion" id="movil">
+  <h2>css · que funcione en el móvil</h2>
+  <p class="intro">Es donde va a verse tu web casi siempre.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="media query movil responsive max-width 600 pantalla pequeña telefono adaptar">
+      <div class="clave"><span class="nom">@media</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Reglas que <strong>solo</strong> se aplican en pantallas pequeñas. Va <strong>al final del archivo</strong>, porque pisa lo de arriba.</p>
+        <div class="codigo"><pre><span class="t">@media</span> (<span class="at">max-width</span>: <span class="v">600px</span>) {
+  <span class="t">body</span> { <span class="at">font-size</span>: <span class="v">17px</span>; <span class="at">padding</span>: <span class="v">16px</span>; }
+  <span class="t">h1</span>   { <span class="at">font-size</span>: <span class="v">28px</span>; }
+  <span class="t">nav</span>  { <span class="at">flex-direction</span>: <span class="v">column</span>; <span class="at">gap</span>: <span class="v">8px</span>; }
+  <span class="t">.proyectos</span> { <span class="at">grid-template-columns</span>: <span class="v">1fr</span>; }
+}</pre></div>
+        <p class="nota">Compruébalo <b>estrechando la ventana del navegador</b> con el ratón. Es más directo que el modo dispositivo del inspector.</p>
+        <p class="nota">Cortes habituales: <b>600px</b> móvil, <b>900px</b> tableta. Con uno solo tienes de sobra.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="unidades px rem em vw vh porcentaje relativas">
+      <div class="clave"><span class="nom">las unidades</span><span class="nivel">esencial</span></div>
+      <div>
+        <ul class="opciones">
+          <li><b>px</b> fijo, exacto</li>
+          <li><b>%</b> del ancho del padre</li>
+          <li><b>em</b> del tamaño de letra del elemento</li>
+          <li><b>rem</b> del tamaño base del navegador</li>
+          <li><b>vw</b> por cien del ancho de la ventana</li>
+          <li><b>vh</b> por cien del alto</li>
+          <li><b>svh</b> alto real en el móvil</li>
+        </ul>
+        <p class="nota">En el móvil, <code>100vh</code> se cuela por debajo de la barra del navegador. Usa <code>100svh</code> si quieres exactamente una pantalla.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="viewport meta movil encoge zoom">
+      <div class="clave"><span class="nom">la etiqueta viewport</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Sin esta línea en el <code>&lt;head&gt;</code>, el móvil finge ser un ordenador y enseña tu web diminuta. <strong>Ninguna media query funciona sin ella.</strong></p>
+        <div class="codigo"><pre>&lt;<span class="t">meta</span> <span class="at">name</span>=<span class="v">"viewport"</span> <span class="at">content</span>=<span class="v">"width=device-width, initial-scale=1"</span>&gt;</pre></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ EFECTOS ══════════════════ -->
+<section class="seccion" id="efectos">
+  <h2>css · efectos y movimiento</h2>
+  <p class="intro">Lo que hace que una web se sienta viva. Con moderación: si todo se mueve, nada destaca.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="hover raton encima estado boton enlace">
+      <div class="clave"><span class="nom">:hover · :focus-visible</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Cuando el ratón está encima, y cuando se llega con el teclado.</p>
+        <div class="codigo"><pre><span class="t">a:hover</span> { <span class="at">background</span>: <span class="v">#f2e94e</span>; }
+<span class="t">a:focus-visible</span> { <span class="at">outline</span>: <span class="v">2px solid black</span>; <span class="at">outline-offset</span>: <span class="v">3px</span>; }</pre></div>
+        <p class="nota"><b>En el móvil no hay hover.</b> No escondas nada importante detrás de él. Y no quites nunca el <code>outline</code> del focus sin poner otra cosa: es cómo se navega sin ratón.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="transition suave animar cambio velocidad">
+      <div class="clave"><span class="nom">transition</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Que un cambio ocurra <strong>poco a poco</strong> en vez de de golpe. Se pone en el estado normal, no en el <code>:hover</code>.</p>
+        <div class="codigo"><pre><span class="t">a</span> {
+  <span class="at">color</span>: <span class="v">black</span>;
+  <span class="at">transition</span>: <span class="v">color .2s ease</span>;
+}
+<span class="t">a:hover</span> { <span class="at">color</span>: <span class="v">red</span>; }
+
+<span class="at">transition</span>: <span class="v">all .3s ease</span>;   <span class="c">todo lo que cambie</span></pre></div>
+        <p class="nota">Entre <b>.15s y .3s</b>. Más lento se siente pesado.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="transform rotar escalar mover scale rotate translate">
+      <div class="clave"><span class="nom">transform</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Mover, girar o escalar sin descolocar lo que hay alrededor.</p>
+        <div class="codigo"><pre><span class="at">transform</span>: <span class="v">scale(1.05)</span>;          <span class="c">un 5% más grande</span>
+<span class="at">transform</span>: <span class="v">rotate(-2deg)</span>;        <span class="c">girado</span>
+<span class="at">transform</span>: <span class="v">translateY(-6px)</span>;    <span class="c">subido</span>
+<span class="at">transform</span>: <span class="v">rotate(-2deg) scale(1.05)</span>;  <span class="c">los dos</span></pre></div>
+        <p class="nota">Con <code>transition</code> y <code>:hover</code>, una foto que crece un poco al pasar por encima son tres líneas.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="filter blur grayscale invert sepia contraste imagen efecto">
+      <div class="clave"><span class="nom">filter</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Efectos de imagen, como los de un editor de fotos, en directo.</p>
+        <ul class="opciones">
+          <li><b>grayscale(1)</b> blanco y negro</li>
+          <li><b>blur(4px)</b> desenfoque</li>
+          <li><b>invert(1)</b> negativo</li>
+          <li><b>sepia(.6)</b></li>
+          <li><b>contrast(1.4)</b></li>
+          <li><b>brightness(.8)</b></li>
+          <li><b>saturate(2)</b></li>
+        </ul>
+        <div class="codigo"><pre><span class="t">.galeria img</span>       { <span class="at">filter</span>: <span class="v">grayscale(1)</span>; <span class="at">transition</span>: <span class="v">filter .3s</span>; }
+<span class="t">.galeria img:hover</span> { <span class="at">filter</span>: <span class="v">grayscale(0)</span>; }</pre></div>
+        <p class="nota">Se pueden encadenar: <code>filter: grayscale(1) contrast(1.2);</code></p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="animation keyframes bucle parpadeo marquesina girar">
+      <div class="clave"><span class="nom">@keyframes · animation</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Movimiento que ocurre solo, sin que nadie toque nada.</p>
+        <div class="codigo"><pre><span class="t">@keyframes</span> latir {
+  <span class="v">from</span> { <span class="at">transform</span>: <span class="v">scale(1)</span>; }
+  <span class="v">to</span>   { <span class="at">transform</span>: <span class="v">scale(1.08)</span>; }
+}
+
+<span class="t">.sello</span> {
+  <span class="at">animation</span>: <span class="v">latir 1.4s ease-in-out infinite alternate</span>;
+}</pre></div>
+        <p class="nota">Míralo en <a href="muestrario/08-cartel-vivo.html">cartel vivo</a>. Y respeta a quien pida menos movimiento:</p>
+        <div class="codigo"><pre><span class="t">@media</span> (<span class="at">prefers-reduced-motion</span>: <span class="v">reduce</span>) {
+  <span class="t">*</span> { <span class="at">animation</span>: <span class="v">none</span>; <span class="at">transition</span>: <span class="v">none</span>; }
+}</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="cursor puntero raton crosshair">
+      <div class="clave"><span class="nom">cursor</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Qué forma tiene el ratón encima de algo.</p>
+        <ul class="opciones">
+          <li><b>pointer</b> la manita</li>
+          <li><b>crosshair</b> la cruz</li>
+          <li><b>grab</b> mano abierta</li>
+          <li><b>zoom-in</b> lupa</li>
+          <li><b>none</b> invisible</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ PLANTILLAS ══════════════════ -->
+<section class="seccion" id="plantillas">
+  <h2>plantillas para copiar</h2>
+  <p class="intro">Trozos enteros que funcionan. Copia, pega en tu archivo y cambia los textos.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="pagina completa plantilla nueva copiar empezar">
+      <div class="clave"><span class="nom">una página entera</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">El punto de partida de cualquier página nueva de tu web.</p>
+        <div class="codigo"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="t">html</span> <span class="at">lang</span>=<span class="v">"es"</span>&gt;
+&lt;<span class="t">head</span>&gt;
+  &lt;<span class="t">meta</span> <span class="at">charset</span>=<span class="v">"UTF-8"</span>&gt;
+  &lt;<span class="t">meta</span> <span class="at">name</span>=<span class="v">"viewport"</span> <span class="at">content</span>=<span class="v">"width=device-width, initial-scale=1"</span>&gt;
+  &lt;<span class="t">title</span>&gt;Rita Mestre — Textos&lt;/<span class="t">title</span>&gt;
+  &lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt;
+&lt;/<span class="t">head</span>&gt;
+&lt;<span class="t">body</span>&gt;
+
+  &lt;<span class="t">header</span>&gt;
+    &lt;<span class="t">h1</span>&gt;Rita Mestre&lt;/<span class="t">h1</span>&gt;
+    &lt;<span class="t">nav</span>&gt;
+      &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"index.html"</span>&gt;Inicio&lt;/<span class="t">a</span>&gt;
+      &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"proyectos.html"</span>&gt;Proyectos&lt;/<span class="t">a</span>&gt;
+      &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"cv.html"</span>&gt;CV&lt;/<span class="t">a</span>&gt;
+    &lt;/<span class="t">nav</span>&gt;
+  &lt;/<span class="t">header</span>&gt;
+
+  &lt;<span class="t">main</span>&gt;
+    &lt;<span class="t">h2</span>&gt;Textos&lt;/<span class="t">h2</span>&gt;
+    &lt;<span class="t">p</span>&gt;Aquí va el contenido de esta página.&lt;/<span class="t">p</span>&gt;
+  &lt;/<span class="t">main</span>&gt;
+
+  &lt;<span class="t">footer</span>&gt;
+    &lt;<span class="t">p</span>&gt;&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"mailto:rita@ejemplo.com"</span>&gt;rita@ejemplo.com&lt;/<span class="t">a</span>&gt;&lt;/<span class="t">p</span>&gt;
+  &lt;/<span class="t">footer</span>&gt;
+
+&lt;/<span class="t">body</span>&gt;
+&lt;/<span class="t">html</span>&gt;</pre></div>
+        <p class="nota">Recuerda: si añades esta página, <b>el enlace nuevo va en el menú de todas las demás</b>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="css arranque base estilo completo empezar comentado">
+      <div class="clave"><span class="nom">un estilo.css de arranque</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Todo lo esencial, comentado y en el orden correcto. Cambia los valores marcados y ya tienes web.</p>
+        <div class="codigo"><pre><span class="c">/* ── la línea que ahorra disgustos ── */</span>
+<span class="t">*</span> { <span class="at">box-sizing</span>: <span class="v">border-box</span>; }
+
+<span class="c">/* ── 1 · la base ── */</span>
+<span class="t">body</span> {
+  <span class="at">margin</span>: <span class="v">0</span>;
+  <span class="at">padding</span>: <span class="v">40px 24px</span>;
+  <span class="at">background-color</span>: <span class="v">#fbfaf7</span>;      <span class="c">← tu fondo</span>
+  <span class="at">color</span>: <span class="v">#12233a</span>;                 <span class="c">← tu tinta</span>
+  <span class="at">font-family</span>: <span class="v">Georgia, serif</span>;     <span class="c">← tu tipografía</span>
+  <span class="at">font-size</span>: <span class="v">18px</span>;
+  <span class="at">line-height</span>: <span class="v">1.6</span>;
+}
+
+<span class="c">/* ── 2 · la columna ── */</span>
+<span class="t">header, main, footer</span> {
+  <span class="at">max-width</span>: <span class="v">640px</span>;               <span class="c">← prueba 500, 640, 900</span>
+  <span class="at">margin</span>: <span class="v">0 auto</span>;
+}
+
+<span class="c">/* ── 3 · los titulares ── */</span>
+<span class="t">h1</span> { <span class="at">font-size</span>: <span class="v">42px</span>; <span class="at">line-height</span>: <span class="v">1.15</span>; <span class="at">margin</span>: <span class="v">0 0 8px</span>; }
+<span class="t">h2</span> { <span class="at">font-size</span>: <span class="v">28px</span>; <span class="at">margin</span>: <span class="v">48px 0 12px</span>; }
+<span class="t">h3</span> { <span class="at">font-size</span>: <span class="v">20px</span>; <span class="at">margin</span>: <span class="v">0 0 4px</span>; }
+
+<span class="c">/* ── 4 · el menú ── */</span>
+<span class="t">nav</span> {
+  <span class="at">display</span>: <span class="v">flex</span>;
+  <span class="at">gap</span>: <span class="v">20px</span>;
+  <span class="at">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="at">margin-bottom</span>: <span class="v">48px</span>;
+}
+<span class="t">nav a</span> {
+  <span class="at">color</span>: <span class="v">inherit</span>;
+  <span class="at">text-decoration</span>: <span class="v">none</span>;
+  <span class="at">transition</span>: <span class="v">background .2s ease</span>;
+}
+<span class="t">nav a:hover</span> { <span class="at">background</span>: <span class="v">#f2e94e</span>; }   <span class="c">← tu acento</span>
+
+<span class="c">/* ── 5 · los bloques y las imágenes ── */</span>
+<span class="t">article</span> {
+  <span class="at">margin-bottom</span>: <span class="v">48px</span>;
+  <span class="at">padding-bottom</span>: <span class="v">48px</span>;
+  <span class="at">border-bottom</span>: <span class="v">1px solid #ddd</span>;
+}
+<span class="t">article:last-child</span> { <span class="at">border-bottom</span>: <span class="v">none</span>; }
+
+<span class="t">img</span> {
+  <span class="at">max-width</span>: <span class="v">100%</span>;
+  <span class="at">height</span>: <span class="v">auto</span>;
+  <span class="at">display</span>: <span class="v">block</span>;
+  <span class="at">margin</span>: <span class="v">16px 0</span>;
+}
+
+<span class="t">footer</span> {
+  <span class="at">margin-top</span>: <span class="v">80px</span>;
+  <span class="at">padding-top</span>: <span class="v">24px</span>;
+  <span class="at">border-top</span>: <span class="v">1px solid #ddd</span>;
+  <span class="at">font-size</span>: <span class="v">15px</span>;
+}
+
+<span class="c">/* ── 6 · el móvil · SIEMPRE AL FINAL ── */</span>
+<span class="t">@media</span> (<span class="at">max-width</span>: <span class="v">600px</span>) {
+  <span class="t">body</span> { <span class="at">font-size</span>: <span class="v">17px</span>; <span class="at">padding</span>: <span class="v">24px 16px</span>; }
+  <span class="t">h1</span>   { <span class="at">font-size</span>: <span class="v">30px</span>; }
+  <span class="t">h2</span>   { <span class="at">font-size</span>: <span class="v">22px</span>; }
+}</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="proyecto article ficha tecnica bloque obra">
+      <div class="clave"><span class="nom">un proyecto</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Copia el bloque entero para cada proyecto y cambia el texto y la imagen. Así de aburrido, así de fiable.</p>
+        <div class="codigo"><pre>&lt;<span class="t">article</span>&gt;
+  &lt;<span class="t">h3</span>&gt;Cámaras sordas&lt;/<span class="t">h3</span>&gt;
+  &lt;<span class="t">p</span> <span class="at">class</span>=<span class="v">"ficha"</span>&gt;2026 · Gres y grabaciones de campo · Barcelona&lt;/<span class="t">p</span>&gt;
+  &lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"Cinco recipientes cerrados sobre una mesa"</span>&gt;
+  &lt;<span class="t">p</span>&gt;Dos o tres líneas sobre el proyecto.&lt;/<span class="t">p</span>&gt;
+&lt;/<span class="t">article</span>&gt;</pre></div>
+        <div class="codigo"><pre><span class="t">.ficha</span> {
+  <span class="at">font-size</span>: <span class="v">14px</span>;
+  <span class="at">text-transform</span>: <span class="v">uppercase</span>;
+  <span class="at">letter-spacing</span>: <span class="v">.08em</span>;
+  <span class="at">opacity</span>: <span class="v">.6</span>;
+}</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="galeria rejilla proyectos grid imagenes iguales">
+      <div class="clave"><span class="nom">galería en rejilla</span><span class="nivel">avanzado</span></div>
+      <div>
+        <div class="codigo"><pre>&lt;<span class="t">div</span> <span class="at">class</span>=<span class="v">"galeria"</span>&gt;
+  &lt;<span class="t">figure</span>&gt;
+    &lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"…"</span>&gt;
+    &lt;<span class="t">figcaption</span>&gt;Cámaras sordas, 2026&lt;/<span class="t">figcaption</span>&gt;
+  &lt;/<span class="t">figure</span>&gt;
+  <span class="c">&lt;!-- repite figure para cada obra --&gt;</span>
+&lt;/<span class="t">div</span>&gt;</pre></div>
+        <div class="codigo"><pre><span class="t">.galeria</span> {
+  <span class="at">display</span>: <span class="v">grid</span>;
+  <span class="at">grid-template-columns</span>: <span class="v">repeat(auto-fill, minmax(240px, 1fr))</span>;
+  <span class="at">gap</span>: <span class="v">24px</span>;
+}
+<span class="t">.galeria figure</span> { <span class="at">margin</span>: <span class="v">0</span>; }
+<span class="t">.galeria img</span> {
+  <span class="at">aspect-ratio</span>: <span class="v">4 / 3</span>;
+  <span class="at">object-fit</span>: <span class="v">cover</span>;
+  <span class="at">width</span>: <span class="v">100%</span>;
+  <span class="at">margin</span>: <span class="v">0 0 8px</span>;
+}
+<span class="t">.galeria figcaption</span> { <span class="at">font-size</span>: <span class="v">14px</span>; <span class="at">opacity</span>: <span class="v">.6</span>; }</pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="cv lista exposiciones años dos columnas">
+      <div class="clave"><span class="nom">un CV que se lee bien</span><span class="nivel">avanzado</span></div>
+      <div>
+        <div class="codigo"><pre>&lt;<span class="t">h2</span>&gt;Exposiciones&lt;/<span class="t">h2</span>&gt;
+&lt;<span class="t">ul</span> <span class="at">class</span>=<span class="v">"cv"</span>&gt;
+  &lt;<span class="t">li</span>&gt;&lt;<span class="t">span</span>&gt;2026&lt;/<span class="t">span</span>&gt; &lt;<span class="t">em</span>&gt;Cámaras sordas&lt;/<span class="t">em</span>&gt;, La Escocesa, Barcelona&lt;/<span class="t">li</span>&gt;
+  &lt;<span class="t">li</span>&gt;&lt;<span class="t">span</span>&gt;2025&lt;/<span class="t">span</span>&gt; &lt;<span class="t">em</span>&gt;Ruido blanco&lt;/<span class="t">em</span>&gt;, Sala X, Girona&lt;/<span class="t">li</span>&gt;
+&lt;/<span class="t">ul</span>&gt;</pre></div>
+        <div class="codigo"><pre><span class="t">.cv</span> { <span class="at">list-style</span>: <span class="v">none</span>; <span class="at">padding</span>: <span class="v">0</span>; }
+<span class="t">.cv li</span> {
+  <span class="at">display</span>: <span class="v">flex</span>;
+  <span class="at">gap</span>: <span class="v">16px</span>;
+  <span class="at">padding</span>: <span class="v">8px 0</span>;
+  <span class="at">border-bottom</span>: <span class="v">1px solid #eee</span>;
+}
+<span class="t">.cv span</span> { <span class="at">min-width</span>: <span class="v">54px</span>; <span class="at">opacity</span>: <span class="v">.5</span>; }  <span class="c">los años, alineados</span></pre></div>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="avanzado" data-busca="menu movil hamburguesa desplegable details summary javascript">
+      <div class="clave"><span class="nom">menú desplegable, sin javascript</span><span class="nivel">avanzado</span></div>
+      <div>
+        <p class="dice">Si tienes muchas páginas y en el móvil no caben, <code>&lt;details&gt;</code> lo resuelve sin una línea de código.</p>
+        <div class="codigo"><pre>&lt;<span class="t">details</span> <span class="at">class</span>=<span class="v">"menu"</span>&gt;
+  &lt;<span class="t">summary</span>&gt;Menú&lt;/<span class="t">summary</span>&gt;
+  &lt;<span class="t">nav</span>&gt;
+    &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"index.html"</span>&gt;Inicio&lt;/<span class="t">a</span>&gt;
+    &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"proyectos.html"</span>&gt;Proyectos&lt;/<span class="t">a</span>&gt;
+  &lt;/<span class="t">nav</span>&gt;
+&lt;/<span class="t">details</span>&gt;</pre></div>
+        <p class="nota"><code>&lt;details&gt;</code> sirve para cualquier cosa que se abra y se cierre: textos largos, notas al pie, fichas técnicas.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ AVERÍAS ══════════════════ -->
+<section class="seccion" id="averias">
+  <h2>cuando algo no funciona</h2>
+  <p class="intro">Por orden. Funciona casi siempre.</p>
+  <div class="fichas">
+
+    <div class="ficha" data-nivel="esencial" data-busca="no funciona nada cambia guardar recargar cache">
+      <div class="clave"><span class="nom">no cambia nada</span><span class="nivel">esencial</span></div>
+      <div>
+        <ol>
+          <li>¿Has <strong>guardado</strong> el archivo? En VS Code, un punto en la pestaña significa sin guardar.</li>
+          <li>¿Has <strong>recargado</strong>? Recarga forzada: <strong>Cmd+Shift+R</strong> (Mac) o <strong>Ctrl+F5</strong> (Windows).</li>
+          <li>¿Está el <code>&lt;link rel="stylesheet"&gt;</code> en <strong>esta</strong> página? Se olvida al crear una nueva.</li>
+          <li>¿Falta un <strong>punto y coma</strong> o una <strong>llave</strong>? Esa línea y a veces la siguiente dejan de funcionar sin avisar.</li>
+          <li>¿El selector apunta de verdad a ese elemento? Botón derecho → Inspeccionar sobre el elemento y mira qué reglas le llegan.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="imagen no sale rota 404 mayusculas jpg extension">
+      <div class="clave"><span class="nom">una imagen no sale</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Casi siempre es el <strong>nombre</strong>. El archivo y el <code>src</code> tienen que coincidir <strong>exactamente</strong>.</p>
+        <ul class="opciones">
+          <li><b>.JPG</b> no es <b>.jpg</b></li>
+          <li><b>Obra 1.jpg</b> no es <b>obra-1.jpg</b></li>
+          <li>¿está dentro de <b>img/</b>?</li>
+          <li>¿lo subiste al publicar?</li>
+        </ul>
+        <p class="nota">En tu Mac funciona igual con mayúsculas o sin ellas; <b>en el servidor no</b>. Por eso se ve en local y no publicada.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="404 publicada blanco github pages carpeta index">
+      <div class="clave"><span class="nom">la web publicada da 404</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Entra en tu repositorio: <strong>¿ves <code>index.html</code> nada más abrirlo?</strong></p>
+        <p class="nota">Si lo que ves es una carpeta, subiste la carpeta contenedora en vez de su contenido. Bórralo y vuelve a subir solo lo de dentro.</p>
+        <p class="nota">Y comprueba que la portada se llama <b>exactamente</b> <code>index.html</code>: ni <code>Index.html</code> ni <code>index.HTML</code>.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="inspector consola devtools error depurar">
+      <div class="clave"><span class="nom">el inspector</span><span class="nivel">esencial</span></div>
+      <div>
+        <p class="dice">Botón derecho → <strong>Inspeccionar</strong>. Es tu mejor herramienta y es gratis.</p>
+        <ul class="opciones">
+          <li><b>Elements</b> el HTML tal como lo ve el navegador</li>
+          <li><b>Styles</b> qué reglas le llegan y cuáles están tachadas</li>
+          <li><b>Console</b> los errores, escritos</li>
+          <li><b>Network</b> qué archivos no cargaron</li>
+        </ul>
+        <p class="nota">En <b>Styles</b> puedes cambiar valores y ver el resultado al instante, sin tocar tu archivo. Cuando des con el bueno, lo copias a tu CSS. <b>Es la forma más rápida de trastear.</b></p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="volver atras copia seguridad romper deshacer">
+      <div class="clave"><span class="nom">lo he roto del todo</span><span class="nivel">esencial</span></div>
+      <div>
+        <ol>
+          <li><strong>Cmd+Z</strong> tantas veces como haga falta. Funciona más de lo que parece.</li>
+          <li>Vuelve a la última copia de la carpeta que iba bien.</li>
+          <li>En GitHub, pestaña <strong>History</strong> del archivo: están todas las versiones anteriores.</li>
+        </ol>
+        <p class="nota"><b>La costumbre:</b> antes de un cambio grande, duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple que existe de poder volver atrás.</p>
+      </div>
+    </div>
+
+    <div class="ficha" data-nivel="esencial" data-busca="ia chatgpt claude ayuda pedir codigo reescribir">
+      <div class="clave"><span class="nom">pedirle ayuda a una IA</span><span class="nivel">esencial</span></div>
+      <div>
+        <ul class="opciones">
+          <li>pega <b>solo el trozo</b> que falla</li>
+          <li>pide que te <b>expliquen</b> el cambio</li>
+          <li>no aceptes una <b>reescritura entera</b></li>
+        </ul>
+        <p class="nota">Si le das la web completa te la devuelve reescrita de arriba abajo. Funcionará, pero ya no sabrás dónde tocar, y eso es justo lo que has venido a aprender.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sinresultados">
+  <p>Nada coincide con eso. Prueba con otra palabra — o mira el <a href="#html">índice completo</a>.</p>
+</div>
+
+<section class="seccion">
+  <h2>y ahora</h2>
+  <p>Esto no se aprende leyendo: se aprende <strong>cambiando un número, guardando, recargando y mirando</strong>. Abre tu <code>estilo.css</code>, ten esta página en otra pestaña, y trastea.</p>
+  <div class="siguiente" style="margin-top:30px">
+    <a href="index.html"><span class="rol">volver</span><span class="nombre">portada del taller</span></a>
+    <a href="muestrario/"><span class="rol">ver ejemplos</span><span class="nombre">el muestrario</span></a>
+    <a href="https://developer.mozilla.org/es/"><span class="rol">la documentación de todo</span><span class="nombre">mdn</span></a>
+  </div>
+</section>
+
+</main>
+
+<script src="js/taller.js"></script>
+<script>
+/* buscador del chuletón */
+(function () {
+  var campo = document.getElementById('buscar');
+  var cuenta = document.getElementById('cuenta');
+  var fichas = [].slice.call(document.querySelectorAll('.ficha'));
+  var botones = [].slice.call(document.querySelectorAll('.filtros button'));
+  var nivel = 'todo';
+
+  fichas.forEach(function (f) {
+    f.dataset.texto = (f.textContent + ' ' + (f.dataset.busca || '')).toLowerCase();
+  });
+
+  function sinTildes(t) {
+    return t.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+
+  function filtrar() {
+    var q = sinTildes(campo.value.trim().toLowerCase());
+    var palabras = q ? q.split(/\s+/) : [];
+    var vistos = 0;
+
+    fichas.forEach(function (f) {
+      var texto = sinTildes(f.dataset.texto);
+      var okTexto = palabras.every(function (p) { return texto.indexOf(p) !== -1; });
+      var okNivel = nivel === 'todo' || f.dataset.nivel === nivel;
+      var ok = okTexto && okNivel;
+      f.style.display = ok ? '' : 'none';
+      if (ok) vistos++;
+    });
+
+    // esconder las secciones que se quedan vacías
+    document.querySelectorAll('.seccion').forEach(function (s) {
+      var suyas = s.querySelectorAll('.ficha');
+      if (!suyas.length) return;
+      var alguna = [].slice.call(suyas).some(function (f) { return f.style.display !== 'none'; });
+      s.style.display = alguna ? '' : 'none';
+    });
+
+    document.body.classList.toggle('vacio', vistos === 0);
+    cuenta.textContent = (palabras.length || nivel !== 'todo')
+      ? vistos + (vistos === 1 ? ' ficha' : ' fichas')
+      : fichas.length + ' fichas';
+  }
+
+  campo.addEventListener('input', filtrar);
+  campo.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { campo.value = ''; filtrar(); }
+    e.stopPropagation();
+  });
+
+  botones.forEach(function (b) {
+    b.addEventListener('click', function () {
+      nivel = b.dataset.nivel;
+      botones.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+      filtrar();
+    });
+  });
+
+  filtrar();
+})();
+</script>
+</body>
+</html>
