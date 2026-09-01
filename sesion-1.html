@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>sesión 1 · html — taller de web autogestionada</title>
-<meta name="description" content="Primera sesión del taller de web autogestionada de La Escocesa: qué es el HTML, cómo se estructura una página y cómo montar tus dos primeras páginas.">
+<meta name="description" content="Primera sesión del taller de web autogestionada de La Escocesa: puesta a punto, qué es el HTML y tus dos primeras páginas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
@@ -12,24 +12,25 @@
 </head>
 <body>
 
-<div class="progreso"></div>
-
 <nav class="barra no-imprimir">
   <a class="marca" href="index.html">taller · la escocesa</a>
+  <span class="grupo">
+    <a href="sesion-1.html" aria-current="page">1 · html</a>
+    <a href="sesion-2.html">2 · css</a>
+    <a href="sesion-3.html">3 · publicar</a>
+  </span>
   <span class="sep"></span>
-  <a href="sesion-1.html" aria-current="page">1 · html</a>
-  <a href="sesion-2.html">2 · css</a>
-  <a href="sesion-3.html">3 · publicar</a>
-  <a href="muestrario/">muestrario</a>
-  <button id="btn-proyectar" type="button">proyectar</button>
-  <button id="btn-tema" type="button">tema</button>
-  <button id="btn-imprimir" type="button">imprimir</button>
+  <span class="util">
+    <a href="muestrario/">muestrario</a>
+    <button id="btn-leer" type="button">leer</button>
+    <button id="btn-tema" type="button">tema</button>
+    <button id="btn-imprimir" type="button">imprimir</button>
+  </span>
 </nav>
 
 <main>
 
-<!-- ══════════════ portada ══════════════ -->
-<header class="portada">
+<header class="portada" data-rotulo="portada">
   <div>
     <p class="portada-num">sesión 1 de 3</p>
     <h1>html:<br>lo que dice<br>qué es cada cosa</h1>
@@ -38,37 +39,120 @@
   <p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
 </header>
 
-<!-- ══════════════ plan ══════════════ -->
-<section class="lamina hueco" id="plan">
+<section class="lamina hueco" data-tipo="teoria" data-rotulo="el plan de hoy" id="plan">
   <div>
-    <div class="cabecera-lamina">
-      <span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span>
-    </div>
+    <div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
     <nav class="plan">
-      <a href="#b1"><span class="hora">00:00</span><span class="que">webs hechas a mano</span><span class="min">10 min</span></a>
-      <a href="#b2"><span class="hora">00:10</span><span class="que">qué es el html</span><span class="min">10 min</span></a>
-      <a href="#b3"><span class="hora">00:20</span><span class="que">cómo es una web por dentro</span><span class="min">20 min</span></a>
-      <a href="#b4"><span class="hora">00:40</span><span class="que">escribir html</span><span class="min">50 min</span></a>
-      <a href="#b5"><span class="hora">01:30</span><span class="que">pausa</span><span class="min">15 min</span></a>
-      <a href="#b6"><span class="hora">01:45</span><span class="que">tu segunda página</span><span class="min">45 min</span></a>
-      <a href="#b7"><span class="hora">02:30</span><span class="que">publicarla ya</span><span class="min">10 min</span></a>
-      <a href="#b8"><span class="hora">02:40</span><span class="que">cierre y encargo</span><span class="min">20 min</span></a>
+      <a href="#b0"><span class="hora">00:00</span><span class="que">puesta a punto</span><span class="tipo" data-t="práctica">práctica</span><span class="min">20 min</span></a>
+      <a href="#b1"><span class="hora">00:20</span><span class="que">webs hechas a mano</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a>
+      <a href="#b2"><span class="hora">00:30</span><span class="que">qué es el html</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a>
+      <a href="#b3"><span class="hora">00:45</span><span class="que">las etiquetas</span><span class="tipo" data-t="teoría">teoría</span><span class="min">30 min</span></a>
+      <a href="#b4"><span class="hora">01:15</span><span class="que">ejercicio 1 · tu portada</span><span class="tipo" data-t="práctica">práctica</span><span class="min">30 min</span></a>
+      <a href="#b5"><span class="hora">01:45</span><span class="que">pausa</span><span class="tipo">—</span><span class="min">15 min</span></a>
+      <a href="#b6"><span class="hora">02:00</span><span class="que">la segunda página</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a>
+      <a href="#b7"><span class="hora">02:10</span><span class="que">ejercicio 2 · dos páginas</span><span class="tipo" data-t="práctica">práctica</span><span class="min">30 min</span></a>
+      <a href="#b8"><span class="hora">02:40</span><span class="que">publicarla ya</span><span class="tipo" data-t="práctica">práctica</span><span class="min">10 min</span></a>
+      <a href="#b9"><span class="hora">02:50</span><span class="que">cierre y encargo</span><span class="tipo">—</span><span class="min">10 min</span></a>
     </nav>
+    <p class="solo-leer" style="margin-top:26px">Las láminas amarillas son <strong>práctica</strong>: las haces tú en el ordenador. Las blancas son <strong>teoría</strong>: se explican proyectadas.</p>
   </div>
 </section>
 
-<!-- ══════════════ bloque 1 ══════════════ -->
-<section class="lamina bloque" id="b1">
+<!-- ═══════ 00:00 · PUESTA A PUNTO ═══════ -->
+<section class="lamina bloque" data-tipo="practica" id="b0">
   <div>
-    <span class="reloj">00:00 · 10 minutos</span>
+    <span class="rotulo">práctica · lo hacéis vosotras</span>
+    <span class="reloj">00:00 · 20 minutos</span>
+    <h2>puesta a punto</h2>
+    <p>Antes de escribir nada: el programa instalado, la carpeta abierta y la cuenta creada. Nadie sigue hasta que lo tenga todo el mundo.</p>
+  </div>
+</section>
+
+<section class="lamina" data-tipo="practica">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">tres cosas y ya</span></div>
+    <h2>lo que hay que tener</h2>
+    <div class="dos">
+      <div>
+        <h3>1 · Visual Studio Code</h3>
+        <p>El programa donde se escribe. Es un editor de texto, como un Word pero para código. Gratis, en <a href="https://code.visualstudio.com">code.visualstudio.com</a>.</p>
+        <p>Descarga, abre el archivo, arrastra a Aplicaciones. Nada más.</p>
+      </div>
+      <div>
+        <h3>2 · La carpeta de partida</h3>
+        <p>Copiadla del pendrive o descargadla de <a href="web-base/index.html">la web del taller</a>. Ponla donde guardes tus cosas importantes, no en Descargas.</p>
+      </div>
+      <div>
+        <h3>3 · Una cuenta de GitHub</h3>
+        <p>Gratis, sin tarjeta, en <a href="https://github.com">github.com</a>. Hace falta al final de hoy para publicar.</p>
+        <p><strong>Apunta la contraseña en un papel.</strong> Cada edición hay alguien que no puede entrar.</p>
+      </div>
+    </div>
+    <div class="aviso">
+      <span class="etiqueta">si el correo de verificación no llega</span>
+      <p>Mira en spam, y si no está, sigue sin cuenta: la creas en la pausa. No te quedes parada esperando.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lamina" data-tipo="practica">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">hacedlo todas ahora</span></div>
+    <h2>abrir la carpeta, no el archivo</h2>
+    <div class="dos">
+      <div>
+        <h3>En VS Code</h3>
+        <p><strong>Archivo → Abrir carpeta</strong>, y eliges la carpeta entera. Nunca un archivo suelto.</p>
+        <p>Así ves toda tu web en la columna de la izquierda y puedes saltar entre archivos.</p>
+        <h3>En el navegador</h3>
+        <p>Doble clic en <code>index.html</code>. Arriba no pone <code>https://</code> sino una ruta de tu ordenador: todavía es una web privada, solo tuya.</p>
+      </div>
+      <div>
+        <div class="codigo"><pre>VS Code
+   ↓  guardas
+Navegador
+   ↓  recargas
+Ves el cambio</pre></div>
+        <p>Coloca las dos ventanas <strong>lado a lado</strong>. Este bucle es el 90% del trabajo, hoy y siempre.</p>
+      </div>
+    </div>
+    <div class="aviso clave">
+      <span class="etiqueta">no seguimos hasta que</span>
+      <p>Todo el mundo haya cambiado una palabra del <code>h1</code>, guardado, recargado y visto el cambio. Una vez. Levanta la mano quien lo tenga.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lamina hueco" data-tipo="practica">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">apunte</span></div>
+    <h2>vs code y github, separados a propósito</h2>
+    <div class="dos">
+      <div>
+        <p>VS Code tiene un botón para conectarse a GitHub y subir cambios sin salir del programa. <strong>Hoy no lo usamos, y es una decisión.</strong></p>
+        <p>Se aprende primero el camino largo —editar aquí, subir por la web— porque es el que deja ver <em>qué</em> está pasando: una carpeta tuya, y una copia en un servidor.</p>
+      </div>
+      <div>
+        <p>Cuando ese camino te aburra, que te aburrirá, el atajo está en el panel <strong>Control de código fuente</strong> de VS Code. Es un botón, no una terminal.</p>
+        <p>Pero para entonces ya sabrás qué hace, y si se rompe sabrás por qué.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 00:20 · WEBS HECHAS A MANO ═══════ -->
+<section class="lamina bloque" data-tipo="teoria" id="b1">
+  <div>
+    <span class="rotulo">teoría · lo explico yo</span>
+    <span class="reloj">00:20 · 10 minutos</span>
     <h2>webs hechas a mano</h2>
     <p>Miramos webs de artistas por dentro, con el inspector abierto. Y nos presentamos.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:20</span><span class="sep"></span></div>
     <h2>una web es una carpeta</h2>
     <p>No hay nada más. Ni servidores misteriosos, ni una empresa detrás, ni una suscripción. Archivos de texto dentro de una carpeta.</p>
     <div class="dos">
@@ -88,22 +172,22 @@
   </div>
 </section>
 
-<!-- ══════════════ bloque 2 · concepto ══════════════ -->
-<section class="lamina bloque" id="b2">
+<!-- ═══════ 00:30 · QUÉ ES EL HTML ═══════ -->
+<section class="lamina bloque" data-tipo="teoria" id="b2">
   <div>
-    <span class="reloj">00:10 · 10 minutos</span>
+    <span class="rotulo">teoría · lo explico yo</span>
+    <span class="reloj">00:30 · 15 minutos</span>
     <h2>qué es el html</h2>
     <p>Antes de escribir una sola etiqueta: qué es esto y qué hace exactamente.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:10</span><span class="sep"></span><span class="duracion">el concepto</span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:30</span><span class="sep"></span><span class="duracion">el concepto</span></div>
     <h2>html no dibuja: estructura</h2>
     <p>HTML son las siglas de <em>HyperText Markup Language</em>. Lo importante es la palabra del medio: <strong>markup</strong>, marcado. No es un lenguaje de programación — no calcula, no decide, no tiene memoria.</p>
-    <p>Lo único que hace es <strong>marcar un texto diciendo qué es cada parte</strong>: esto es un título, esto un párrafo, esto una imagen, esto un enlace.</p>
-
+    <p>Lo único que hace es <strong>marcar un texto diciendo qué es cada parte</strong>.</p>
     <div class="dos">
       <div>
         <h3>Texto sin marcar</h3>
@@ -111,7 +195,7 @@
 Trabajo con cerámica y sonido.
 Cámaras sordas
 2026 · Gres</pre></div>
-        <p style="font-size:15px;color:var(--tinta-tenue)">El navegador no sabe qué es cada línea. Lo pinta todo seguido, igual.</p>
+        <p style="font-size:.82em;color:var(--tinta-tenue)">El navegador no sabe qué es cada línea. Lo pinta todo seguido, igual.</p>
       </div>
       <div>
         <h3>El mismo texto, marcado</h3>
@@ -119,92 +203,63 @@ Cámaras sordas
 &lt;<span class="t">p</span>&gt;Trabajo con cerámica y sonido.&lt;/<span class="t">p</span>&gt;
 &lt;<span class="t">h3</span>&gt;Cámaras sordas&lt;/<span class="t">h3</span>&gt;
 &lt;<span class="t">p</span>&gt;2026 · Gres&lt;/<span class="t">p</span>&gt;</pre></div>
-        <p style="font-size:15px;color:var(--tinta-tenue)">Ahora sí. Y con esa información ya puede jerarquizarlo, y un lector de pantalla puede leerlo en voz alta con sentido.</p>
+        <p style="font-size:.82em;color:var(--tinta-tenue)">Ahora sí. Y con esa información puede jerarquizarlo, y un lector de pantalla puede leerlo con sentido.</p>
       </div>
     </div>
-
     <div class="aviso clave">
       <span class="etiqueta">la frase de hoy</span>
-      <p><strong>El HTML dice qué es cada cosa. El CSS dice cómo se ve.</strong> Hoy solo hacemos lo primero. Va a quedar feo, y está bien que quede feo: el aspecto es la sesión que viene.</p>
+      <p>El HTML dice qué es cada cosa. El CSS dice cómo se ve. Hoy solo hacemos lo primero: va a quedar feo, y está bien que quede feo.</p>
     </div>
   </div>
 </section>
 
-<section class="lamina hueco">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:10</span><span class="sep"></span><span class="duracion">por qué importa separar</span></div>
-    <h2>por qué se separan las dos cosas</h2>
-    <div class="dos">
-      <div>
-        <p>Porque el contenido dura y el aspecto cambia. Dentro de cinco años querrás otra tipografía, otros colores, otra distribución — pero tu bio y tus proyectos van a ser los mismos.</p>
-        <p>Si están separados, rediseñas la web entera tocando un solo archivo y sin abrir el contenido. Lo verás en la sesión 2: el mismo HTML, cuatro webs distintas.</p>
-      </div>
-      <div>
-        <p>Y porque hay lectores que no son ojos: buscadores, lectores de pantalla, el modo lectura del móvil. Todos leen la <em>estructura</em>, no el aspecto.</p>
-        <p>Un <code>&lt;h1&gt;</code> escrito como <code>&lt;h1&gt;</code> es un título para todo el mundo. Un texto puesto grande a mano solo es un título para quien lo ve.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════ bloque 3 ══════════════ -->
-<section class="lamina bloque" id="b3">
-  <div>
-    <span class="reloj">00:20 · 20 minutos</span>
-    <h2>cómo es una web por dentro</h2>
-    <p>La carpeta, los nombres de archivo, las rutas, y el entorno de trabajo.</p>
-  </div>
-</section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:20</span><span class="sep"></span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:30</span><span class="sep"></span></div>
     <h2>tres cosas que hay que creerse</h2>
     <ol>
       <li><strong>La carpeta es la web.</strong> Si la mueves entera, sigue funcionando. Si sacas un archivo de dentro, se rompe.</li>
-      <li><strong><code>index.html</code> es la portada.</strong> Ese nombre exacto: es el que busca el servidor por defecto cuando alguien entra sin pedir ninguna página concreta.</li>
+      <li><strong><code>index.html</code> es la portada.</strong> Ese nombre exacto: es el que busca el servidor cuando alguien entra sin pedir ninguna página concreta.</li>
       <li><strong><code>img/obra.jpg</code> significa «dentro de mi carpeta».</strong> Una imagen que esté en tu escritorio se ve en tu ordenador y en ningún otro sitio del mundo.</li>
     </ol>
     <div class="aviso">
       <span class="etiqueta">nombres de archivo</span>
       <p>Sin espacios, sin acentos, sin ñ, sin mayúsculas. <code>Foto Taller.JPG</code> falla al publicar; <code>foto-taller.jpg</code> no.</p>
-      <p>Y ojo: para un servidor, <code>.jpg</code> y <code>.JPG</code> son <strong>archivos distintos</strong>. En tu Mac funciona igual y al publicar deja de funcionar. Es el fallo número uno del taller.</p>
+      <p>Para un servidor, <code>.jpg</code> y <code>.JPG</code> son <strong>archivos distintos</strong>. En tu Mac funciona y al publicar deja de funcionar. Es el fallo número uno del taller.</p>
     </div>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina hueco" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:20</span><span class="sep"></span><span class="duracion">el entorno</span></div>
-    <h2>abrir la carpeta, no el archivo</h2>
+    <div class="cabecera-lamina"><span class="reloj">00:30</span><span class="sep"></span><span class="duracion">por qué separar</span></div>
+    <h2>por qué el contenido va aparte del aspecto</h2>
     <div class="dos">
       <div>
-        <h3>En VS Code</h3>
-        <p><strong>Archivo → Abrir carpeta</strong>, y eliges la carpeta entera. Nunca un archivo suelto.</p>
-        <p>Así ves toda tu web en la columna de la izquierda y puedes saltar entre archivos.</p>
+        <p>Porque el contenido dura y el aspecto cambia. Dentro de cinco años querrás otra tipografía y otros colores, pero tu bio y tus proyectos serán los mismos.</p>
+        <p>Si están separados, rediseñas la web entera tocando un solo archivo. Lo verás en la sesión 2: el mismo HTML, cuatro webs.</p>
       </div>
       <div>
-        <h3>En el navegador</h3>
-        <p>Doble clic en <code>index.html</code>. Fíjate en que arriba no pone <code>https://</code> sino una ruta de tu ordenador: todavía es una web privada, solo tuya.</p>
+        <p>Y porque hay lectores que no son ojos: buscadores, lectores de pantalla, el modo lectura del móvil. Todos leen la <em>estructura</em>.</p>
+        <p>Un <code>&lt;h1&gt;</code> escrito como <code>&lt;h1&gt;</code> es un título para todo el mundo. Un texto puesto grande a mano solo lo es para quien lo ve.</p>
       </div>
     </div>
-    <div class="codigo"><pre>VS Code   →   guardas   →   Navegador   →   recargas   →   ves el cambio</pre></div>
-    <p>Coloca las dos ventanas lado a lado. Este bucle es el 90% del trabajo, hoy y siempre.</p>
   </div>
 </section>
 
-<!-- ══════════════ bloque 4 ══════════════ -->
-<section class="lamina bloque" id="b4">
+<!-- ═══════ 00:45 · LAS ETIQUETAS ═══════ -->
+<section class="lamina bloque" data-tipo="teoria" id="b3">
   <div>
-    <span class="reloj">00:40 · 50 minutos</span>
-    <h2>escribir html</h2>
-    <p>Etiquetas, títulos, párrafos, enlaces e imágenes. Y cada una escribe su portada de verdad.</p>
+    <span class="rotulo">teoría · lo explico yo</span>
+    <span class="reloj">00:45 · 30 minutos</span>
+    <h2>las etiquetas</h2>
+    <p>Escribo en directo y me seguís. Despacio. Sin empezar todavía con vuestro contenido.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:40</span><span class="sep"></span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:45</span><span class="sep"></span></div>
     <h2>las etiquetas van en pareja</h2>
     <div class="codigo"><pre>&lt;<span class="t">p</span>&gt;Esto es un párrafo.&lt;/<span class="t">p</span>&gt;
  ↑ abre                ↑ cierra (lleva barra)</pre></div>
@@ -216,21 +271,21 @@ Cámaras sordas
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:40</span><span class="sep"></span><span class="duracion">el esqueleto</span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:45</span><span class="sep"></span><span class="duracion">el esqueleto</span></div>
     <h2>la estructura de una página</h2>
     <div class="codigo"><pre>&lt;!DOCTYPE html&gt;
 &lt;<span class="t">html</span> <span class="at">lang</span>=<span class="v">"es"</span>&gt;
 &lt;<span class="t">head</span>&gt;
-  &lt;<span class="t">meta</span> <span class="at">charset</span>=<span class="v">"UTF-8"</span>&gt;                          <span class="c">acentos y ñ</span>
+  &lt;<span class="t">meta</span> <span class="at">charset</span>=<span class="v">"UTF-8"</span>&gt;                     <span class="c">acentos y ñ</span>
   &lt;<span class="t">meta</span> <span class="at">name</span>=<span class="v">"viewport"</span> <span class="at">content</span>=<span class="v">"width=device-width, initial-scale=1"</span>&gt;
-  &lt;<span class="t">title</span>&gt;Rita Mestre&lt;/<span class="t">title</span>&gt;                     <span class="c">la pestaña</span>
-  &lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt;      <span class="c">el aspecto</span>
+  &lt;<span class="t">title</span>&gt;Rita Mestre&lt;/<span class="t">title</span>&gt;                <span class="c">la pestaña</span>
+  &lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt; <span class="c">el aspecto</span>
 &lt;/<span class="t">head</span>&gt;
 &lt;<span class="t">body</span>&gt;
   &lt;<span class="t">header</span>&gt; <span class="c">tu nombre y el menú</span> &lt;/<span class="t">header</span>&gt;
-  &lt;<span class="t">main</span>&gt;   <span class="c">el contenido propio de esta página</span> &lt;/<span class="t">main</span>&gt;
+  &lt;<span class="t">main</span>&gt;   <span class="c">el contenido de esta página</span> &lt;/<span class="t">main</span>&gt;
   &lt;<span class="t">footer</span>&gt; <span class="c">contacto, créditos</span> &lt;/<span class="t">footer</span>&gt;
 &lt;/<span class="t">body</span>&gt;
 &lt;/<span class="t">html</span>&gt;</pre></div>
@@ -238,9 +293,9 @@ Cámaras sordas
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:40</span><span class="sep"></span></div>
+    <div class="cabecera-lamina"><span class="reloj">00:45</span><span class="sep"></span></div>
     <h2>títulos y párrafos</h2>
     <div class="codigo"><pre>&lt;<span class="t">h1</span>&gt;Rita Mestre&lt;/<span class="t">h1</span>&gt;          <span class="c">el título principal</span>
 &lt;<span class="t">h2</span>&gt;Proyectos&lt;/<span class="t">h2</span>&gt;            <span class="c">un apartado</span>
@@ -250,49 +305,46 @@ Cámaras sordas
 &lt;<span class="t">p</span>&gt;Otro párrafo, con otra idea.&lt;/<span class="t">p</span>&gt;</pre></div>
     <div class="aviso">
       <span class="etiqueta">un solo h1 por página</span>
-      <p><code>h1</code> a <code>h6</code> es <strong>jerarquía, no tamaño</strong>. El tamaño se decide luego, en el CSS. No uses un <code>h4</code> porque quieras letra pequeña: usa el nivel que le toca y ya lo harás pequeño después.</p>
+      <p><code>h1</code> a <code>h6</code> es <strong>jerarquía, no tamaño</strong>. El tamaño se decide luego, en el CSS. No uses un <code>h4</code> porque quieras letra pequeña.</p>
     </div>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">00:40</span><span class="sep"></span></div>
-    <h2>enlaces</h2>
+    <div class="cabecera-lamina"><span class="reloj">00:45</span><span class="sep"></span></div>
+    <h2>enlaces e imágenes</h2>
     <div class="codigo"><pre>&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"cv.html"</span>&gt;CV&lt;/<span class="t">a</span>&gt;                      <span class="c">a otra página tuya</span>
 &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"https://neocities.org"</span>&gt;Neocities&lt;/<span class="t">a</span>&gt;  <span class="c">a otra web</span>
-&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"mailto:rita@ejemplo.com"</span>&gt;Escríbeme&lt;/<span class="t">a</span>&gt;  <span class="c">abre el correo</span></pre></div>
-    <p><code>href</code> es <strong>a dónde va</strong>. Lo que escribes entre las etiquetas es lo que se ve y se puede clicar.</p>
-    <div class="aviso">
-      <span class="etiqueta">para una web de fuera</span>
-      <p>Hace falta el <code>https://</code> delante. Sin eso el navegador lo busca dentro de tu carpeta y da 404.</p>
-    </div>
-  </div>
-</section>
+&lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"mailto:rita@ejemplo.com"</span>&gt;Escríbeme&lt;/<span class="t">a</span>&gt;  <span class="c">abre el correo</span>
 
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:40</span><span class="sep"></span></div>
-    <h2>imágenes</h2>
-    <div class="codigo"><pre>&lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"Cinco piezas de gres sobre una mesa"</span>&gt;</pre></div>
+&lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"Cinco piezas de gres"</span>&gt;</pre></div>
     <ul>
+      <li><code>href</code> es a dónde va. Para una web de fuera hace falta el <code>https://</code> delante.</li>
       <li><code>src</code> es dónde está el archivo. <code>img/</code> significa dentro de tu carpeta.</li>
-      <li><code>alt</code> describe la imagen: lo lee en voz alta un lector de pantalla y aparece si la imagen no carga.</li>
-      <li>No lleva etiqueta de cierre. Es de las pocas.</li>
+      <li><code>img</code> no lleva etiqueta de cierre. Es de las pocas.</li>
     </ul>
     <div class="aviso clave">
       <span class="etiqueta">el alt no es opcional</span>
-      <p>Descríbela en una línea, como se la describirías por teléfono a alguien. No pongas «foto» ni el nombre del archivo.</p>
+      <p>Lo lee en voz alta un lector de pantalla y aparece si la imagen no carga. Descríbela como se la describirías por teléfono a alguien.</p>
     </div>
   </div>
 </section>
 
-<!-- ejercicio 1 -->
-<section class="lamina hueco" id="ej1">
+<!-- ═══════ 01:15 · EJERCICIO 1 ═══════ -->
+<section class="lamina bloque" data-tipo="practica" id="b4">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">ejercicio 1</span><span class="sep"></span><span class="duracion">50 min · en clase</span></div>
+    <span class="rotulo">práctica · lo hacéis vosotras</span>
+    <span class="reloj">01:15 · 30 minutos</span>
+    <h2>ejercicio 1 · tu portada</h2>
+    <p>Ahora con vuestro contenido de verdad. Nada de texto de relleno. Yo doy vueltas por la sala.</p>
+  </div>
+</section>
+
+<section class="lamina" data-tipo="practica">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">ejercicio 1</span><span class="sep"></span><span class="duracion">30 min</span></div>
     <h2>tu portada</h2>
-    <p>Abre la carpeta <code>mi-web</code> en VS Code y trabaja sobre <code>index.html</code>. Al terminar, tu portada tiene que hablar de ti y no de nadie más.</p>
     <div class="dos">
       <div>
         <h3>Lo que hay que conseguir</h3>
@@ -307,9 +359,9 @@ Cámaras sordas
       <div>
         <h3>Si acabas antes</h3>
         <ul>
-          <li>Añade un enlace a alguna web tuya o de alguien que admires.</li>
-          <li>Pon una segunda imagen.</li>
-          <li>Prueba a cambiar <code>background-color</code> en <code>estilo.css</code>. Solo eso, no toques nada más todavía.</li>
+          <li>Un enlace a alguna web tuya o de alguien que admires.</li>
+          <li>Una segunda imagen.</li>
+          <li>Cambiar <code>background-color</code> en <code>estilo.css</code>. Solo eso.</li>
         </ul>
         <div class="aviso">
           <span class="etiqueta">si has pegado texto desde word</span>
@@ -320,93 +372,109 @@ Cámaras sordas
   </div>
 </section>
 
-<!-- ══════════════ pausa ══════════════ -->
-<section class="lamina bloque" id="b5">
+<!-- ═══════ 01:45 · PAUSA ═══════ -->
+<section class="lamina bloque" data-tipo="pausa" id="b5">
   <div>
-    <span class="reloj">01:30 · 15 minutos</span>
+    <span class="reloj">01:45 · 15 minutos</span>
     <h2>pausa</h2>
-    <p>Estirar las piernas. La segunda parte es toda práctica.</p>
+    <p>Estirar las piernas. Quien no tenga cuenta de GitHub, este es el momento.</p>
   </div>
 </section>
 
-<!-- ══════════════ bloque 6 ══════════════ -->
-<section class="lamina bloque" id="b6">
+<!-- ═══════ 02:00 · LA SEGUNDA PÁGINA ═══════ -->
+<section class="lamina bloque" data-tipo="teoria" id="b6">
   <div>
-    <span class="reloj">01:45 · 45 minutos</span>
-    <h2>tu segunda página</h2>
-    <p>Duplicar, enlazar y montar la página de proyectos con tu material.</p>
+    <span class="rotulo">teoría · lo explico yo</span>
+    <span class="reloj">02:00 · 10 minutos</span>
+    <h2>la segunda página</h2>
+    <p>Diez minutos de explicación y os suelto media hora.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">01:45</span><span class="sep"></span></div>
-    <h2>añadir una página</h2>
-    <ol>
-      <li>Duplica <code>index.html</code> y llama a la copia <code>proyectos.html</code>.</li>
-      <li>Cambia el <code>&lt;title&gt;</code> y vacía el <code>&lt;main&gt;</code>.</li>
-      <li>Añade el enlace al menú <strong>de todas las páginas</strong>, no solo de una.</li>
-    </ol>
-    <div class="codigo"><pre>&lt;<span class="t">nav</span>&gt;
+    <div class="cabecera-lamina"><span class="reloj">02:00</span><span class="sep"></span></div>
+    <h2>duplicar, enlazar, repetir</h2>
+    <div class="dos">
+      <div>
+        <div class="codigo"><pre>&lt;<span class="t">nav</span>&gt;
   &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"index.html"</span>&gt;Inicio&lt;/<span class="t">a</span>&gt;
   &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"proyectos.html"</span>&gt;Proyectos&lt;/<span class="t">a</span>&gt;
-  &lt;<span class="t">a</span> <span class="at">href</span>=<span class="v">"cv.html"</span>&gt;CV&lt;/<span class="t">a</span>&gt;
 &lt;/<span class="t">nav</span>&gt;</pre></div>
-    <div class="aviso">
-      <span class="etiqueta">el fallo típico</span>
-      <p>Añadir el enlace nuevo solo en una de las dos páginas. Desde la otra no se llega, y parece que el enlace está mal cuando lo que falta es <strong>repetirlo</strong>.</p>
-      <p>Sí: el menú se copia entero en cada archivo. Es aburrido y es normal.</p>
+        <div class="aviso">
+          <span class="etiqueta">el fallo típico</span>
+          <p>Añadir el enlace nuevo solo en una de las dos páginas. Desde la otra no se llega, y parece que el enlace está mal cuando lo que falta es <strong>repetirlo</strong>.</p>
+        </div>
+      </div>
+      <div>
+        <div class="codigo"><pre>&lt;<span class="t">article</span>&gt;
+  &lt;<span class="t">h3</span>&gt;Cámaras sordas&lt;/<span class="t">h3</span>&gt;
+  &lt;<span class="t">p</span>&gt;2026 · Gres · Barcelona&lt;/<span class="t">p</span>&gt;
+  &lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"…"</span>&gt;
+  &lt;<span class="t">p</span>&gt;Dos líneas sobre el proyecto.&lt;/<span class="t">p</span>&gt;
+&lt;/<span class="t">article</span>&gt;</pre></div>
+        <p>Para el siguiente proyecto: <strong>copias el bloque entero, lo pegas debajo y cambias el texto.</strong> Así de aburrido. Así de fiable.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="lamina">
+<!-- ═══════ 02:10 · EJERCICIO 2 ═══════ -->
+<section class="lamina bloque" data-tipo="practica" id="b7">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">01:45</span><span class="sep"></span></div>
-    <h2>un proyecto, por dentro</h2>
-    <div class="codigo"><pre>&lt;<span class="t">article</span>&gt;
-  &lt;<span class="t">h3</span>&gt;Cámaras sordas&lt;/<span class="t">h3</span>&gt;
-  &lt;<span class="t">p</span>&gt;2026 · Gres · Barcelona&lt;/<span class="t">p</span>&gt;
-  &lt;<span class="t">img</span> <span class="at">src</span>=<span class="v">"img/obra-1.jpg"</span> <span class="at">alt</span>=<span class="v">"Cinco recipientes cerrados"</span>&gt;
-  &lt;<span class="t">p</span>&gt;Dos líneas sobre el proyecto.&lt;/<span class="t">p</span>&gt;
-&lt;/<span class="t">article</span>&gt;</pre></div>
-    <p>Para el siguiente proyecto: <strong>copia el bloque entero, pégalo debajo, cambia el texto y el nombre de la imagen.</strong></p>
-    <p>Así de aburrido. Así de fiable.</p>
+    <span class="rotulo">práctica · lo hacéis vosotras</span>
+    <span class="reloj">02:10 · 30 minutos</span>
+    <h2>ejercicio 2 · dos páginas</h2>
+    <p>Duplicar, conectar y montar la página de proyectos con vuestro material.</p>
   </div>
 </section>
 
-<!-- ejercicio 2 -->
-<section class="lamina hueco" id="ej2">
+<section class="lamina" data-tipo="practica">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">ejercicio 2</span><span class="sep"></span><span class="duracion">45 min · en clase</span></div>
+    <div class="cabecera-lamina"><span class="reloj">ejercicio 2</span><span class="sep"></span><span class="duracion">30 min</span></div>
     <h2>dos páginas conectadas</h2>
-    <ul class="casillas">
-      <li>Dos páginas que se enlazan entre sí <strong>en los dos sentidos</strong>.</li>
-      <li>Al menos dos proyectos con imagen y texto.</li>
-      <li>Ningún enlace roto: puedes ir y volver clicando, sin tocar la barra del navegador.</li>
-      <li>Cada página con su <code>&lt;title&gt;</code> propio.</li>
-    </ul>
+    <div class="dos">
+      <div>
+        <h3>Paso a paso</h3>
+        <ol>
+          <li>Duplica <code>index.html</code> y llama a la copia <code>proyectos.html</code>.</li>
+          <li>Cambia el <code>&lt;title&gt;</code> y vacía el <code>&lt;main&gt;</code>.</li>
+          <li>Pon <code>&lt;h2&gt;Proyectos&lt;/h2&gt;</code> y debajo un <code>&lt;article&gt;</code> por proyecto.</li>
+          <li>Añade el enlace al menú <strong>de las dos páginas</strong>.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Lo que hay que conseguir</h3>
+        <ul class="casillas">
+          <li>Dos páginas que se enlazan <strong>en los dos sentidos</strong>.</li>
+          <li>Al menos dos proyectos con imagen y texto.</li>
+          <li>Ningún enlace roto: puedes ir y volver clicando.</li>
+          <li>Cada página con su <code>&lt;title&gt;</code> propio.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ══════════════ bloque 7 · publicar ya ══════════════ -->
-<section class="lamina bloque" id="b7">
+<!-- ═══════ 02:40 · PUBLICAR ═══════ -->
+<section class="lamina bloque" data-tipo="practica" id="b8">
   <div>
-    <span class="reloj">02:30 · 10 minutos</span>
+    <span class="rotulo">práctica · lo hacéis vosotras</span>
+    <span class="reloj">02:40 · 10 minutos</span>
     <h2>publicarla ya</h2>
-    <p>Sí, hoy. Sin entender nada todavía. Para que salgas por la puerta con una dirección de internet.</p>
+    <p>Sí, hoy. Sin entender nada todavía. Para que salgáis por la puerta con una dirección de internet.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="practica">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">02:30</span><span class="sep"></span><span class="duracion">a ciegas, y ya lo entenderemos</span></div>
+    <div class="cabecera-lamina"><span class="reloj">02:40</span><span class="sep"></span><span class="duracion">a ciegas, ya lo entenderemos</span></div>
     <h2>seis clics</h2>
     <div class="dos">
       <div>
         <ol>
           <li>En <a href="https://github.com">github.com</a>, botón <strong>New repository</strong>.</li>
-          <li>Nombre: <code>mi-web</code>. Marca <strong>Public</strong>. Create.</li>
+          <li>Nombre <code>mi-web</code>, marca <strong>Public</strong>, Create.</li>
           <li><strong>uploading an existing file</strong>.</li>
           <li>Arrastra <strong>el contenido</strong> de tu carpeta, no la carpeta.</li>
           <li><strong>Commit changes</strong>.</li>
@@ -416,51 +484,48 @@ Cámaras sordas
       <div>
         <div class="aviso clave">
           <span class="etiqueta">por qué hoy y no en la sesión 3</span>
-          <p>Porque si faltas a la última sesión, no te quedas sin web. Y porque tener algo público que enseñar hace que los deberes se hagan.</p>
+          <p>Porque si faltas a la última sesión, no te quedas sin web. Y tener algo público que enseñar hace que los deberes se hagan.</p>
         </div>
-        <p>En la sesión 3 volvemos aquí despacio y entendiendo cada paso. Hoy es solo para que exista.</p>
+        <div class="aviso">
+          <span class="etiqueta">el error clásico</span>
+          <p>Si arrastras la carpeta entera queda <code>mi-web/index.html</code> y da 404. Al abrir el repositorio tienes que ver <code>index.html</code> en la primera pantalla.</p>
+        </div>
       </div>
-    </div>
-    <div class="aviso">
-      <span class="etiqueta">el error clásico</span>
-      <p>Si arrastras la carpeta entera queda <code>mi-web/index.html</code> y la publicación da 404. Al abrir el repositorio tienes que ver <code>index.html</code> en la primera pantalla.</p>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ bloque 8 ══════════════ -->
-<section class="lamina bloque" id="b8">
+<!-- ═══════ 02:50 · CIERRE ═══════ -->
+<section class="lamina bloque" data-tipo="pausa" id="b9">
   <div>
-    <span class="reloj">02:40 · 20 minutos</span>
+    <span class="reloj">02:50 · 10 minutos</span>
     <h2>cierre y encargo</h2>
     <p>Cada una enseña su pantalla treinta segundos. Y os llevo deberes.</p>
   </div>
 </section>
 
-<section class="lamina">
+<section class="lamina" data-tipo="teoria">
   <div>
-    <div class="cabecera-lamina"><span class="reloj">02:40</span><span class="sep"></span><span class="duracion">lo que no vamos a hacer</span></div>
+    <div class="cabecera-lamina"><span class="reloj">02:50</span><span class="sep"></span><span class="duracion">lo que no vamos a hacer</span></div>
     <h2>lo que esto no hace</h2>
-    <p>Mejor saberlo ahora que a las dos horas:</p>
     <div class="tabla-envoltorio">
     <table class="tabla">
       <tr><td>formulario de contacto</td><td>Necesita un servidor. Pon tu correo con <code>mailto:</code> — es lo que hace casi todo el mundo y no se rompe nunca.</td></tr>
       <tr><td>tienda</td><td>Pagos, stock y seguridad son otro proyecto. Enlaza a Bandcamp o Big Cartel.</td></tr>
-      <tr><td>blog automático</td><td>Cada entrada es un archivo que creas a mano. Para tres o cuatro al año, perfecto. Para escribir cada semana, cansa.</td></tr>
+      <tr><td>blog automático</td><td>Cada entrada es un archivo que creas a mano. Para tres o cuatro al año, perfecto.</td></tr>
       <tr><td>comentarios</td><td>Necesitan base de datos y moderación. No.</td></tr>
-      <tr><td>reservas / calendario</td><td>Enlaza a una herramienta externa.</td></tr>
+      <tr><td>reservas</td><td>Enlaza a una herramienta externa.</td></tr>
     </table>
     </div>
     <p>Lo que sí hace: existir para siempre, cargar rápido, no costar nada al mes y no depender de ninguna empresa.</p>
   </div>
 </section>
 
-<!-- ejercicio 3 -->
-<section class="lamina hueco" id="ej3">
+<section class="lamina" data-tipo="practica" id="ej3">
   <div>
     <div class="cabecera-lamina"><span class="reloj">ejercicio 3</span><span class="sep"></span><span class="duracion">1 hora · en casa</span></div>
     <h2>deberes: reunir el material</h2>
-    <p>No hay que programar nada. Es preparar el contenido, que es la parte que más tarda y la que no se puede improvisar en clase. <strong>Sin esto, la sesión 2 no cunde.</strong></p>
+    <p>No hay que programar nada. Es preparar el contenido, que es lo que más tarda y no se puede improvisar en clase. <strong>Sin esto, la sesión 2 no cunde.</strong></p>
     <div class="dos">
       <div>
         <h3>Textos</h3>
@@ -471,43 +536,42 @@ Cámaras sordas
         </ul>
         <h3>Referencias</h3>
         <ul class="casillas">
-          <li>Dos o tres webs que te gusten. Apunta de cada una <em>qué</em> te gusta: ¿el tamaño de letra? ¿el blanco? ¿los colores?</li>
+          <li>Dos o tres webs que te gusten. Apunta <em>qué</em> te gusta de cada una.</li>
         </ul>
       </div>
       <div>
         <h3>Imágenes</h3>
         <ul class="casillas">
           <li>Entre 5 y 10, en una carpeta.</li>
-          <li>Reducidas a unos 1600 píxeles de ancho, con Vista Previa, Paint o <a href="https://squoosh.app">squoosh.app</a>.</li>
-          <li>Renombradas: sin espacios, sin acentos, en minúsculas. <code>obra-2024.jpg</code>, no <code>Obra 2024.JPG</code>.</li>
+          <li>Reducidas a 1600 píxeles de ancho, con Vista Previa, Paint o <a href="https://squoosh.app">squoosh.app</a>.</li>
+          <li>Sin espacios, sin acentos, en minúsculas: <code>obra-2024.jpg</code>, no <code>Obra 2024.JPG</code>.</li>
         </ul>
         <div class="aviso">
           <span class="etiqueta">ojo con el peso</span>
-          <p>Una foto recién salida de la cámara pesa 8 MB y tarda una eternidad en cargar. Reducida son 300 KB y se ve exactamente igual en pantalla.</p>
+          <p>Una foto de cámara pesa 8 MB y tarda una eternidad. Reducida son 300 KB y se ve igual en pantalla.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ chuleta ══════════════ -->
-<section class="lamina bloque">
+<!-- ═══════ CHULETA ═══════ -->
+<section class="lamina bloque" data-tipo="teoria">
   <div>
-    <span class="reloj">para llevarse</span>
+    <span class="rotulo">para llevarse</span>
     <h2>chuleta de html</h2>
     <p>Todo lo de hoy en una hoja. Para dentro de tres meses, cuando estés sola delante del ordenador.</p>
   </div>
 </section>
 
-<section class="lamina" id="chuleta">
+<section class="lamina" data-tipo="teoria" id="chuleta">
   <div>
     <h2>chuleta · html</h2>
     <div class="dos">
       <div>
-        <h3>Estructura de la página</h3>
+        <h3>Estructura</h3>
         <div class="tabla-envoltorio">
         <table class="tabla">
-          <tr><td>&lt;html&gt;</td><td>Todo el documento va dentro.</td></tr>
           <tr><td>&lt;head&gt;</td><td>Lo que <em>no</em> se ve: título de la pestaña, enlace al CSS.</td></tr>
           <tr><td>&lt;body&gt;</td><td>Lo que sí se ve.</td></tr>
           <tr><td>&lt;header&gt;</td><td>Cabecera: tu nombre y el menú.</td></tr>
@@ -516,14 +580,13 @@ Cámaras sordas
           <tr><td>&lt;article&gt;</td><td>Una unidad suelta: un proyecto, una obra.</td></tr>
         </table>
         </div>
-
         <h3>Enlaces e imágenes</h3>
         <div class="tabla-envoltorio">
         <table class="tabla">
-          <tr><td>&lt;a href="cv.html"&gt;</td><td>Enlace a otra página de tu web.</td></tr>
-          <tr><td>&lt;a href="https://…"&gt;</td><td>Enlace a otra web. Necesita el <code>https://</code> delante.</td></tr>
-          <tr><td>&lt;a href="mailto:…"&gt;</td><td>Enlace que abre el programa de correo.</td></tr>
-          <tr><td>&lt;img src alt&gt;</td><td>Imagen. <code>alt</code> la describe para quien no la ve.</td></tr>
+          <tr><td>&lt;a href="cv.html"&gt;</td><td>Enlace a otra página tuya.</td></tr>
+          <tr><td>&lt;a href="https://…"&gt;</td><td>A otra web. Necesita el <code>https://</code>.</td></tr>
+          <tr><td>&lt;a href="mailto:…"&gt;</td><td>Abre el programa de correo.</td></tr>
+          <tr><td>&lt;img src alt&gt;</td><td><code>alt</code> describe la imagen para quien no la ve.</td></tr>
         </table>
         </div>
       </div>
@@ -531,30 +594,29 @@ Cámaras sordas
         <h3>Contenido</h3>
         <div class="tabla-envoltorio">
         <table class="tabla">
-          <tr><td>&lt;h1&gt; … &lt;h6&gt;</td><td>Títulos, de más a menos importante. Un solo <code>h1</code> por página.</td></tr>
-          <tr><td>&lt;p&gt;</td><td>Un párrafo. Uno por idea, no uno para todo el texto.</td></tr>
-          <tr><td>&lt;br&gt;</td><td>Salto de línea suelto. No lleva cierre. Úsalo poco.</td></tr>
+          <tr><td>&lt;h1&gt; … &lt;h6&gt;</td><td>Títulos. Un solo <code>h1</code> por página.</td></tr>
+          <tr><td>&lt;p&gt;</td><td>Un párrafo. Uno por idea.</td></tr>
+          <tr><td>&lt;br&gt;</td><td>Salto de línea suelto. Úsalo poco.</td></tr>
           <tr><td>&lt;em&gt; &lt;strong&gt;</td><td>Cursiva y negrita.</td></tr>
-          <tr><td>&lt;ul&gt; &lt;li&gt;</td><td>Lista. <code>ul</code> es la lista entera, cada <code>li</code> una línea.</td></tr>
+          <tr><td>&lt;ul&gt; &lt;li&gt;</td><td>Lista y cada línea de la lista.</td></tr>
           <tr><td>&lt;hr&gt;</td><td>Línea de separación.</td></tr>
-          <tr><td>&lt;!-- … --&gt;</td><td>Comentario: no se ve en el navegador.</td></tr>
+          <tr><td>&lt;!-- … --&gt;</td><td>Comentario: no se ve.</td></tr>
         </table>
         </div>
-
         <h3>Si algo no funciona</h3>
         <ol>
           <li>¿Has guardado el archivo?</li>
-          <li>¿Has recargado? Recarga forzada: <strong>Cmd+Shift+R</strong> o <strong>Ctrl+F5</strong>.</li>
+          <li>¿Has recargado? Forzada: <strong>Cmd+Shift+R</strong> o <strong>Ctrl+F5</strong>.</li>
           <li>¿Falta cerrar una etiqueta o una comilla? VS Code lo marca en color.</li>
-          <li>¿Una imagen no sale? El nombre del archivo y el <code>src</code> tienen que coincidir <em>exactamente</em>, mayúsculas y extensión incluidas.</li>
+          <li>¿Una imagen no sale? El nombre y el <code>src</code> tienen que coincidir <em>exactamente</em>.</li>
         </ol>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════ muestrario ══════════════ -->
-<section class="lamina hueco" id="muestrario">
+<!-- ═══════ MUESTRARIO ═══════ -->
+<section class="lamina hueco" data-tipo="teoria" id="muestrario">
   <div>
     <div class="cabecera-lamina"><span class="reloj">muestrario</span><span class="sep"></span><span class="duracion">para mirar por dentro</span></div>
     <h2>hecho solo con html y un poco de css</h2>
@@ -562,7 +624,7 @@ Cámaras sordas
     <div class="rejilla">
       <a class="tarjeta" href="muestrario/01-web-que-se-explica.html">
         <span class="nombre">la web que se explica</span>
-        <span class="que">Pasa el ratón y cada elemento te dice qué es. Alfabetización pura.</span>
+        <span class="que">Pasa el ratón y cada elemento te dice qué es.</span>
         <span class="marca-tec">solo css</span>
       </a>
       <a class="tarjeta" href="muestrario/04-cadaver-exquisito.html">
@@ -584,8 +646,7 @@ Cámaras sordas
   </div>
 </section>
 
-<!-- ══════════════ cierre ══════════════ -->
-<section class="lamina" id="final">
+<section class="lamina" data-tipo="teoria" id="final">
   <div>
     <h2>lo que te llevas hoy</h2>
     <ul class="casillas">

@@ -1,188 +1,167 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>sesión 2 · css — taller de web autogestionada</title>
-<meta name="description" content="Segunda sesión del taller de web autogestionada de La Escocesa: qué es el CSS, tipografía, color, composición y que funcione en el móvil.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/taller.css">
+<meta content="Segunda sesión del taller de web autogestionada de La Escocesa: qué es el CSS, tipografía, color, composición y que funcione en el móvil." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="css/taller.css" rel="stylesheet"/>
 </head>
 <body>
-
 <div class="progreso"></div>
-
 <nav class="barra no-imprimir">
-  <a class="marca" href="index.html">taller · la escocesa</a>
-  <span class="sep"></span>
-  <a href="sesion-1.html">1 · html</a>
-  <a href="sesion-2.html" aria-current="page">2 · css</a>
-  <a href="sesion-3.html">3 · publicar</a>
-  <a href="muestrario/">muestrario</a>
-  <button id="btn-proyectar" type="button">proyectar</button>
-  <button id="btn-tema" type="button">tema</button>
-  <button id="btn-imprimir" type="button">imprimir</button>
+<a class="marca" href="index.html">taller · la escocesa</a>
+<span class="grupo">
+<a href="sesion-1.html">1 · html</a>
+<a aria-current="page" href="sesion-2.html">2 · css</a>
+<a href="sesion-3.html">3 · publicar</a>
+</span>
+<span class="sep"></span>
+<span class="util">
+<a href="muestrario/">muestrario</a>
+<button id="btn-leer" type="button">leer</button>
+<button id="btn-tema" type="button">tema</button>
+<button id="btn-imprimir" type="button">imprimir</button>
+</span>
 </nav>
-
 <main>
-
-<header class="portada">
-  <div>
-    <p class="portada-num">sesión 2 de 3</p>
-    <h1>css:<br>lo que dice<br>cómo se ve</h1>
-    <p class="entradilla">Tres horas. Al final de hoy tu web tiene el aspecto que tú decidas, y funciona en el móvil.</p>
-  </div>
-  <p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
+<header class="portada" data-rotulo="portada">
+<div>
+<p class="portada-num">sesión 2 de 3</p>
+<h1>css:<br/>lo que dice<br/>cómo se ve</h1>
+<p class="entradilla">Tres horas. Al final de hoy tu web tiene el aspecto que tú decidas, y funciona en el móvil.</p>
+</div>
+<p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
 </header>
-
-<section class="lamina hueco" id="plan">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
-    <nav class="plan">
-      <a href="#b1"><span class="hora">00:00</span><span class="que">qué es el css</span><span class="min">15 min</span></a>
-      <a href="#b2"><span class="hora">00:15</span><span class="que">elegir una dirección</span><span class="min">10 min</span></a>
-      <a href="#b3"><span class="hora">00:25</span><span class="que">selectores y la caja</span><span class="min">35 min</span></a>
-      <a href="#b4"><span class="hora">01:00</span><span class="que">tipografía</span><span class="min">25 min</span></a>
-      <a href="#b5"><span class="hora">01:25</span><span class="que">pausa</span><span class="min">15 min</span></a>
-      <a href="#b6"><span class="hora">01:40</span><span class="que">color</span><span class="min">20 min</span></a>
-      <a href="#b7"><span class="hora">02:00</span><span class="que">composición</span><span class="min">20 min</span></a>
-      <a href="#b8"><span class="hora">02:20</span><span class="que">que funcione en el móvil</span><span class="min">15 min</span></a>
-      <a href="#b9"><span class="hora">02:35</span><span class="que">práctica libre</span><span class="min">25 min</span></a>
-    </nav>
-  </div>
+<section class="lamina hueco" data-tipo="teoria" data-rotulo="el plan de hoy" id="plan">
+<div>
+<div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
+<nav class="plan"><a href="#b1"><span class="hora">00:00</span><span class="que">qué es el css</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#b2"><span class="hora">00:15</span><span class="que">ejercicio 4 · elegir una dirección</span><span class="tipo" data-t="práctica">práctica</span><span class="min">10 min</span></a><a href="#b3"><span class="hora">00:25</span><span class="que">selectores y la caja</span><span class="tipo" data-t="teoría">teoría</span><span class="min">30 min</span></a><a href="#p1"><span class="hora">00:55</span><span class="que">ejercicio 5 · la base y la columna</span><span class="tipo" data-t="práctica">práctica</span><span class="min">25 min</span></a><a href="#b5"><span class="hora">01:20</span><span class="que">pausa</span><span class="tipo">—</span><span class="min">15 min</span></a><a href="#b4"><span class="hora">01:35</span><span class="que">tipografía</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#b6"><span class="hora">01:50</span><span class="que">color</span><span class="tipo" data-t="teoría">teoría</span><span class="min">15 min</span></a><a href="#p2"><span class="hora">02:05</span><span class="que">ejercicio 5 · titulares y menú</span><span class="tipo" data-t="práctica">práctica</span><span class="min">20 min</span></a><a href="#b7"><span class="hora">02:25</span><span class="que">composición</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a><a href="#b8"><span class="hora">02:35</span><span class="que">que funcione en el móvil</span><span class="tipo" data-t="teoría">teoría</span><span class="min">10 min</span></a><a href="#b9"><span class="hora">02:45</span><span class="que">ejercicio 5 · el móvil y libre</span><span class="tipo" data-t="práctica">práctica</span><span class="min">15 min</span></a></nav>
+<p class="solo-leer" style="margin-top:26px">Las láminas amarillas son <strong>práctica</strong>: las haces tú en el ordenador. Las blancas son <strong>teoría</strong>: se explican proyectadas.</p></div>
 </section>
-
 <!-- ══════════════ bloque 1 · concepto ══════════════ -->
-<section class="lamina bloque" id="b1">
-  <div>
-    <span class="reloj">00:00 · 15 minutos</span>
-    <h2>qué es el css</h2>
-    <p>El HTML dice qué es cada cosa. El CSS dice cómo se ve. Nada más.</p>
-  </div>
+<section class="lamina bloque" data-tipo="teoria" id="b1">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">00:00 · 15 minutos</span>
+<h2>qué es el css</h2>
+<p>El HTML dice qué es cada cosa. El CSS dice cómo se ve. Nada más.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">el concepto</span></div>
-    <h2>una lista de decisiones visuales</h2>
-    <p>CSS son las siglas de <em>Cascading Style Sheets</em>: hojas de estilo en cascada. Tampoco es un lenguaje de programación. Es una <strong>lista de decisiones</strong>: los párrafos así de grandes, el fondo de este color, el menú en fila.</p>
-    <p>La palabra importante es <strong>cascada</strong>: las reglas se leen de arriba abajo y las de abajo pisan a las de arriba. Por eso el orden dentro del archivo importa, y por eso la media query del móvil va siempre al final.</p>
-
-    <div class="aviso clave">
-      <span class="etiqueta">el momento de hoy</span>
-      <p>Borra en directo la línea <code>&lt;link rel="stylesheet"&gt;</code> del <code>head</code> y recarga. La página se queda desnuda: todo el contenido sigue ahí, sin ninguna decisión visual encima.</p>
-      <p>Eso es exactamente la diferencia entre las dos cosas, y verlo vale más que diez minutos de explicación.</p>
-    </div>
-  </div>
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">el concepto</span></div>
+<h2>una lista de decisiones visuales</h2>
+<p>CSS son las siglas de <em>Cascading Style Sheets</em>: hojas de estilo en cascada. Tampoco es un lenguaje de programación. Es una <strong>lista de decisiones</strong>: los párrafos así de grandes, el fondo de este color, el menú en fila.</p>
+<p>La palabra importante es <strong>cascada</strong>: las reglas se leen de arriba abajo y las de abajo pisan a las de arriba. Por eso el orden dentro del archivo importa, y por eso la media query del móvil va siempre al final.</p>
+<div class="aviso clave">
+<span class="etiqueta">el momento de hoy</span>
+<p>Borra en directo la línea <code>&lt;link rel="stylesheet"&gt;</code> del <code>head</code> y recarga. La página se queda desnuda: todo el contenido sigue ahí, sin ninguna decisión visual encima.</p>
+<p>Eso es exactamente la diferencia entre las dos cosas, y verlo vale más que diez minutos de explicación.</p>
+</div>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
-    <h2>cómo se enchufa</h2>
-    <p>Una sola línea en el <code>&lt;head&gt;</code> de <strong>cada página</strong>:</p>
-    <div class="codigo"><pre>&lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt;</pre></div>
-    <p>Un solo archivo <code>estilo.css</code> para toda la web. Cambias ahí el tamaño de letra y cambia en las cinco páginas a la vez. Ese es todo el truco.</p>
-  </div>
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
+<h2>cómo se enchufa</h2>
+<p>Una sola línea en el <code>&lt;head&gt;</code> de <strong>cada página</strong>:</p>
+<div class="codigo"><pre>&lt;<span class="t">link</span> <span class="at">rel</span>=<span class="v">"stylesheet"</span> <span class="at">href</span>=<span class="v">"estilo.css"</span>&gt;</pre></div>
+<p>Un solo archivo <code>estilo.css</code> para toda la web. Cambias ahí el tamaño de letra y cambia en las cinco páginas a la vez. Ese es todo el truco.</p>
+</div>
 </section>
-
 <!-- ══════════════ bloque 2 · dirección ══════════════ -->
-<section class="lamina bloque" id="b2">
-  <div>
-    <span class="reloj">00:15 · 10 minutos</span>
-    <h2>elegir una dirección</h2>
-    <p>Cuatro webs con exactamente el mismo contenido y distinto CSS.</p>
-  </div>
+<section class="lamina bloque" data-tipo="practica" id="b2">
+<div><span class="rotulo">práctica · lo hacéis vosotras</span>
+<span class="reloj">00:15 · 10 minutos</span>
+<h2>elegir una dirección</h2>
+<p>Cuatro webs con exactamente el mismo contenido y distinto CSS.</p>
+</div>
 </section>
-
-<section class="lamina" id="ej4">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">ejercicio 4</span><span class="sep"></span><span class="duracion">10 min</span></div>
-    <h2>el mismo html, cuatro webs</h2>
-    <p>Lo único que cambia entre estas cuatro es el archivo <code>estilo.css</code>. El contenido no se toca ni una coma.</p>
-    <div class="rejilla">
-      <a class="tarjeta" href="cuatro-estilos/index.html">
-        <span class="nombre">ficha</span>
-        <span class="que">Columna estrecha, letra con remates, líneas finas.</span>
-        <span class="marca-tec">1-ficha.css</span>
-      </a>
-      <a class="tarjeta" href="cuatro-estilos/index.html">
-        <span class="nombre">cartel</span>
-        <span class="que">Fondo oscuro, nombre enorme, un color fuerte.</span>
-        <span class="marca-tec">2-cartel.css</span>
-      </a>
-      <a class="tarjeta" href="cuatro-estilos/index.html">
-        <span class="nombre">cuaderno</span>
-        <span class="que">Mucho aire, cursivas, más texto que imagen.</span>
-        <span class="marca-tec">3-cuaderno.css</span>
-      </a>
-      <a class="tarjeta" href="cuatro-estilos/index.html">
-        <span class="nombre">índice</span>
-        <span class="que">Monoespaciada, denso, imágenes pequeñas.</span>
-        <span class="marca-tec">4-indice.css</span>
-      </a>
-    </div>
-    <p style="font-size:15px;color:var(--tinta-tenue)">Para cambiar de estilo se toca una sola línea del <code>head</code>. Ver <code>cuatro-estilos/COMO-CAMBIAR-DE-ESTILO.md</code>.</p>
-
-    <h3>Contesta en una línea cada una</h3>
-    <ul class="casillas">
-      <li>¿Qué es lo primero que quieres que vea alguien que entra?</li>
-      <li>¿Tu web es más de mirar o más de leer?</li>
-      <li>¿Fondo claro u oscuro?</li>
-    </ul>
-    <p>No vas a copiar el ejemplo: vas a construir el tuyo, pero con una dirección tomada. Sirve para no quedarte en blanco al abrir <code>estilo.css</code>.</p>
-  </div>
+<section class="lamina" data-tipo="practica" id="ej4">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 4</span><span class="sep"></span><span class="duracion">10 min</span></div>
+<h2>el mismo html, cuatro webs</h2>
+<p>Lo único que cambia entre estas cuatro es el archivo <code>estilo.css</code>. El contenido no se toca ni una coma.</p>
+<div class="rejilla">
+<a class="tarjeta" href="cuatro-estilos/index.html">
+<span class="nombre">ficha</span>
+<span class="que">Columna estrecha, letra con remates, líneas finas.</span>
+<span class="marca-tec">1-ficha.css</span>
+</a>
+<a class="tarjeta" href="cuatro-estilos/index.html">
+<span class="nombre">cartel</span>
+<span class="que">Fondo oscuro, nombre enorme, un color fuerte.</span>
+<span class="marca-tec">2-cartel.css</span>
+</a>
+<a class="tarjeta" href="cuatro-estilos/index.html">
+<span class="nombre">cuaderno</span>
+<span class="que">Mucho aire, cursivas, más texto que imagen.</span>
+<span class="marca-tec">3-cuaderno.css</span>
+</a>
+<a class="tarjeta" href="cuatro-estilos/index.html">
+<span class="nombre">índice</span>
+<span class="que">Monoespaciada, denso, imágenes pequeñas.</span>
+<span class="marca-tec">4-indice.css</span>
+</a>
+</div>
+<p style="font-size:15px;color:var(--tinta-tenue)">Para cambiar de estilo se toca una sola línea del <code>head</code>. Ver <code>cuatro-estilos/COMO-CAMBIAR-DE-ESTILO.md</code>.</p>
+<h3>Contesta en una línea cada una</h3>
+<ul class="casillas">
+<li>¿Qué es lo primero que quieres que vea alguien que entra?</li>
+<li>¿Tu web es más de mirar o más de leer?</li>
+<li>¿Fondo claro u oscuro?</li>
+</ul>
+<p>No vas a copiar el ejemplo: vas a construir el tuyo, pero con una dirección tomada. Sirve para no quedarte en blanco al abrir <code>estilo.css</code>.</p>
+</div>
 </section>
-
 <!-- ══════════════ bloque 3 ══════════════ -->
-<section class="lamina bloque" id="b3">
-  <div>
-    <span class="reloj">00:25 · 35 minutos</span>
-    <h2>selectores y la caja</h2>
-    <p>Cómo se escribe una regla, a qué afecta, y el modelo de caja.</p>
-  </div>
+<section class="lamina bloque" data-tipo="teoria" id="b3">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">00:25 · 35 minutos</span>
+<h2>selectores y la caja</h2>
+<p>Cómo se escribe una regla, a qué afecta, y el modelo de caja.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span></div>
-    <h2>cómo se escribe una regla</h2>
-    <div class="codigo"><pre><span class="t">body</span> {
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span></div>
+<h2>cómo se escribe una regla</h2>
+<div class="codigo"><pre><span class="t">body</span> {
   <span class="at">background-color</span>: <span class="v">#FBFAF7</span>;
   <span class="at">font-size</span>: <span class="v">18px</span>;
 }</pre></div>
-    <p>El <strong>selector</strong> (<code>body</code>) dice a qué afecta. Dentro van las <strong>propiedades</strong> y sus <strong>valores</strong>.</p>
-    <div class="aviso">
-      <span class="etiqueta">punto y coma al final de cada línea</span>
-      <p>Si te lo olvidas, esa línea deja de funcionar y a veces la siguiente también. Y no avisa nadie: no sale ningún error, simplemente no pasa nada.</p>
-    </div>
-  </div>
+<p>El <strong>selector</strong> (<code>body</code>) dice a qué afecta. Dentro van las <strong>propiedades</strong> y sus <strong>valores</strong>.</p>
+<div class="aviso">
+<span class="etiqueta">punto y coma al final de cada línea</span>
+<p>Si te lo olvidas, esa línea deja de funcionar y a veces la siguiente también. Y no avisa nadie: no sale ningún error, simplemente no pasa nada.</p>
+</div>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span></div>
-    <h2>a qué afecta cada selector</h2>
-    <div class="codigo"><pre><span class="t">p</span> { }                    <span class="c">todos los párrafos</span>
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span></div>
+<h2>a qué afecta cada selector</h2>
+<div class="codigo"><pre><span class="t">p</span> { }                    <span class="c">todos los párrafos</span>
 <span class="t">header, main</span> { }         <span class="c">los dos a la vez</span>
 <span class="t">nav a</span> { }                <span class="c">los enlaces dentro de nav</span>
 <span class="t">a:hover</span> { }              <span class="c">cuando el ratón está encima</span>
 <span class="t">article:last-child</span> { }   <span class="c">solo el último de la serie</span></pre></div>
-    <div class="aviso clave">
-      <span class="etiqueta">la confusión más común</span>
-      <p>La <strong>coma</strong> es «y también». El <strong>espacio</strong> es «dentro de». <code>header, a</code> son las cabeceras y todos los enlaces; <code>header a</code> son solo los enlaces de dentro de la cabecera. Son cosas muy distintas.</p>
-    </div>
-  </div>
+<div class="aviso clave">
+<span class="etiqueta">la confusión más común</span>
+<p>La <strong>coma</strong> es «y también». El <strong>espacio</strong> es «dentro de». <code>header, a</code> son las cabeceras y todos los enlaces; <code>header a</code> son solo los enlaces de dentro de la cabecera. Son cosas muy distintas.</p>
+</div>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span><span class="duracion">el 70% de las dudas</span></div>
-    <h2>todo elemento es una caja</h2>
-    <div class="dos">
-      <div class="codigo"><pre>┌─────────── margin ────────────┐
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">00:25</span><span class="sep"></span><span class="duracion">el 70% de las dudas</span></div>
+<h2>todo elemento es una caja</h2>
+<div class="dos">
+<div class="codigo"><pre>┌─────────── margin ────────────┐
 │  ┌──────── border ─────────┐  │
 │  │  ┌───── padding ─────┐  │  │
 │  │  │                   │  │  │
@@ -191,81 +170,110 @@
 │  │  └───────────────────┘  │  │
 │  └─────────────────────────┘  │
 └───────────────────────────────┘</pre></div>
-      <div>
-        <p>De dentro hacia fuera:</p>
-        <ul>
-          <li><code>padding</code> — relleno por dentro</li>
-          <li><code>border</code> — la línea</li>
-          <li><code>margin</code> — aire por fuera</li>
-        </ul>
-        <p><strong>Míralo en el inspector</strong>, que lo pinta en colores encima de la página real.</p>
-      </div>
-    </div>
-    <div class="codigo"><pre><span class="at">padding</span>: <span class="v">24px</span>;             <span class="c">los cuatro lados</span>
+<div>
+<p>De dentro hacia fuera:</p>
+<ul>
+<li><code>padding</code> — relleno por dentro</li>
+<li><code>border</code> — la línea</li>
+<li><code>margin</code> — aire por fuera</li>
+</ul>
+<p><strong>Míralo en el inspector</strong>, que lo pinta en colores encima de la página real.</p>
+</div>
+</div>
+<div class="codigo"><pre><span class="at">padding</span>: <span class="v">24px</span>;             <span class="c">los cuatro lados</span>
 <span class="at">margin</span>: <span class="v">16px 0</span>;           <span class="c">arriba/abajo, luego lados</span>
 <span class="at">margin</span>: <span class="v">0 0 16px 0</span>;        <span class="c">arriba, derecha, abajo, izquierda</span>
 <span class="at">border-bottom</span>: <span class="v">1px solid #ccc</span>;</pre></div>
-  </div>
+</div>
 </section>
-
 <!-- ══════════════ bloque 4 ══════════════ -->
-<section class="lamina bloque" id="b4">
-  <div>
-    <span class="reloj">01:00 · 25 minutos</span>
-    <h2>tipografía</h2>
-    <p>Qué letra, de qué tamaño, y a cuánta distancia una línea de otra.</p>
-  </div>
+<section class="lamina bloque" data-tipo="practica" id="p1">
+<div>
+<span class="rotulo">práctica · lo hacéis vosotras</span>
+<span class="reloj">00:55 · 25 minutos</span>
+<h2>ejercicio 5 · la base y la columna</h2>
+<p>Primera capa de vuestro CSS: fondo, tinta, tipografía base y el ancho de la columna. Sobre vuestra propia web.</p>
+</div>
+</section><section class="lamina" data-tipo="practica">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">25 min</span></div>
+<h2>capas 1 y 2</h2>
+<p>Trabaja siempre sobre <code>estilo.css</code>. Este orden importa: si empiezas por los detalles, luego cambias la base y se descuadra todo.</p>
+<div class="dos">
+<div>
+<h3>1 · La base</h3>
+<ul class="casillas">
+<li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
+<li><code>font-family</code>: con remates (serif) o sin ellos (sans-serif).</li>
+<li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
+</ul>
+</div>
+<div>
+<h3>2 · La columna</h3>
+<ul class="casillas">
+<li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
+<li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
+</ul>
+<div class="aviso">
+<span class="etiqueta">antes de cambios grandes</span>
+<p>Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple de poder volver atrás.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section class="lamina bloque" data-tipo="pausa" id="b5">
+<div>
+<span class="reloj">01:25 · 15 minutos</span>
+<h2>pausa</h2>
+<p>Después: color, y colocar las cosas en la página.</p>
+</div>
+</section><section class="lamina bloque" data-tipo="teoria" id="b4">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">01:00 · 25 minutos</span>
+<h2>tipografía</h2>
+<p>Qué letra, de qué tamaño, y a cuánta distancia una línea de otra.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">01:00</span><span class="sep"></span></div>
-    <h2>las propiedades de la letra</h2>
-    <div class="codigo"><pre><span class="at">font-family</span>: <span class="v">"Iowan Old Style", Georgia, serif</span>;
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">01:00</span><span class="sep"></span></div>
+<h2>las propiedades de la letra</h2>
+<div class="codigo"><pre><span class="at">font-family</span>: <span class="v">"Iowan Old Style", Georgia, serif</span>;
 <span class="at">font-size</span>: <span class="v">18px</span>;
 <span class="at">font-weight</span>: <span class="v">bold</span>;
 <span class="at">line-height</span>: <span class="v">1.6</span>;
 <span class="at">letter-spacing</span>: <span class="v">0.08em</span>;
 <span class="at">text-transform</span>: <span class="v">uppercase</span>;</pre></div>
-    <div class="dos">
-      <div>
-        <p>En <code>font-family</code> pones varias separadas por comas: el navegador usa la primera que encuentre instalada. Por eso <code>serif</code> va al final, como comodín.</p>
-      </div>
-      <div>
-        <p><code>line-height</code> de <strong>1.5 a 1.6</strong> para texto largo. Es el ajuste que más cambia la sensación de una web y el que más se olvida.</p>
-      </div>
-    </div>
-    <div class="aviso">
-      <span class="etiqueta">tipografías descargadas</span>
-      <p>Puedes descargar la tipografía y servirla desde tu carpeta en vez de llamar a Google Fonts en cada visita. Carga más rápido y no le cuentas a nadie quién visita tu web.</p>
-    </div>
-  </div>
+<div class="dos">
+<div>
+<p>En <code>font-family</code> pones varias separadas por comas: el navegador usa la primera que encuentre instalada. Por eso <code>serif</code> va al final, como comodín.</p>
+</div>
+<div>
+<p><code>line-height</code> de <strong>1.5 a 1.6</strong> para texto largo. Es el ajuste que más cambia la sensación de una web y el que más se olvida.</p>
+</div>
+</div>
+<div class="aviso">
+<span class="etiqueta">tipografías descargadas</span>
+<p>Puedes descargar la tipografía y servirla desde tu carpeta en vez de llamar a Google Fonts en cada visita. Carga más rápido y no le cuentas a nadie quién visita tu web.</p>
+</div>
+</div>
 </section>
-
 <!-- ══════════════ pausa ══════════════ -->
-<section class="lamina bloque" id="b5">
-  <div>
-    <span class="reloj">01:25 · 15 minutos</span>
-    <h2>pausa</h2>
-    <p>Después: color, y colocar las cosas en la página.</p>
-  </div>
-</section>
 
 <!-- ══════════════ bloque 6 · color ══════════════ -->
-<section class="lamina bloque" id="b6">
-  <div>
-    <span class="reloj">01:40 · 20 minutos</span>
-    <h2>color</h2>
-    <p>Dos colores bien elegidos bastan. El tercero, solo para una cosa.</p>
-  </div>
+<section class="lamina bloque" data-tipo="teoria" id="b6">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">01:40 · 20 minutos</span>
+<h2>color</h2>
+<p>Dos colores bien elegidos bastan. El tercero, solo para una cosa.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">01:40</span><span class="sep"></span></div>
-    <h2>dos colores y un acento</h2>
-    <div class="dos">
-      <div class="codigo"><pre><span class="t">body</span> {
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">01:40</span><span class="sep"></span></div>
+<h2>dos colores y un acento</h2>
+<div class="dos">
+<div class="codigo"><pre><span class="t">body</span> {
   <span class="at">background-color</span>: <span class="v">#FBFAF7</span>;
   <span class="at">color</span>: <span class="v">#12233A</span>;
 }
@@ -273,298 +281,321 @@
 <span class="t">a:hover</span> {
   <span class="at">background-color</span>: <span class="v">#F2E94E</span>;
 }</pre></div>
-      <div>
-        <p>Un fondo, una tinta, y un acento que aparece poco. Con eso está montada casi cualquier web de artista.</p>
-        <p><strong>Negro puro sobre blanco puro cansa la vista.</strong> Baja un poco los dos: un blanco con algo de calidez y un negro que en realidad sea azul muy oscuro.</p>
-      </div>
-    </div>
-    <div class="aviso clave">
-      <span class="etiqueta">contraste</span>
-      <p>Si el texto no se lee con el móvil al sol, no se lee. <strong>Gris claro sobre blanco es la manera más común de hacer una web bonita e ilegible.</strong></p>
-      <p>Compruébalo en <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a>: busca 4.5 o más para el texto normal.</p>
-    </div>
-  </div>
+<div>
+<p>Un fondo, una tinta, y un acento que aparece poco. Con eso está montada casi cualquier web de artista.</p>
+<p><strong>Negro puro sobre blanco puro cansa la vista.</strong> Baja un poco los dos: un blanco con algo de calidez y un negro que en realidad sea azul muy oscuro.</p>
+</div>
+</div>
+<div class="aviso clave">
+<span class="etiqueta">contraste</span>
+<p>Si el texto no se lee con el móvil al sol, no se lee. <strong>Gris claro sobre blanco es la manera más común de hacer una web bonita e ilegible.</strong></p>
+<p>Compruébalo en <a href="https://webaim.org/resources/contrastchecker/">webaim.org/resources/contrastchecker</a>: busca 4.5 o más para el texto normal.</p>
+</div>
+</div>
 </section>
-
 <!-- ══════════════ bloque 7 ══════════════ -->
-<section class="lamina bloque" id="b7">
-  <div>
-    <span class="reloj">02:00 · 20 minutos</span>
-    <h2>composición</h2>
-    <p>Ancho de columna, el menú en fila, y separar los bloques.</p>
-  </div>
+<section class="lamina bloque" data-tipo="practica" id="p2">
+<div>
+<span class="rotulo">práctica · lo hacéis vosotras</span>
+<span class="reloj">02:05 · 20 minutos</span>
+<h2>ejercicio 5 · titulares y menú</h2>
+<p>Segunda capa: la jerarquía de titulares, el menú en fila y separar los bloques.</p>
+</div>
+</section><section class="lamina" data-tipo="practica">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">20 min</span></div>
+<h2>capas 3, 4 y 5</h2>
+<div class="dos">
+<div>
+<h3>3 · Los titulares</h3>
+<ul class="casillas">
+<li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia.</li>
+<li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
+</ul>
+<h3>4 · El menú</h3>
+<ul class="casillas">
+<li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
+<li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
+<li>Un <code>:hover</code> que se note.</li>
+</ul>
+</div>
+<div>
+<h3>5 · Separar los bloques</h3>
+<ul class="casillas">
+<li><code>margin-bottom</code> en <code>article</code>.</li>
+<li>Una <code>border-bottom</code> fina entre proyectos.</li>
+<li>Aire arriba y abajo del <code>footer</code>.</li>
+</ul>
+<div class="aviso clave">
+<span class="etiqueta">la forma de aprender esto</span>
+<p>No es memorizar la chuleta: es cambiar un número, guardar, recargar y mirar. Cuarenta veces. No se rompe nada.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section class="lamina bloque" data-tipo="teoria" id="b7">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">02:00 · 20 minutos</span>
+<h2>composición</h2>
+<p>Ancho de columna, el menú en fila, y separar los bloques.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">02:00</span><span class="sep"></span></div>
-    <h2>una columna que se lee</h2>
-    <div class="codigo"><pre><span class="t">header, main, footer</span> {
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">02:00</span><span class="sep"></span></div>
+<h2>una columna que se lee</h2>
+<div class="codigo"><pre><span class="t">header, main, footer</span> {
   <span class="at">max-width</span>: <span class="v">640px</span>;
   <span class="at">margin</span>: <span class="v">0 auto</span>;
 }</pre></div>
-    <p><code>max-width</code> pone un tope al ancho. <code>margin: 0 auto</code> reparte el espacio sobrante a los dos lados por igual, así que centra el bloque.</p>
-    <div class="aviso">
-      <span class="etiqueta">por qué importa</span>
-      <p>Sin esto, en una pantalla ancha las líneas se hacen larguísimas y al saltar de renglón te pierdes. <strong>Entre 60 y 80 caracteres por línea</strong> es lo cómodo.</p>
-    </div>
-  </div>
+<p><code>max-width</code> pone un tope al ancho. <code>margin: 0 auto</code> reparte el espacio sobrante a los dos lados por igual, así que centra el bloque.</p>
+<div class="aviso">
+<span class="etiqueta">por qué importa</span>
+<p>Sin esto, en una pantalla ancha las líneas se hacen larguísimas y al saltar de renglón te pierdes. <strong>Entre 60 y 80 caracteres por línea</strong> es lo cómodo.</p>
+</div>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">02:00</span><span class="sep"></span></div>
-    <h2>el menú en fila, y las imágenes</h2>
-    <div class="codigo"><pre><span class="t">nav</span> {
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">02:00</span><span class="sep"></span></div>
+<h2>el menú en fila, y las imágenes</h2>
+<div class="codigo"><pre><span class="t">nav</span> {
   <span class="at">display</span>: <span class="v">flex</span>;       <span class="c">pone los hijos en fila</span>
   <span class="at">gap</span>: <span class="v">20px</span>;            <span class="c">separación entre ellos</span>
   <span class="at">flex-wrap</span>: <span class="v">wrap</span>;     <span class="c">que salten de línea si no caben</span>
 }</pre></div>
-    <p>Y las imágenes, <strong>siempre</strong>, sin excepción:</p>
-    <div class="codigo"><pre><span class="t">img</span> {
+<p>Y las imágenes, <strong>siempre</strong>, sin excepción:</p>
+<div class="codigo"><pre><span class="t">img</span> {
   <span class="at">max-width</span>: <span class="v">100%</span>;
   <span class="at">height</span>: <span class="v">auto</span>;
   <span class="at">display</span>: <span class="v">block</span>;
 }</pre></div>
-    <p>Así una foto enorme nunca se sale de la pantalla, y no se deforma.</p>
-  </div>
+<p>Así una foto enorme nunca se sale de la pantalla, y no se deforma.</p>
+</div>
 </section>
-
 <!-- ══════════════ bloque 8 ══════════════ -->
-<section class="lamina bloque" id="b8">
-  <div>
-    <span class="reloj">02:20 · 15 minutos</span>
-    <h2>que funcione en el móvil</h2>
-    <p>Una sola media query, al final del archivo.</p>
-  </div>
+<section class="lamina bloque" data-tipo="teoria" id="b8">
+<div><span class="rotulo">teoría · lo explico yo</span>
+<span class="reloj">02:20 · 15 minutos</span>
+<h2>que funcione en el móvil</h2>
+<p>Una sola media query, al final del archivo.</p>
+</div>
 </section>
-
-<section class="lamina">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">02:20</span><span class="sep"></span></div>
-    <h2>reglas solo para pantallas pequeñas</h2>
-    <div class="codigo"><pre><span class="t">@media</span> (<span class="at">max-width</span>: <span class="v">600px</span>) {
+<section class="lamina" data-tipo="teoria">
+<div>
+<div class="cabecera-lamina"><span class="reloj">02:20</span><span class="sep"></span></div>
+<h2>reglas solo para pantallas pequeñas</h2>
+<div class="codigo"><pre><span class="t">@media</span> (<span class="at">max-width</span>: <span class="v">600px</span>) {
   <span class="t">body</span> { <span class="at">font-size</span>: <span class="v">17px</span>; <span class="at">padding</span>: <span class="v">16px</span>; }
   <span class="t">h1</span>   { <span class="at">font-size</span>: <span class="v">27px</span>; }
 }</pre></div>
-    <p>Lo de dentro solo se aplica si la pantalla mide 600px o menos. Y <strong>pisa a lo de arriba</strong>: por eso va siempre al final del archivo. Eso es la cascada.</p>
-    <div class="aviso clave">
-      <span class="etiqueta">compruébalo estrechando la ventana</span>
-      <p>Más directo que el modo dispositivo del inspector, y no hay que explicar nada. Arrastra el borde del navegador hasta que quede como un móvil.</p>
-      <p>Es donde se ve la web casi siempre. Si te falta tiempo hoy, salta la práctica libre pero <strong>no saltes esto</strong>.</p>
-    </div>
-  </div>
+<p>Lo de dentro solo se aplica si la pantalla mide 600px o menos. Y <strong>pisa a lo de arriba</strong>: por eso va siempre al final del archivo. Eso es la cascada.</p>
+<div class="aviso clave">
+<span class="etiqueta">compruébalo estrechando la ventana</span>
+<p>Más directo que el modo dispositivo del inspector, y no hay que explicar nada. Arrastra el borde del navegador hasta que quede como un móvil.</p>
+<p>Es donde se ve la web casi siempre. Si te falta tiempo hoy, salta la práctica libre pero <strong>no saltes esto</strong>.</p>
+</div>
+</div>
 </section>
-
 <!-- ══════════════ bloque 9 ══════════════ -->
-<section class="lamina bloque" id="b9">
-  <div>
-    <span class="reloj">02:35 · 25 minutos</span>
-    <h2>práctica libre</h2>
-    <p>Cambia colores, tamaños y márgenes en tu web. Pregunta lo que sea.</p>
-  </div>
+<section class="lamina bloque" data-tipo="practica" id="b9">
+<div><span class="rotulo">práctica · lo hacéis vosotras</span>
+<span class="reloj">02:35 · 25 minutos</span>
+<h2>ejercicio 5 · el móvil, y libre</h2>
+<p>Última capa: la media query. Y después, tocad lo que queráis mientras resuelvo dudas.</p>
+</div>
 </section>
-
-<section class="lamina hueco" id="ej5">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">a lo largo de la sesión</span></div>
-    <h2>tu css, por capas</h2>
-    <p>Trabaja siempre sobre <code>estilo.css</code>. Ve en este orden: si empiezas por los detalles, luego cambias la base y se descuadra todo.</p>
-    <div class="dos">
-      <div>
-        <h3>1 · La base</h3>
-        <ul class="casillas">
-          <li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
-          <li><code>font-family</code>: con remates (serif) o sin ellos (sans-serif).</li>
-          <li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
-        </ul>
-        <h3>2 · La columna</h3>
-        <ul class="casillas">
-          <li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
-          <li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
-        </ul>
-        <h3>3 · Los titulares</h3>
-        <ul class="casillas">
-          <li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia.</li>
-          <li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>4 · El menú</h3>
-        <ul class="casillas">
-          <li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
-          <li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
-          <li>Un <code>:hover</code> que se note.</li>
-        </ul>
-        <h3>5 · Separar los bloques</h3>
-        <ul class="casillas">
-          <li><code>margin-bottom</code> en <code>article</code>.</li>
-          <li>Una <code>border-bottom</code> fina entre proyectos.</li>
-          <li>Aire arriba y abajo del <code>footer</code>.</li>
-        </ul>
-        <h3>6 · El móvil</h3>
-        <ul class="casillas">
-          <li>Una <code>@media (max-width: 600px)</code> al final del archivo.</li>
-          <li>Dentro: bajar <code>font-size</code> del <code>body</code> y del <code>h1</code>, y reducir el <code>padding</code>.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="aviso">
-      <span class="etiqueta">antes de cambios grandes</span>
-      <p>Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple que existe de poder volver atrás.</p>
-    </div>
-  </div>
+<section class="lamina hueco" data-tipo="practica" id="ej5">
+<div>
+<div class="cabecera-lamina"><span class="reloj">ejercicio 5</span><span class="sep"></span><span class="duracion">a lo largo de la sesión</span></div>
+<h2>capa 6 · el móvil</h2>
+<p>Trabaja siempre sobre <code>estilo.css</code>. Ve en este orden: si empiezas por los detalles, luego cambias la base y se descuadra todo.</p>
+<div class="dos">
+<div>
+<h3>1 · La base</h3>
+<ul class="casillas">
+<li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
+<li><code>font-family</code>: con remates (serif) o sin ellos (sans-serif).</li>
+<li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
+</ul>
+<h3>2 · La columna</h3>
+<ul class="casillas">
+<li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
+<li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
+</ul>
+<h3>3 · Los titulares</h3>
+<ul class="casillas">
+<li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia.</li>
+<li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
+</ul>
+</div>
+<div>
+<h3>4 · El menú</h3>
+<ul class="casillas">
+<li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
+<li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
+<li>Un <code>:hover</code> que se note.</li>
+</ul>
+<h3>5 · Separar los bloques</h3>
+<ul class="casillas">
+<li><code>margin-bottom</code> en <code>article</code>.</li>
+<li>Una <code>border-bottom</code> fina entre proyectos.</li>
+<li>Aire arriba y abajo del <code>footer</code>.</li>
+</ul>
+<h3>6 · El móvil</h3>
+<ul class="casillas">
+<li>Una <code>@media (max-width: 600px)</code> al final del archivo.</li>
+<li>Dentro: bajar <code>font-size</code> del <code>body</code> y del <code>h1</code>, y reducir el <code>padding</code>.</li>
+</ul>
+</div>
+</div>
+<div class="aviso">
+<span class="etiqueta">antes de cambios grandes</span>
+<p>Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más simple que existe de poder volver atrás.</p>
+</div>
+</div>
 </section>
-
 <!-- ══════════════ chuleta ══════════════ -->
-<section class="lamina bloque">
-  <div>
-    <span class="reloj">para llevarse</span>
-    <h2>chuleta de css</h2>
-    <p>Todo lo de hoy en una hoja.</p>
-  </div>
+<section class="lamina bloque" data-tipo="teoria">
+<div><span class="rotulo">para llevarse</span>
+<span class="reloj">para llevarse</span>
+<h2>chuleta de css</h2>
+<p>Todo lo de hoy en una hoja.</p>
+</div>
 </section>
-
-<section class="lamina" id="chuleta">
-  <div>
-    <h2>chuleta · css</h2>
-    <div class="dos">
-      <div>
-        <h3>Selectores</h3>
-        <div class="tabla-envoltorio">
-        <table class="tabla">
-          <tr><td>p { }</td><td>Todos los párrafos.</td></tr>
-          <tr><td>header, main { }</td><td>Los dos a la vez. La coma es «y también».</td></tr>
-          <tr><td>nav a { }</td><td>Los enlaces que estén dentro de <code>nav</code>.</td></tr>
-          <tr><td>a:hover { }</td><td>Cuando el ratón está encima.</td></tr>
-          <tr><td>article:last-child</td><td>Solo el último de la serie.</td></tr>
-        </table>
-        </div>
-
-        <h3>Texto</h3>
-        <div class="tabla-envoltorio">
-        <table class="tabla">
-          <tr><td>color</td><td>Color de la letra.</td></tr>
-          <tr><td>background-color</td><td>Color de fondo.</td></tr>
-          <tr><td>font-family</td><td>Tipografía. Varias separadas por comas.</td></tr>
-          <tr><td>font-size</td><td>Tamaño. <code>18px</code>.</td></tr>
-          <tr><td>font-weight</td><td><code>normal</code>, <code>bold</code>, o un número.</td></tr>
-          <tr><td>font-style</td><td><code>italic</code> para cursiva.</td></tr>
-          <tr><td>line-height</td><td>1.5 o 1.6 para texto largo.</td></tr>
-          <tr><td>letter-spacing</td><td>Separación entre letras. <code>0.08em</code>.</td></tr>
-          <tr><td>text-align</td><td><code>left</code>, <code>center</code>, <code>right</code>.</td></tr>
-          <tr><td>text-transform</td><td><code>uppercase</code> sin tocar el HTML.</td></tr>
-          <tr><td>text-decoration</td><td><code>none</code> quita el subrayado.</td></tr>
-        </table>
-        </div>
-      </div>
-      <div>
-        <h3>La caja</h3>
-        <div class="tabla-envoltorio">
-        <table class="tabla">
-          <tr><td>padding: 24px</td><td>Relleno por dentro, los cuatro lados.</td></tr>
-          <tr><td>margin: 16px 0</td><td>Aire por fuera: arriba/abajo, luego lados.</td></tr>
-          <tr><td>border-bottom</td><td><code>1px solid #ccc</code>. Grosor, tipo, color.</td></tr>
-          <tr><td>max-width: 640px</td><td>Ancho máximo. Evita líneas larguísimas.</td></tr>
-          <tr><td>margin: 0 auto</td><td>Centra un bloque que tenga <code>max-width</code>.</td></tr>
-        </table>
-        </div>
-
-        <h3>Poner cosas en fila</h3>
-        <div class="tabla-envoltorio">
-        <table class="tabla">
-          <tr><td>display: flex</td><td>Los hijos se colocan en fila.</td></tr>
-          <tr><td>gap: 20px</td><td>Separación entre ellos.</td></tr>
-          <tr><td>flex-wrap: wrap</td><td>Que salten de línea si no caben.</td></tr>
-          <tr><td>justify-content</td><td>Alineación horizontal dentro de la fila.</td></tr>
-        </table>
-        </div>
-
-        <h3>Si algo no cambia</h3>
-        <ol>
-          <li>¿Has guardado?</li>
-          <li>¿Falta un punto y coma o una llave?</li>
-          <li>¿El selector apunta de verdad a ese elemento?</li>
-          <li>Recarga forzada: <strong>Cmd+Shift+R</strong> o <strong>Ctrl+F5</strong>.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
+<section class="lamina" data-tipo="teoria" id="chuleta">
+<div>
+<h2>chuleta · css</h2>
+<div class="dos">
+<div>
+<h3>Selectores</h3>
+<div class="tabla-envoltorio">
+<table class="tabla">
+<tr><td>p { }</td><td>Todos los párrafos.</td></tr>
+<tr><td>header, main { }</td><td>Los dos a la vez. La coma es «y también».</td></tr>
+<tr><td>nav a { }</td><td>Los enlaces que estén dentro de <code>nav</code>.</td></tr>
+<tr><td>a:hover { }</td><td>Cuando el ratón está encima.</td></tr>
+<tr><td>article:last-child</td><td>Solo el último de la serie.</td></tr>
+</table>
+</div>
+<h3>Texto</h3>
+<div class="tabla-envoltorio">
+<table class="tabla">
+<tr><td>color</td><td>Color de la letra.</td></tr>
+<tr><td>background-color</td><td>Color de fondo.</td></tr>
+<tr><td>font-family</td><td>Tipografía. Varias separadas por comas.</td></tr>
+<tr><td>font-size</td><td>Tamaño. <code>18px</code>.</td></tr>
+<tr><td>font-weight</td><td><code>normal</code>, <code>bold</code>, o un número.</td></tr>
+<tr><td>font-style</td><td><code>italic</code> para cursiva.</td></tr>
+<tr><td>line-height</td><td>1.5 o 1.6 para texto largo.</td></tr>
+<tr><td>letter-spacing</td><td>Separación entre letras. <code>0.08em</code>.</td></tr>
+<tr><td>text-align</td><td><code>left</code>, <code>center</code>, <code>right</code>.</td></tr>
+<tr><td>text-transform</td><td><code>uppercase</code> sin tocar el HTML.</td></tr>
+<tr><td>text-decoration</td><td><code>none</code> quita el subrayado.</td></tr>
+</table>
+</div>
+</div>
+<div>
+<h3>La caja</h3>
+<div class="tabla-envoltorio">
+<table class="tabla">
+<tr><td>padding: 24px</td><td>Relleno por dentro, los cuatro lados.</td></tr>
+<tr><td>margin: 16px 0</td><td>Aire por fuera: arriba/abajo, luego lados.</td></tr>
+<tr><td>border-bottom</td><td><code>1px solid #ccc</code>. Grosor, tipo, color.</td></tr>
+<tr><td>max-width: 640px</td><td>Ancho máximo. Evita líneas larguísimas.</td></tr>
+<tr><td>margin: 0 auto</td><td>Centra un bloque que tenga <code>max-width</code>.</td></tr>
+</table>
+</div>
+<h3>Poner cosas en fila</h3>
+<div class="tabla-envoltorio">
+<table class="tabla">
+<tr><td>display: flex</td><td>Los hijos se colocan en fila.</td></tr>
+<tr><td>gap: 20px</td><td>Separación entre ellos.</td></tr>
+<tr><td>flex-wrap: wrap</td><td>Que salten de línea si no caben.</td></tr>
+<tr><td>justify-content</td><td>Alineación horizontal dentro de la fila.</td></tr>
+</table>
+</div>
+<h3>Si algo no cambia</h3>
+<ol>
+<li>¿Has guardado?</li>
+<li>¿Falta un punto y coma o una llave?</li>
+<li>¿El selector apunta de verdad a ese elemento?</li>
+<li>Recarga forzada: <strong>Cmd+Shift+R</strong> o <strong>Ctrl+F5</strong>.</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-
 <!-- ══════════════ muestrario ══════════════ -->
-<section class="lamina hueco" id="muestrario">
-  <div>
-    <div class="cabecera-lamina"><span class="reloj">muestrario</span><span class="sep"></span><span class="duracion">hasta dónde llega el css solo</span></div>
-    <h2>todo esto es css, sin nada de programación</h2>
-    <div class="rejilla">
-      <a class="tarjeta" href="muestrario/08-cartel-vivo.html">
-        <span class="nombre">cartel vivo</span>
-        <span class="que">Póster animado: marquesina, tipografía fluida, sello que gira.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/17-invitacion.html">
-        <span class="nombre">invitación</span>
-        <span class="que">Tarjeta con animación de llegada y RSVP por mailto.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/18-tarjeta-visita.html">
-        <span class="nombre">tarjeta de visita</span>
-        <span class="que">Tarjeta 3D con dos caras que gira al hacer clic.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/15-css-blend-modes.html">
-        <span class="nombre">mezclas</span>
-        <span class="que">Modos de fusión: imágenes que se tiñen entre ellas.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/06-expo-scroll-horizontal.html">
-        <span class="nombre">expo horizontal</span>
-        <span class="que">Salas en fila, scroll de lado con scroll-snap.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/20-expo-scroll-vertical.html">
-        <span class="nombre">expo vertical</span>
-        <span class="que">Salas con imán, título que invierte colores, contador.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/02-galeria-fichas.html">
-        <span class="nombre">galería con ficha</span>
-        <span class="que">Retícula de obras y lightbox con el truco <code>:target</code>.</span>
-        <span class="marca-tec">solo css</span>
-      </a>
-      <a class="tarjeta" href="muestrario/">
-        <span class="nombre">ver las 26</span>
-        <span class="que">El muestrario entero, ordenado por tipo.</span>
-        <span class="marca-tec">índice</span>
-      </a>
-    </div>
-    <div class="aviso">
-      <span class="etiqueta">esta presentación también</span>
-      <p>Lo que estás viendo proyectado es una web hecha a mano, con las mismas cosas que hemos dado hoy. El modo diapositiva es <code>scroll-snap</code>, igual que la expo vertical.</p>
-    </div>
-  </div>
+<section class="lamina hueco" data-tipo="teoria" id="muestrario">
+<div>
+<div class="cabecera-lamina"><span class="reloj">muestrario</span><span class="sep"></span><span class="duracion">hasta dónde llega el css solo</span></div>
+<h2>todo esto es css, sin nada de programación</h2>
+<div class="rejilla">
+<a class="tarjeta" href="muestrario/08-cartel-vivo.html">
+<span class="nombre">cartel vivo</span>
+<span class="que">Póster animado: marquesina, tipografía fluida, sello que gira.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/17-invitacion.html">
+<span class="nombre">invitación</span>
+<span class="que">Tarjeta con animación de llegada y RSVP por mailto.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/18-tarjeta-visita.html">
+<span class="nombre">tarjeta de visita</span>
+<span class="que">Tarjeta 3D con dos caras que gira al hacer clic.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/15-css-blend-modes.html">
+<span class="nombre">mezclas</span>
+<span class="que">Modos de fusión: imágenes que se tiñen entre ellas.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/06-expo-scroll-horizontal.html">
+<span class="nombre">expo horizontal</span>
+<span class="que">Salas en fila, scroll de lado con scroll-snap.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/20-expo-scroll-vertical.html">
+<span class="nombre">expo vertical</span>
+<span class="que">Salas con imán, título que invierte colores, contador.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/02-galeria-fichas.html">
+<span class="nombre">galería con ficha</span>
+<span class="que">Retícula de obras y lightbox con el truco <code>:target</code>.</span>
+<span class="marca-tec">solo css</span>
+</a>
+<a class="tarjeta" href="muestrario/">
+<span class="nombre">ver las 26</span>
+<span class="que">El muestrario entero, ordenado por tipo.</span>
+<span class="marca-tec">índice</span>
+</a>
+</div>
+<div class="aviso">
+<span class="etiqueta">esta presentación también</span>
+<p>Lo que estás viendo proyectado es una web hecha a mano, con las mismas cosas que hemos dado hoy. El modo diapositiva es <code>scroll-snap</code>, igual que la expo vertical.</p>
+</div>
+</div>
 </section>
-
-<section class="lamina" id="final">
-  <div>
-    <h2>para la próxima sesión</h2>
-    <ul class="casillas">
-      <li>Trae la carpeta terminada, con las páginas que quieras publicar.</li>
-      <li>Trae tu cuenta de GitHub ya creada.</li>
-      <li>Y la contraseña apuntada en un papel. En serio: cada edición hay alguien que no puede entrar.</li>
-    </ul>
-    <p class="entradilla">La próxima la publicamos de verdad, entendiendo cada paso. Sales de la sesión 3 sabiendo actualizarla tú sola.</p>
-    <div class="siguiente">
-      <a href="sesion-1.html"><span class="rol">anterior</span><span class="nombre">1 · html</span></a>
-      <a href="sesion-3.html"><span class="rol">siguiente sesión</span><span class="nombre">3 · publicar y mantener</span></a>
-      <a href="muestrario/"><span class="rol">extra</span><span class="nombre">el muestrario</span></a>
-    </div>
-  </div>
+<section class="lamina" data-tipo="teoria" id="final">
+<div>
+<h2>para la próxima sesión</h2>
+<ul class="casillas">
+<li>Trae la carpeta terminada, con las páginas que quieras publicar.</li>
+<li>Trae tu cuenta de GitHub ya creada.</li>
+<li>Y la contraseña apuntada en un papel. En serio: cada edición hay alguien que no puede entrar.</li>
+</ul>
+<p class="entradilla">La próxima la publicamos de verdad, entendiendo cada paso. Sales de la sesión 3 sabiendo actualizarla tú sola.</p>
+<div class="siguiente">
+<a href="sesion-1.html"><span class="rol">anterior</span><span class="nombre">1 · html</span></a>
+<a href="sesion-3.html"><span class="rol">siguiente sesión</span><span class="nombre">3 · publicar y mantener</span></a>
+<a href="muestrario/"><span class="rol">extra</span><span class="nombre">el muestrario</span></a>
+</div>
+</div>
 </section>
-
 </main>
-
 <script src="js/taller.js"></script>
 </body>
 </html>

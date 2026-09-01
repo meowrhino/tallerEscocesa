@@ -1,7 +1,10 @@
 /* ═══════════════════════════════════════════════════════════
    taller de web autogestionada · la escocesa
-   hoja de estilo de las presentaciones-documento
    meowrhino.studio
+
+   Por defecto las sesiones van en modo diapositiva: una lámina
+   por pantalla, se avanza con las flechas. El modo «leer» las
+   convierte en un documento largo con scroll.
    ═══════════════════════════════════════════════════════════ */
 
 :root {
@@ -9,87 +12,79 @@
   --papel-hueco:  #fafafa;
   --tinta:        #000000;
   --tinta-suave:  #333333;
-  --tinta-tenue:  #737373;
-  --linea:        rgba(0, 0, 0, .12);
-  --linea-fuerte: rgba(0, 0, 0, .35);
+  --tinta-tenue:  #8a8a8a;
+  --linea:        rgba(0, 0, 0, .10);
+  --linea-fuerte: rgba(0, 0, 0, .3);
   --acento:       #f2e94e;
   --acento-tinta: #000000;
-  --codigo-bg:    #fafaf7;
-  --sombra:       rgba(0, 0, 0, .06);
+  --practica:     #fdfbe9;
+  --practica-borde: #e8dd58;
+  --codigo-bg:    #f7f7f4;
 
   --display: "Inknut Antiqua", Georgia, serif;
   --texto:   "Iowan Old Style", Georgia, "Times New Roman", serif;
   --mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --pad-x: max(4vw, 24px);
+  --pad-x: max(5vw, 28px);
+  --alto-barra: 44px;
   --medida: 34rem;
-  --rapido: .2s ease;
-  --medio:  .3s ease;
-}
-
-:root:not([data-tema="claro"]) {
-  color-scheme: light dark;
+  --rapido: .18s ease;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
-    --papel:        #121212;
-    --papel-hueco:  #1a1a1a;
-    --tinta:        #e8e8e8;
-    --tinta-suave:  #c4c4c4;
-    --tinta-tenue:  #8a8a8a;
-    --linea:        rgba(255, 255, 255, .14);
-    --linea-fuerte: rgba(255, 255, 255, .4);
-    --codigo-bg:    #191919;
-    --sombra:       rgba(0, 0, 0, .5);
+    --papel: #101010; --papel-hueco: #171717;
+    --tinta: #ececec; --tinta-suave: #c8c8c8; --tinta-tenue: #7d7d7d;
+    --linea: rgba(255,255,255,.12); --linea-fuerte: rgba(255,255,255,.35);
+    --practica: #1c1a0e; --practica-borde: #6d6522;
+    --codigo-bg: #181818;
   }
 }
-
 :root[data-tema="oscuro"] {
-  --papel:        #121212;
-  --papel-hueco:  #1a1a1a;
-  --tinta:        #e8e8e8;
-  --tinta-suave:  #c4c4c4;
-  --tinta-tenue:  #8a8a8a;
-  --linea:        rgba(255, 255, 255, .14);
-  --linea-fuerte: rgba(255, 255, 255, .4);
-  --codigo-bg:    #191919;
-  --sombra:       rgba(0, 0, 0, .5);
+  --papel: #101010; --papel-hueco: #171717;
+  --tinta: #ececec; --tinta-suave: #c8c8c8; --tinta-tenue: #7d7d7d;
+  --linea: rgba(255,255,255,.12); --linea-fuerte: rgba(255,255,255,.35);
+  --practica: #1c1a0e; --practica-borde: #6d6522;
+  --codigo-bg: #181818;
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--alto-barra);
+}
+
+/* El scroll suave solo en modo lectura: combinado con scroll-snap
+   obligatorio, Chrome cancela la animación y no se mueve nada. */
+html:has(body.leer) { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   background: var(--papel);
   color: var(--tinta);
   font-family: var(--texto);
-  font-size: 18px;
-  line-height: 1.62;
-  text-rendering: optimizeLegibility;
+  font-size: 19px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  transition: background var(--medio), color var(--medio);
 }
 
-/* ── barra superior ───────────────────────────────────── */
+/* ══ barra ══════════════════════════════════════════════════
+   Sin línea, sin bordes, sin cajas. Solo texto.             */
 
 .barra {
   position: fixed;
   inset: 0 0 auto 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px var(--pad-x);
-  background: color-mix(in srgb, var(--papel) 88%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--linea);
+  gap: 22px;
+  height: var(--alto-barra);
+  padding: 0 var(--pad-x);
+  background: var(--papel);
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .11em;
+  letter-spacing: .1em;
   text-transform: lowercase;
 }
 
@@ -97,70 +92,180 @@ body {
   font-family: var(--display);
   font-size: 12px;
   letter-spacing: 0;
-  text-transform: lowercase;
+  color: var(--tinta);
+  text-decoration: none;
+  opacity: .55;
   white-space: nowrap;
+  transition: opacity var(--rapido);
 }
+.barra .marca:hover { opacity: 1; }
 
 .barra .sep { flex: 1; }
 
 .barra a,
 .barra button {
-  color: var(--tinta-tenue);
+  appearance: none;
   background: none;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 5px 11px;
+  border: 0;
+  padding: 0;
+  margin: 0;
   font: inherit;
+  color: var(--tinta);
+  opacity: .4;
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: color var(--rapido), border-color var(--rapido);
+  transition: opacity var(--rapido);
 }
-
 .barra a:hover,
-.barra button:hover,
-.barra a[aria-current] {
-  color: var(--tinta);
-  border-color: var(--linea);
+.barra button:hover { opacity: .85; }
+.barra a[aria-current] { opacity: 1; }
+
+.barra .grupo { display: flex; gap: 20px; align-items: center; }
+.barra .util  { display: flex; gap: 18px; align-items: center; }
+
+/* la sesión abierta despliega el índice */
+.barra .actual::after {
+  content: " ▾";
+  font-size: 9px;
+  opacity: .5;
 }
 
-/* progreso de lectura */
-.progreso {
+/* ══ índice desplegable ═════════════════════════════════════ */
+
+.indice {
   position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0;
-  background: var(--tinta);
-  z-index: 101;
-  transition: width .1s linear;
+  top: var(--alto-barra);
+  left: 0; right: 0;
+  z-index: 199;
+  max-height: min(70vh, 640px);
+  overflow-y: auto;
+  padding: 8px var(--pad-x) 26px;
+  background: var(--papel);
+  display: none;
+}
+.indice.abierto { display: block; }
+
+.indice ol {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 60rem;
+  columns: 2;
+  column-gap: 40px;
+}
+@media (max-width: 720px) { .indice ol { columns: 1; } }
+
+.indice li { break-inside: avoid; margin: 0; }
+
+.indice button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 7px 0;
+  background: none;
+  border: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--tinta);
+  text-align: left;
+  cursor: pointer;
+  opacity: .55;
+  transition: opacity var(--rapido);
+}
+.indice button:hover,
+.indice button[aria-current] { opacity: 1; }
+
+.indice .n { min-width: 22px; color: var(--tinta-tenue); }
+.indice .tipo {
+  min-width: 62px;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+}
+.indice .tipo[data-t="práctica"] { color: var(--practica-borde); }
+.indice .rot {
+  flex: 1;
+  font-family: var(--texto);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
-/* ── láminas ──────────────────────────────────────────── */
+/* ══ láminas ════════════════════════════════════════════════ */
 
-main { padding-top: 46px; }
+main { padding-top: var(--alto-barra); }
 
-.lamina {
-  padding: clamp(48px, 9vh, 96px) var(--pad-x);
-  border-bottom: 1px solid var(--linea);
-  scroll-margin-top: 46px;
+.lamina, .portada {
+  position: relative;
+  min-height: calc(100svh - var(--alto-barra));
+  scroll-snap-align: start;
+  scroll-margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 46px var(--pad-x) 62px;
 }
-
-.lamina > * { max-width: 62rem; margin-inline: auto; }
+.lamina > *, .portada > * { width: 100%; max-width: 62rem; margin-inline: auto; }
 
 .lamina.hueco { background: var(--papel-hueco); }
 
-/* lámina de bloque: la oscura que separa secciones */
+/* teoría / práctica, explícito */
+.lamina[data-tipo="practica"] {
+  background: var(--practica);
+  box-shadow: inset 5px 0 0 var(--practica-borde);
+}
+
+.marca-tipo {
+  position: absolute;
+  top: 18px;
+  left: var(--pad-x);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+  pointer-events: none;
+}
+.lamina[data-tipo="practica"] .marca-tipo { color: #8a7c14; }
+:root[data-tema="oscuro"] .lamina[data-tipo="practica"] .marca-tipo,
+.lamina.bloque .marca-tipo { color: inherit; opacity: .5; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .lamina[data-tipo="practica"] .marca-tipo { color: #c9bb50; }
+}
+
+/* lámina separadora de bloque */
 .lamina.bloque {
   background: var(--tinta);
   color: var(--papel);
-  border-bottom-color: transparent;
 }
-.lamina.bloque .reloj,
-.lamina.bloque .duracion { color: color-mix(in srgb, var(--papel) 55%, transparent); }
-.lamina.bloque h2 { font-size: clamp(30px, 5.5vw, 58px); }
-.lamina.bloque p { color: color-mix(in srgb, var(--papel) 78%, transparent); max-width: var(--medida); }
+.lamina.bloque .reloj { color: color-mix(in srgb, var(--papel) 50%, transparent); }
+.lamina.bloque h2 { font-size: clamp(32px, 6vw, 62px); }
+.lamina.bloque p  { color: color-mix(in srgb, var(--papel) 75%, transparent); max-width: var(--medida); }
 
-/* ── tipografía ───────────────────────────────────────── */
+.lamina.bloque[data-tipo="practica"] {
+  background: var(--acento);
+  color: #000;
+  box-shadow: none;
+}
+.lamina.bloque[data-tipo="practica"] .reloj { color: rgba(0,0,0,.5); }
+.lamina.bloque[data-tipo="practica"] p { color: rgba(0,0,0,.72); }
+
+/* el rótulo grande de teoría / práctica en las separadoras */
+.rotulo {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: .55;
+}
+
+/* ══ tipografía ═════════════════════════════════════════════ */
 
 h1, h2, h3, .marca, .portada-num {
   font-family: var(--display);
@@ -169,36 +274,22 @@ h1, h2, h3, .marca, .portada-num {
   letter-spacing: -.005em;
 }
 
-h1 {
-  font-size: clamp(34px, 7vw, 76px);
-  line-height: 1.12;
-  margin: 0 0 .3em;
-}
+h1 { font-size: clamp(36px, 6.6vw, 74px); line-height: 1.1;  margin: 0 0 .3em; }
+h2 { font-size: clamp(27px, 3.5vw, 42px); line-height: 1.18; margin: 0 0 .5em; }
+h3 { font-size: clamp(17px, 1.9vw, 21px); line-height: 1.3;  margin: 1.5em 0 .5em; }
 
-h2 {
-  font-size: clamp(26px, 3.6vw, 40px);
-  line-height: 1.2;
-  margin: 0 0 .5em;
-}
-
-h3 {
-  font-size: clamp(18px, 2vw, 22px);
-  line-height: 1.3;
-  margin: 2.2em 0 .6em;
-}
-
-p { max-width: var(--medida); margin: 0 0 1.1em; }
+p { max-width: var(--medida); margin: 0 0 1em; }
 
 .entradilla {
-  font-size: clamp(19px, 2.1vw, 24px);
-  line-height: 1.5;
+  font-size: clamp(19px, 2.1vw, 25px);
+  line-height: 1.45;
   color: var(--tinta-suave);
   max-width: 40rem;
 }
 
 .reloj, .duracion {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--tinta-tenue);
@@ -208,69 +299,58 @@ p { max-width: var(--medida); margin: 0 0 1.1em; }
   display: flex;
   align-items: baseline;
   gap: 16px;
-  margin-bottom: 26px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--linea);
+  margin-bottom: 22px;
 }
 .cabecera-lamina .sep { flex: 1; }
 
-/* ── código ───────────────────────────────────────────── */
+/* ══ código ═════════════════════════════════════════════════ */
 
 .codigo {
   position: relative;
-  margin: 0 0 1.6em;
+  margin: 0 0 1.2em;
   background: var(--codigo-bg);
-  border: 1px solid var(--linea);
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
 }
-
 .codigo pre {
   margin: 0;
-  padding: 22px 24px;
+  padding: 20px 24px;
   overflow-x: auto;
   font-family: var(--mono);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: clamp(13px, 1.35vw, 18px);
+  line-height: 1.65;
   tab-size: 2;
 }
-
 .codigo .copiar {
   position: absolute;
-  top: 8px; right: 8px;
-  padding: 4px 9px;
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-  background: var(--papel);
+  top: 7px; right: 8px;
+  padding: 3px 8px;
+  border: 0;
+  background: none;
   color: var(--tinta-tenue);
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: .1em;
-  text-transform: lowercase;
   cursor: pointer;
   opacity: 0;
   transition: opacity var(--rapido), color var(--rapido);
 }
-.codigo:hover .copiar,
-.codigo .copiar:focus-visible { opacity: 1; }
-.codigo .copiar:hover { color: var(--tinta); }
+.codigo:hover .copiar, .codigo .copiar:focus-visible { opacity: .7; }
+.codigo .copiar:hover { color: var(--tinta); opacity: 1; }
 
 code:not(pre code) {
   font-family: var(--mono);
-  font-size: .86em;
+  font-size: .84em;
   background: var(--codigo-bg);
-  border: 1px solid var(--linea);
-  border-radius: 3px;
-  padding: .1em .38em;
+  border-radius: 2px;
+  padding: .1em .35em;
   white-space: nowrap;
 }
 
-/* coloreado mínimo, sin librerías */
-.t   { color: #0a5ca8; }   /* etiqueta / selector */
-.at  { color: #7a5b00; }   /* atributo / propiedad */
-.v   { color: #9a2f1e; }   /* valor / cadena */
-.c   { color: var(--tinta-tenue); font-style: italic; }
-
+.t  { color: #0a5ca8; }
+.at { color: #7a5b00; }
+.v  { color: #9a2f1e; }
+.c  { color: var(--tinta-tenue); font-style: italic; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) .t  { color: #7cc0ff; }
   :root:not([data-tema="claro"]) .at { color: #e0c060; }
@@ -280,348 +360,261 @@ code:not(pre code) {
 :root[data-tema="oscuro"] .at { color: #e0c060; }
 :root[data-tema="oscuro"] .v  { color: #ff9d85; }
 
-/* ── avisos y cajas ───────────────────────────────────── */
+/* ══ avisos ═════════════════════════════════════════════════ */
 
 .aviso {
   max-width: 46rem;
-  margin: 0 0 1.6em;
-  padding: 20px 24px;
-  border: 1px solid var(--linea-fuerte);
-  border-radius: 3px;
-  background: var(--papel-hueco);
+  margin: 0 0 1.2em;
+  padding: 0 0 0 18px;
+  box-shadow: inset 2px 0 0 var(--linea-fuerte);
 }
-
 .aviso .etiqueta {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--tinta-tenue);
 }
 .aviso p:last-child { margin-bottom: 0; }
-
 .aviso.clave {
-  border-color: transparent;
-  background: var(--acento);
-  color: var(--acento-tinta);
+  box-shadow: inset 3px 0 0 var(--acento);
 }
-.aviso.clave .etiqueta { color: rgba(0,0,0,.55); }
+.aviso.clave p { color: var(--tinta); font-weight: 600; }
 
-/* ── tablas de referencia ─────────────────────────────── */
+/* ══ tablas ═════════════════════════════════════════════════ */
 
 .tabla {
-  width: 100%;
-  max-width: 54rem;
+  width: 100%; max-width: 54rem;
   border-collapse: collapse;
-  margin: 0 0 1.8em;
-  font-size: 15px;
+  margin: 0 0 1.2em;
+  font-size: clamp(14px, 1.35vw, 17px);
 }
 .tabla td, .tabla th {
-  padding: 9px 14px 9px 0;
+  padding: 7px 14px 7px 0;
   border-bottom: 1px solid var(--linea);
   text-align: left;
   vertical-align: baseline;
 }
 .tabla th {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--tinta-tenue);
-  font-weight: 400;
+  font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--tinta-tenue); font-weight: 400;
 }
 .tabla td:first-child {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: .85em;
   white-space: nowrap;
-  padding-right: 28px;
-  color: var(--tinta);
+  padding-right: 26px;
 }
 .tabla-envoltorio { overflow-x: auto; }
 
-/* ── listas ───────────────────────────────────────────── */
+/* ══ listas ═════════════════════════════════════════════════ */
 
-ul, ol { max-width: var(--medida); padding-left: 1.15em; margin: 0 0 1.2em; }
-li { margin: .45em 0; }
-
-ul.limpia { list-style: none; padding-left: 0; }
+ul, ol { max-width: var(--medida); padding-left: 1.1em; margin: 0 0 1em; }
+li { margin: .35em 0; }
 
 ul.casillas { list-style: none; padding-left: 0; max-width: 42rem; }
-ul.casillas li {
-  position: relative;
-  padding-left: 30px;
-  margin: .55em 0;
-}
+ul.casillas li { position: relative; padding-left: 28px; margin: .45em 0; }
 ul.casillas li::before {
   content: "";
-  position: absolute;
-  left: 0; top: .42em;
-  width: 13px; height: 13px;
+  position: absolute; left: 0; top: .4em;
+  width: 12px; height: 12px;
   border: 1px solid var(--linea-fuerte);
   border-radius: 2px;
 }
 
-/* ── rejilla de tarjetas (muestrario, enlaces) ────────── */
+/* ══ rejilla ════════════════════════════════════════════════ */
 
 .rejilla {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 26px 34px;
   max-width: 62rem;
-  background: var(--linea);
-  border: 1px solid var(--linea);
-  margin-bottom: 1.8em;
+  margin-bottom: 1.2em;
 }
-
-.tarjeta {
-  display: block;
-  padding: 20px 22px 22px;
-  background: var(--papel);
-  color: inherit;
-  text-decoration: none;
-  transition: background var(--rapido);
-}
-.tarjeta:hover { background: var(--papel-hueco); }
-
+.tarjeta { display: block; color: inherit; text-decoration: none; }
 .tarjeta .nombre {
   display: block;
   font-family: var(--display);
   font-size: 15px;
   text-transform: lowercase;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--rapido);
 }
-.tarjeta .que {
-  display: block;
-  font-size: 13.5px;
-  line-height: 1.45;
-  color: var(--tinta-tenue);
-}
+.tarjeta:hover .nombre { border-bottom-color: var(--tinta); }
+.tarjeta .que { display: block; font-size: 13.5px; line-height: 1.42; color: var(--tinta-tenue); }
 .tarjeta .marca-tec {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 2px 8px;
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+  display: inline-block; margin-top: 8px;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .12em; text-transform: uppercase;
   color: var(--tinta-tenue);
 }
 
-/* ── dos columnas ─────────────────────────────────────── */
+/* ══ dos columnas ═══════════════════════════════════════════ */
 
 .dos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: clamp(22px, 3.5vw, 52px);
   align-items: start;
   max-width: 62rem;
 }
-.dos > * { max-width: none; }
-.dos p, .dos ul, .dos ol { max-width: none; }
+.dos > *, .dos p, .dos ul, .dos ol { max-width: none; }
 
-/* ── portada ──────────────────────────────────────────── */
-
-.portada {
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 96px var(--pad-x) 64px;
-  border-bottom: 1px solid var(--linea);
-}
-.portada > * { max-width: 62rem; margin-inline: auto; width: 100%; }
+/* ══ portada ════════════════════════════════════════════════ */
 
 .portada-num {
-  font-size: 12px;
-  letter-spacing: .3em;
-  color: var(--tinta-tenue);
-  margin-bottom: 24px;
-}
-
-.portada .pie {
-  margin-top: auto;
-  padding-top: 48px;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: lowercase;
-  color: var(--tinta-tenue);
-}
-
-/* ── plan del día ─────────────────────────────────────── */
-
-.plan { max-width: 46rem; }
-.plan a {
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
-  padding: 13px 4px;
-  border-bottom: 1px solid var(--linea);
-  color: inherit;
-  text-decoration: none;
-  transition: padding-left var(--rapido);
-}
-.plan a:hover { padding-left: 12px; }
-.plan .hora {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: .1em;
-  color: var(--tinta-tenue);
-  min-width: 52px;
-}
-.plan .que { flex: 1; font-size: 17px; }
-.plan .min {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .1em;
-  color: var(--tinta-tenue);
-}
-
-/* ── navegación entre sesiones ────────────────────────── */
-
-.siguiente {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1px;
-  background: var(--linea);
-  border: 1px solid var(--linea);
-  max-width: 62rem;
-  margin: 0 auto;
-}
-.siguiente a {
-  flex: 1 1 240px;
-  padding: 26px 24px;
-  background: var(--papel);
-  color: inherit;
-  text-decoration: none;
-  transition: background var(--rapido);
-}
-.siguiente a:hover { background: var(--papel-hueco); }
-.siguiente .rol {
-  display: block;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .16em;
+  letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--tinta-tenue);
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 }
-.siguiente .nombre { font-family: var(--display); font-size: 18px; text-transform: lowercase; }
+.portada .pie {
+  position: absolute;
+  bottom: 30px; left: var(--pad-x);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  color: var(--tinta-tenue);
+  max-width: none;
+  margin: 0;
+}
 
-/* ── enlaces de texto ─────────────────────────────────── */
+/* ══ plan del día ═══════════════════════════════════════════ */
+
+.plan { max-width: 48rem; }
+.plan a {
+  display: flex; align-items: baseline; gap: 16px;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--linea);
+  color: inherit; text-decoration: none;
+  transition: padding-left var(--rapido);
+}
+.plan a:hover { padding-left: 10px; }
+.plan .hora { font-family: var(--mono); font-size: 11.5px; color: var(--tinta-tenue); min-width: 50px; }
+.plan .que  { flex: 1; font-size: 16px; }
+.plan .tipo {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--tinta-tenue); min-width: 66px;
+}
+.plan .tipo[data-t="práctica"] { color: var(--practica-borde); }
+.plan .min { font-family: var(--mono); font-size: 10.5px; color: var(--tinta-tenue); min-width: 46px; text-align: right; }
+
+/* ══ siguiente ══════════════════════════════════════════════ */
+
+.siguiente { display: flex; flex-wrap: wrap; gap: 36px; max-width: 62rem; }
+.siguiente a { color: inherit; text-decoration: none; }
+.siguiente .rol {
+  display: block; font-family: var(--mono); font-size: 9.5px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--tinta-tenue); margin-bottom: 6px;
+}
+.siguiente .nombre {
+  font-family: var(--display); font-size: 18px; text-transform: lowercase;
+  border-bottom: 1px solid transparent; transition: border-color var(--rapido);
+}
+.siguiente a:hover .nombre { border-bottom-color: currentColor; }
+
+/* ══ enlaces de texto ═══════════════════════════════════════ */
 
 .lamina p a, .lamina li a, .lamina td a {
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid var(--linea-fuerte);
-  transition: background var(--rapido);
 }
 .lamina p a:hover, .lamina li a:hover, .lamina td a:hover {
-  background: var(--acento);
-  color: var(--acento-tinta);
-  border-bottom-color: transparent;
+  background: var(--acento); color: var(--acento-tinta); border-bottom-color: transparent;
 }
 
-/* ═══ modo diapositiva ════════════════════════════════ */
+/* ══ contador ═══════════════════════════════════════════════ */
 
-body.diapositivas { overflow: hidden; }
-
-body.diapositivas main {
-  height: 100svh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  padding-top: 0;
-}
-
-body.diapositivas .lamina,
-body.diapositivas .portada {
-  min-height: 100svh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 72px var(--pad-x) 64px;
-  scroll-margin-top: 0;
-}
-
-body.diapositivas .lamina > *,
-body.diapositivas .portada > * { width: 100%; }
-
-body.diapositivas { font-size: 21px; }
-body.diapositivas .codigo pre { font-size: clamp(15px, 1.5vw, 20px); }
-body.diapositivas .tabla { font-size: 17px; }
-body.diapositivas .tabla td:first-child { font-size: 15px; }
-body.diapositivas .progreso { display: none; }
-
-body.diapositivas .contador {
+.contador {
   position: fixed;
   bottom: 16px; right: var(--pad-x);
-  z-index: 100;
+  z-index: 150;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: .12em;
   color: var(--tinta-tenue);
+  pointer-events: none;
 }
-.contador { display: none; }
 
-/* láminas que solo tienen sentido leyendo, no proyectando */
-body.diapositivas .solo-documento { display: none; }
-.solo-diapositiva { display: none; }
-body.diapositivas .solo-diapositiva { display: block; }
+/* ══ modo leer: documento con scroll ════════════════════════ */
 
-/* ── impresión: sale como dossier A4 ──────────────────── */
+html:has(body.leer) { scroll-snap-type: none; }
+body.leer .lamina,
+body.leer .portada {
+  min-height: 0;
+  display: block;
+  padding: clamp(40px, 7vh, 76px) var(--pad-x);
+  border-bottom: 1px solid var(--linea);
+  scroll-margin-top: var(--alto-barra);
+}
+body.leer .portada { min-height: 78svh; display: flex; }
+body.leer .marca-tipo { position: static; display: block; margin-bottom: 12px; }
+body.leer .portada .pie { position: static; margin-top: 30px; }
+body.leer .contador { display: none; }
+body.leer { font-size: 18px; }
+body.leer .codigo pre { font-size: 14.5px; }
+body.leer .tabla { font-size: 15px; }
+
+.solo-leer { display: none; }
+body.leer .solo-leer { display: block; }
+
+/* ══ impresión ══════════════════════════════════════════════ */
 
 @media print {
-  @page { size: A4; margin: 16mm 15mm; }
-
+  @page { size: A4; margin: 15mm 14mm; }
   :root {
-    --papel: #fff; --papel-hueco: #fff; --tinta: #000;
-    --tinta-suave: #222; --tinta-tenue: #555;
-    --linea: #ccc; --linea-fuerte: #444; --codigo-bg: #f6f6f6;
+    --papel:#fff; --papel-hueco:#fff; --tinta:#000; --tinta-suave:#222;
+    --tinta-tenue:#555; --linea:#ccc; --linea-fuerte:#444; --codigo-bg:#f6f6f6;
+    --practica:#fff;
   }
+  html, body, body.leer { overflow: visible !important; height: auto !important; font-size: 10.5pt; line-height: 1.42; }
+  .barra, .indice, .copiar, .contador, .no-imprimir { display: none !important; }
 
-  body { font-size: 10.5pt; line-height: 1.45; }
-  .barra, .progreso, .copiar, .contador, .no-imprimir { display: none !important; }
-  main { padding-top: 0; }
-
-  .lamina, .portada {
-    min-height: 0;
-    padding: 0 0 14pt;
-    margin-bottom: 14pt;
+  main, body.leer main {
+    height: auto !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    padding-top: 0 !important;
+  }
+  .lamina, .portada, body.leer .lamina, body.leer .portada {
+    min-height: 0 !important;
+    display: block !important;
+    padding: 0 0 12pt !important;
+    margin-bottom: 12pt;
     border-bottom: .5pt solid #ddd;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    box-shadow: none !important;
+    break-inside: avoid; page-break-inside: avoid;
   }
-
-  .portada { min-height: 0; page-break-after: always; }
-  .lamina.bloque { background: none; color: #000; border-bottom: 1.5pt solid #000; }
-  .lamina.bloque p { color: #333; }
+  .portada { page-break-after: always; }
+  .marca-tipo { position: static !important; display: block; margin-bottom: 6pt; }
+  .lamina.bloque, .lamina.bloque[data-tipo="practica"] {
+    background: none !important; color: #000 !important;
+    border-bottom: 1.5pt solid #000;
+  }
+  .lamina.bloque p { color: #333 !important; }
   .lamina.bloque h2 { font-size: 16pt; }
-
-  h1 { font-size: 24pt; }
-  h2 { font-size: 15pt; }
-  h3 { font-size: 11.5pt; }
+  h1 { font-size: 23pt; } h2 { font-size: 15pt; } h3 { font-size: 11.5pt; }
   .entradilla { font-size: 11.5pt; }
-
-  .codigo { break-inside: avoid; page-break-inside: avoid; }
-  .codigo pre { font-size: 8.5pt; padding: 10pt 12pt; }
-  .aviso.clave { background: none; border: 1.5pt solid #000; color: #000; }
-  .rejilla, .siguiente { display: block; border: none; background: none; }
-  .tarjeta, .siguiente a { border-bottom: .5pt solid #ddd; padding: 6pt 0; }
+  .codigo { break-inside: avoid; }
+  .codigo pre { font-size: 8.5pt !important; padding: 9pt 11pt; }
+  .aviso.clave { box-shadow: inset 3px 0 0 #000 !important; }
+  .rejilla { display: block; }
+  .tarjeta { margin-bottom: 7pt; }
   a { color: #000; border: none !important; background: none !important; }
 }
-
-/* ── accesibilidad ────────────────────────────────────── */
 
 :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
-  html, body.diapositivas main { scroll-behavior: auto; }
+  main { scroll-behavior: auto; }
   * { transition-duration: .01ms !important; }
 }

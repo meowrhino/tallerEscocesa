@@ -21,9 +21,14 @@ con una web funcionando en internet y sabiendo actualizarla.
 
 Cada sesión es **una sola página que funciona de tres maneras**:
 
-- **Documento** — scroll normal, para leerla en casa. Es el modo por defecto.
-- **Diapositivas** — botón `proyectar` o tecla `P`. Pantalla completa con `F`, se avanza con `←` `→`.
+- **Diapositivas** — es el modo por defecto. Una lámina por pantalla, se avanza con `←` `→`.
+  Pantalla completa con `F`. El nombre de la sesión en la barra despliega el índice de láminas.
+- **Documento** — botón `leer`. Todo seguido, con scroll, para leerla en casa.
 - **Dossier A4** — botón `imprimir`. Sale maquetado, sin la interfaz.
+
+Dentro de cada sesión, la **teoría** (fondo blanco) y la **práctica** (fondo amarillo) van
+marcadas y separadas, con un rótulo en cada lámina, para que en todo momento se sepa si toca
+escuchar o toca teclear.
 
 Dentro de cada sesión está **todo**: las explicaciones, los bloques de código con botón
 de copiar, los ejercicios con casillas, la chuleta y los enlaces al muestrario. No hace
@@ -33,11 +38,12 @@ falta repartir nada más.
 
 | tecla | |
 |---|---|
-| `P` | entrar y salir del modo diapositiva |
-| `F` | pantalla completa, directo a diapositivas |
 | `←` `→` | cambiar de lámina |
+| `F` | pantalla completa |
+| `I` | abrir el índice de láminas (o clicar el nombre de la sesión) |
+| `L` | pasar a modo lectura, y volver |
 | `T` | claro / oscuro |
-| `Esc` | volver al modo documento |
+| `Esc` | cerrar el índice o salir de pantalla completa |
 
 ---
 

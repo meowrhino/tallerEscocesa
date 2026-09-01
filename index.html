@@ -10,18 +10,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/taller.css">
 </head>
-<body>
+<body class="leer">
 
 <div class="progreso"></div>
 
 <nav class="barra no-imprimir">
   <a class="marca" href="index.html">taller · la escocesa</a>
+  <span class="grupo">
+    <a href="sesion-1.html">1 · html</a>
+    <a href="sesion-2.html">2 · css</a>
+    <a href="sesion-3.html">3 · publicar</a>
+  </span>
   <span class="sep"></span>
-  <a href="sesion-1.html">1 · html</a>
-  <a href="sesion-2.html">2 · css</a>
-  <a href="sesion-3.html">3 · publicar</a>
-  <a href="muestrario/">muestrario</a>
-  <button id="btn-tema" type="button">tema</button>
+  <span class="util">
+    <a href="muestrario/">muestrario</a>
+    <button id="btn-tema" type="button">tema</button>
+  </span>
 </nav>
 
 <main>
@@ -55,7 +59,8 @@
         <span class="marca-tec">3 horas</span>
       </a>
     </div>
-    <p>Cada sesión es una página que funciona de dos maneras: <strong>como documento</strong> para leerla en casa, y <strong>como diapositivas</strong> para proyectarla en clase. El botón «proyectar» de arriba cambia de una a otra.</p>
+    <p>Cada sesión son <strong>diapositivas</strong>: una lámina por pantalla, se avanza con las flechas. El botón «leer» las convierte en un documento largo para leerlas en casa, y «imprimir» las saca en A4.</p>
+    <p>Dentro, la <strong>teoría</strong> (fondo blanco) y la <strong>práctica</strong> (fondo amarillo) van marcadas y separadas, para que se sepa en todo momento si toca escuchar o toca teclear.</p>
   </div>
 </section>
 
@@ -130,11 +135,11 @@
     <h2>atajos de teclado</h2>
     <div class="tabla-envoltorio">
     <table class="tabla">
-      <tr><td>P</td><td>Entrar y salir del modo diapositiva.</td></tr>
-      <tr><td>F</td><td>Pantalla completa, directamente en modo diapositiva.</td></tr>
-      <tr><td>← →</td><td>Cambiar de lámina (en modo diapositiva).</td></tr>
+      <tr><td>← →</td><td>Cambiar de lámina. Es el modo por defecto: una lámina por pantalla.</td></tr>
+      <tr><td>F</td><td>Pantalla completa, para proyectar.</td></tr>
+      <tr><td>I</td><td>Abrir el índice de láminas. También se abre clicando el nombre de la sesión.</td></tr>
+      <tr><td>L</td><td>Pasar a modo lectura: todo seguido, con scroll.</td></tr>
       <tr><td>T</td><td>Cambiar entre claro y oscuro.</td></tr>
-      <tr><td>Esc</td><td>Volver al modo documento.</td></tr>
     </table>
     </div>
     <p style="font-size:15px;color:var(--tinta-tenue)">Y el botón «imprimir» de la barra saca la sesión entera como dossier A4.</p>
