@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  16 · MICRO-JUEGO NARRATIVO (estilo bitsy)
+  ═══════════════════════════════════════════════════════
+  OJO, honestidad primero: el bitsy DE VERDAD es un
+  editor sin código (https://make.bitsy.org — de adam
+  le doux) donde dibujas habitaciones píxel a píxel y
+  exporta un html de un solo archivo, perfecto para
+  gh pages. si en el taller queréis bitsy real,
+  usad su editor: es maravilloso.
+
+  ESTE archivo es un "bitsy casero" hecho a mano, para
+  ver por dentro cómo funciona un juego así:
+  · un mapa dibujado con TEXTO (cada letra = una casilla)
+  · una protagonista que se mueve con las flechas
+  · objetos que hablan cuando los tocas
+
+  la gracia pedagógica: el mapa se edita como se edita
+  un poema. cambiar el juego = cambiar letras.
+
+  html + css + un js pequeño y muy comentado.
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>la habitación</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0e0e1a;
+      color: #e8e4da;
+      font-family: monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 1rem;
+    }
+
+    h1 { font-weight: normal; font-size: 0.9rem; letter-spacing: 0.3em; color: #6e6a86; }
+
+    /* el mapa: un <pre> respeta espacios y saltos de línea,
+       por eso el dibujo de texto se ve como cuadrícula */
+    pre {
+      font-size: 1.6rem;
+      line-height: 1.35;
+      letter-spacing: 0.2em;
+      user-select: none;
+    }
+
+    /* la caja de diálogo, como en bitsy: abajo, sencilla */
+    #dialogo {
+      min-height: 3.5em;
+      width: min(90vw, 34em);
+      border: 2px solid #e8e4da;
+      padding: 0.8em 1em;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      background: #0e0e1a;
+    }
+
+    #dialogo:empty { opacity: 0.25; } /* si no hay texto, casi invisible */
+
+    /* botones táctiles para quien visite desde el móvil */
+    #cruceta {
+      display: grid;
+      grid-template-columns: repeat(3, 3rem);
+      gap: 0.3rem;
+    }
+    #cruceta button {
+      height: 3rem;
+      font-size: 1.2rem;
+      background: #26233a;
+      color: #e8e4da;
+      border: 1px solid #6e6a86;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #cruceta .hueco { visibility: hidden; }
+  </style>
+</head>
+
+<body>
+
+  <h1>la habitación</h1>
+
+  <pre id="mapa"></pre>
+
+  <div id="dialogo">muévete con las flechas (o los botones)</div>
+
+  <div id="cruceta">
+    <button class="hueco"></button>
+    <button data-dir="arriba">↑</button>
+    <button class="hueco"></button>
+    <button data-dir="izquierda">←</button>
+    <button data-dir="abajo">↓</button>
+    <button data-dir="derecha">→</button>
+  </div>
+
+  <script>
+    // ═══════════ EL MAPA ═══════════
+    // cada carácter es una casilla:
+    //   #  = pared        .  = suelo
+    //   otras letras = objetos con diálogo (ver abajo)
+    // EDITAR EL JUEGO = EDITAR ESTAS LÍNEAS.
+    // (cuidado: todas las filas con el mismo largo)
+    const mapa = [
+      "############",
+      "#..........#",
+      "#..c....P..#",
+      "#..........#",
+      "#....m.....#",
+      "#..........#",
+      "#.g......v.#",
+      "#..........#",
+      "############",
+    ].map((fila) => fila.split("")); // cada fila, partida en casillas
+
+    // qué dibujo le toca a cada carácter
+    const dibujos = {
+      "#": "🧱",
+      ".": "・",
+      "c": "🐈",
+      "m": "📦",
+      "g": "🪴",
+      "v": "🪟",
+      "P": "😶", // la protagonista (su posición inicial en el mapa)
+    };
+
+    // qué dice cada objeto cuando lo tocas
+    const dialogos = {
+      "c": "la gata: «llegas tarde, como siempre. me da igual, sigue.»",
+      "m": "una caja de la mudanza. dentro: todos los inviernos, sin doblar.",
+      "g": "la planta está bien. tú, no lo sabes. ella tampoco pregunta.",
+      "v": "por la ventana se ve otra habitación igual que esta, pero ordenada.",
+    };
+
+    // ═══════════ EL ESTADO ═══════════
+    // buscamos dónde está la P en el mapa y la quitamos
+    // (a partir de ahora la protagonista vive en variables)
+    let protaFila, protaCol;
+    mapa.forEach((fila, f) =>
+      fila.forEach((casilla, c) => {
+        if (casilla === "P") {
+          protaFila = f;
+          protaCol = c;
+          mapa[f][c] = "."; // debajo de ella hay suelo
+        }
+      })
+    );
+
+    // ═══════════ PINTAR ═══════════
+    // convertimos el mapa a texto otra vez, poniendo a la
+    // protagonista encima de su casilla, y lo metemos en el <pre>
+    function pintar() {
+      const texto = mapa
+        .map((fila, f) =>
+          fila
+            .map((casilla, c) =>
+              f === protaFila && c === protaCol ? dibujos["P"] : dibujos[casilla]
+            )
+            .join("")
+        )
+        .join("\n");
+      document.getElementById("mapa").textContent = texto;
+    }
+
+    // ═══════════ MOVER ═══════════
+    function mover(direccion) {
+      // calculamos a qué casilla quiere ir
+      let f = protaFila, c = protaCol;
+      if (direccion === "arriba") f--;
+      if (direccion === "abajo") f++;
+      if (direccion === "izquierda") c--;
+      if (direccion === "derecha") c++;
+
+      const destino = mapa[f][c];
+
+      if (destino === "#") return; // pared: no se pasa
+
+      if (dialogos[destino]) {
+        // un objeto: no lo pisamos, pero habla
+        document.getElementById("dialogo").textContent = dialogos[destino];
+        return;
+      }
+
+      // suelo libre: nos movemos y limpiamos el diálogo
+      protaFila = f;
+      protaCol = c;
+      document.getElementById("dialogo").textContent = "";
+      pintar();
+    }
+
+    // ═══════════ CONTROLES ═══════════
+    // teclado: flechas (y evitamos que hagan scroll)
+    const teclas = {
+      ArrowUp: "arriba", ArrowDown: "abajo",
+      ArrowLeft: "izquierda", ArrowRight: "derecha",
+    };
+    document.addEventListener("keydown", (evento) => {
+      if (teclas[evento.key]) {
+        evento.preventDefault();
+        mover(teclas[evento.key]);
+      }
+    });
+
+    // botones táctiles
+    document.querySelectorAll("#cruceta [data-dir]").forEach((boton) =>
+      boton.addEventListener("click", () => mover(boton.dataset.dir))
+    );
+
+    pintar(); // ¡empezamos!
+
+    // ═══════════ ideas para el taller ═══════════
+    // · cambiad los emojis, los diálogos, el mapa entero
+    // · añadid un objeto nuevo: 1) dibujadlo en el mapa,
+    //   2) dadle emoji en `dibujos`, 3) frase en `dialogos`
+    // · reto: una puerta "d" que al tocarla cambie el mapa
+    //   entero por otro (dos habitaciones = un mundo)
+  </script>
+
+</body>
+</html>

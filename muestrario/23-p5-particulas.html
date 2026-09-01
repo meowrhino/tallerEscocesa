@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  23 · P5.JS: ENJAMBRE DE PARTÍCULAS
+  ═══════════════════════════════════════════════════════
+  idea: cientos de puntitos que persiguen al ratón como
+  un banco de peces. el primer contacto con dos ideas
+  grandes del código creativo:
+
+  · el BUCLE: hacer lo mismo 300 veces (una por partícula)
+  · el VECTOR: cada partícula tiene posición y velocidad,
+    y en cada fotograma "empuja" un poco hacia el ratón
+
+  interacción:
+  · mueve el ratón: te siguen
+  · clic: explotan asustadas
+  · tecla g: guardar imagen
+
+  necesita internet (cdn de p5).
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>enjambre</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; }
+    #instrucciones {
+      position: fixed; bottom: 1rem; left: 1rem;
+      font-family: monospace; font-size: 0.8rem;
+      color: #888; pointer-events: none; line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="instrucciones">
+    muévete: te siguen · clic: se asustan · <strong>g</strong>: guardar
+  </div>
+
+  <script>
+    // ═══════ LAS PARTÍCULAS ═══════
+    // cada partícula es un objetito con posición (x, y)
+    // y velocidad (vx, vy). las guardamos todas en una lista.
+    const particulas = [];
+    const CUANTAS = 300;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+
+      // fabricar las 300, repartidas al azar por la pantalla
+      for (let i = 0; i < CUANTAS; i++) {
+        particulas.push({
+          x: random(width),   // random(n) = número al azar entre 0 y n
+          y: random(height),
+          vx: 0,              // empiezan quietas
+          vy: 0,
+        });
+      }
+
+      noStroke();
+    }
+
+    function draw() {
+      // fondo SEMITRANSPARENTE: en vez de borrar del todo,
+      // deja un rastro que se desvanece. la estela.
+      background(12, 12, 24, 40); // el 4º número es la transparencia
+
+      // el bucle: lo mismo para cada partícula
+      for (const p of particulas) {
+
+        // ── 1. el empujón hacia el ratón ──
+        // la dirección es "dónde está el ratón menos dónde estoy yo".
+        // dividimos por mucho (800) para que el empujón sea suave.
+        p.vx += (mouseX - p.x) / 800;
+        p.vy += (mouseY - p.y) / 800;
+
+        // ── 2. el freno ──
+        // multiplicar la velocidad por 0.95 cada fotograma
+        // evita que aceleren hasta el infinito.
+        // (probad 0.99: patinan. 0.8: van con botas de plomo)
+        p.vx *= 0.95;
+        p.vy *= 0.95;
+
+        // ── 3. moverse ──
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // ── 4. pintarse ──
+        // el tamaño depende de lo rápido que va: las
+        // rápidas grandes, las lentas chiquitas
+        const velocidad = dist(0, 0, p.vx, p.vy);
+        const tamano = map(velocidad, 0, 15, 2, 9);
+
+        // el color también: lentas azules, rápidas rosas
+        fill(map(velocidad, 0, 15, 80, 255), 120, 220, 200);
+        circle(p.x, p.y, tamano);
+      }
+    }
+
+    // clic: susto. cada partícula sale disparada
+    // en una dirección aleatoria
+    function mousePressed() {
+      for (const p of particulas) {
+        p.vx += random(-18, 18);
+        p.vy += random(-18, 18);
+      }
+    }
+
+    function keyPressed() {
+      if (key === "g") saveCanvas("enjambre", "png");
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+
+    // ═══════ ideas para el taller ═══════
+    // · CUANTAS = 1000 (¿aguanta tu ordenador? ¿y 5000?)
+    // · en el empujón, cambiad el signo: (p.x - mouseX)
+    //   → ahora HUYEN de ti. el juego contrario
+    // · quitad el fondo de draw() del todo: dibujan su historia
+    // · en fill(), jugad con los tres primeros números (r, g, b)
+  </script>
+
+</body>
+</html>

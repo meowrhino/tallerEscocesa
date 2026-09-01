@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  03 · ARCHIVADOR DE TEXTOS DECONSTRUIDO
+  ═══════════════════════════════════════════════════════
+  idea: recoger y ordenar textos como fichas de un
+  archivador que se ha caído al suelo. cada texto es un
+  <article> con etiquetas (diario, poema, idea...) y se
+  puede filtrar haciendo clic en las etiquetas de arriba.
+
+  HTML + CSS + un javascript MUY pequeño (15 líneas)
+  que solo hace una cosa: enseñar/ocultar fichas.
+
+  inspirado en el sistema de "notas": cada entrada lleva
+  fecha, lugar y tipo. aquí no hay servidor ni base de
+  datos: para publicar un texto nuevo se edita este
+  archivo a mano, se copia un bloque <article> y se
+  hace el commit. la web ES el archivo.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>archivador</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #e8e4da;
+      margin: 0;
+      padding: 1.5rem;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-style: italic;
+      margin: 0 0 1rem;
+    }
+
+    /* ─────────────────────────────────────────
+       LOS BOTONES DE FILTRO
+       ───────────────────────────────────────── */
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    nav button {
+      font-family: monospace;
+      font-size: 0.85rem;
+      border: 1px solid #333;
+      background: transparent;
+      padding: 0.3em 0.9em;
+      border-radius: 999px;   /* pastilla */
+      cursor: pointer;
+    }
+
+    /* .activo se lo pone el javascript al botón elegido */
+    nav button.activo {
+      background: #333;
+      color: #e8e4da;
+    }
+
+    /* ─────────────────────────────────────────
+       LAS FICHAS
+       columns = texto en columnas tipo periódico.
+       las fichas se reparten solas, cada una con
+       una rotación ligeramente distinta: el efecto
+       "archivador caído".
+       ───────────────────────────────────────── */
+    main {
+      columns: 3 280px;   /* 3 columnas de mínimo 280px; si no caben, menos */
+      column-gap: 1.5rem;
+    }
+
+    article {
+      background: #fdfbf4;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+      break-inside: avoid;  /* que una ficha no se parta entre columnas */
+    }
+
+    /* cada ficha un poco girada, alternando.
+       :nth-child(odd/even) = las impares / las pares */
+    article:nth-child(odd)  { transform: rotate(-0.7deg); }
+    article:nth-child(even) { transform: rotate(0.5deg); }
+
+    /* al pasar el ratón, se endereza. detalle tonto pero gustoso */
+    article:hover { transform: rotate(0deg); }
+
+    article h3 {
+      margin: 0 0 0.5rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+
+    article p {
+      margin: 0.3em 0;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    /* la ficha técnica del texto: fecha, lugar, tipo */
+    .datos {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1em;
+      margin-top: 1.2rem;
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: #999;
+      border-top: 1px dotted #ccc;
+      padding-top: 0.4rem;
+    }
+
+    /* .oculto se lo pone el javascript a las fichas filtradas */
+    .oculto { display: none; }
+  </style>
+</head>
+
+<body>
+
+  <h1>archivador</h1>
+
+  <!-- ══════════ FILTROS ══════════
+       data-filtro guarda qué etiqueta filtra cada botón.
+       "todo" es especial: lo enseña todo. -->
+  <nav>
+    <button data-filtro="todo" class="activo">todo</button>
+    <button data-filtro="diario">diario</button>
+    <button data-filtro="poema">poema</button>
+    <button data-filtro="idea">idea</button>
+    <button data-filtro="sueño">sueño</button>
+  </nav>
+
+  <!-- ══════════ LOS TEXTOS ══════════
+       para añadir un texto: copia un <article> entero.
+       en data-tipos pon sus etiquetas separadas por espacios
+       (un texto puede tener varias). y ya está: guardar,
+       commit, push. la web es el archivo. -->
+  <main>
+
+    <article data-tipos="diario">
+      <p>hoy he entendido que guardar las cosas en carpetas</p>
+      <p>es una manera de quererlas más despacio</p>
+      <div class="datos">
+        <span>12/03/26</span><span>casa</span><span>diario</span>
+      </div>
+    </article>
+
+    <article data-tipos="poema idea">
+      <h3>instrucciones para archivar</h3>
+      <p>primero olvida dónde lo pusiste</p>
+      <p>después búscalo con hambre</p>
+      <p>lo que encuentres por el camino<br />era lo que archivabas</p>
+      <div class="datos">
+        <span>02/04/26</span><span>tren</span><span>poema, idea</span>
+      </div>
+    </article>
+
+    <article data-tipos="sueño">
+      <p>soñé que la biblioteca entera cabía en un cajón</p>
+      <p>y que el cajón no se abría</p>
+      <p>pero se oía todo lo que decían los libros</p>
+      <div class="datos">
+        <span>15/04/26</span><span>—</span><span>sueño</span>
+      </div>
+    </article>
+
+    <article data-tipos="idea">
+      <h3>idea para una pieza</h3>
+      <p>fotocopiar la misma página mil veces,</p>
+      <p>cada copia de la copia anterior,</p>
+      <p>hasta que el texto sea solo textura</p>
+      <div class="datos">
+        <span>20/04/26</span><span>estudio</span><span>idea</span>
+      </div>
+    </article>
+
+    <article data-tipos="diario poema">
+      <p>me gusta la palabra archivador</p>
+      <p>porque dentro lleva la palabra ardor</p>
+      <div class="datos">
+        <span>28/04/26</span><span>bar</span><span>diario, poema</span>
+      </div>
+    </article>
+
+    <article data-tipos="poema">
+      <h3>ficha 47</h3>
+      <p>este texto no tiene sitio</p>
+      <p>por eso le hice una casa</p>
+      <div class="datos">
+        <span>03/05/26</span><span>casa</span><span>poema</span>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ══════════ EL JAVASCRIPT ══════════
+       léelo de arriba a abajo, hace exactamente esto:
+       1. escucha los clics en los botones
+       2. mira qué filtro lleva el botón
+       3. recorre todas las fichas y oculta las que
+          no tengan esa etiqueta -->
+  <script>
+    // cogemos todos los botones y todas las fichas
+    const botones = document.querySelectorAll("nav button");
+    const fichas = document.querySelectorAll("main article");
+
+    // para cada botón, le decimos qué hacer cuando lo cliquen
+    botones.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const filtro = boton.dataset.filtro; // ej: "poema"
+
+        // marcar visualmente el botón activo (quitar a todos, poner a este)
+        botones.forEach((b) => b.classList.remove("activo"));
+        boton.classList.add("activo");
+
+        // enseñar u ocultar cada ficha
+        fichas.forEach((ficha) => {
+          const tipos = ficha.dataset.tipos; // ej: "diario poema"
+          const seVe = filtro === "todo" || tipos.includes(filtro);
+          ficha.classList.toggle("oculto", !seVe);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

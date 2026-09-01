@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  20 · EXPO SCROLL VERTICAL (variante de la 06)
+  ═══════════════════════════════════════════════════════
+  cómo funciona la familia "expo scroll": efectivamente,
+  la base son divs (<section>) que ocupan el 100% del
+  ancho y alto de la ventana (100vw × 100vh). luego cada
+  variante cambia CÓMO te mueves entre ellos:
+
+  · la 06 los pone EN FILA (flex) y el scroll va de lado
+  · esta (20) los deja EN COLUMNA (lo natural del html)
+    y el scroll baja... pero con scroll-snap el imán
+    engancha cada sala, y con dos trucos de regalo:
+    - un título fijo que INVIERTE su color según lo que
+      pasa por debajo (mix-blend-mode: difference)
+    - un contador de sala hecho solo con css
+  · la 21 usa position: sticky (las obras se quedan
+    pegadas mientras el texto pasa por encima)
+  · la 22 convierte scroll vertical en viaje horizontal
+
+  SOLO HTML + CSS.
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>expo vertical</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      /* el imán, versión vertical: y en vez de x.
+         proximity (en vez de mandatory) engancha solo
+         si estás cerca: más suave, menos autoritario */
+      scroll-snap-type: y mandatory;
+    }
+
+    body { font-family: Helvetica, Arial, sans-serif; }
+
+    /* ─────────────────────────────────────────
+       EL TÍTULO FIJO QUE INVIERTE COLORES
+       position: fixed lo clava a la ventana.
+       mix-blend-mode: difference hace que sobre
+       fondo claro se vea oscuro y viceversa:
+       nunca desaparece, siempre contrasta.
+       ───────────────────────────────────────── */
+    h1 {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 10;
+      color: #fff;
+      mix-blend-mode: difference;
+      font-size: 1rem;
+      font-weight: normal;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    /* ─────────────────────────────────────────
+       LAS SALAS: cada una, una pantalla entera.
+       aquí está el esqueleto común de toda la
+       familia: 100% ancho × 100% alto.
+       ───────────────────────────────────────── */
+    section {
+      width: 100vw;
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 3rem;
+      position: relative;
+
+      /* contador de salas hecho con css:
+         un contador que suma 1 por cada section */
+      counter-increment: sala;
+    }
+
+    /* el numerito de cada sala, abajo a la derecha */
+    section::after {
+      content: "sala " counter(sala);
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    /* colores de pared alternos */
+    section:nth-child(odd)  { background: #f4f1ea; color: #111; }
+    section:nth-child(even) { background: #111; color: #f4f1ea; }
+
+    img {
+      max-width: 75vw;
+      max-height: 60vh;
+      object-fit: contain;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    h2 { font-weight: normal; font-style: italic; font-size: 1.3rem; }
+
+    .ficha { font-size: 0.8rem; opacity: 0.65; text-align: center; line-height: 1.7; }
+
+    .portada h2 { font-size: clamp(2rem, 7vw, 5rem); font-style: normal; max-width: 12em; text-align: center; }
+  </style>
+</head>
+
+<body>
+
+  <h1>expo vertical</h1>
+
+  <!-- ══ sala 1: portada ══ -->
+  <section class="portada">
+    <h2>una expo que cae por su propio peso</h2>
+    <p class="ficha">baja ↓ · el scroll se engancha solo a cada sala</p>
+  </section>
+
+  <!-- ══ salas de obra: copiar/pegar para añadir ══ -->
+  <section>
+    <img src="https://picsum.photos/id/1047/1000/700" alt="obra: ciudad de noche" />
+    <div class="ficha"><h2>la ciudad se apaga por barrios</h2>2024 · fotografía · 100 × 70 cm</div>
+  </section>
+
+  <section>
+    <img src="https://picsum.photos/id/1050/700/900" alt="obra vertical" />
+    <div class="ficha"><h2>arquitectura del descanso</h2>2025 · impresión giclée · 70 × 90 cm</div>
+  </section>
+
+  <section>
+    <img src="https://picsum.photos/id/1067/1000/700" alt="obra: geometrías" />
+    <div class="ficha"><h2>estudio nº 9</h2>2025 · collage digital · medidas variables</div>
+  </section>
+
+  <!-- ══ última sala ══ -->
+  <section class="portada">
+    <h2>fin</h2>
+    <p class="ficha">gracias por caer hasta aquí</p>
+  </section>
+
+</body>
+</html>

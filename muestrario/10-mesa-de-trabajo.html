@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  10 · MESA DE TRABAJO (moodboard arrastrable)
+  ═══════════════════════════════════════════════════════
+  idea: la web como mesa de estudio: imágenes, notas y
+  recortes desperdigados que se pueden ARRASTRAR con el
+  ratón para recolocarlos. cada visita puede ordenar
+  (o desordenar) tu mesa. al recargar, todo vuelve a
+  su sitio: el caos es tuyo, el orden es de cada visita.
+
+  HTML + CSS + un javascript pequeño (el arrastre son
+  ~25 líneas y se leen de un tirón).
+
+  en el taller: cada persona puebla su mesa con sus
+  imágenes y notas, elige rotaciones y posiciones en
+  los style="" de cada pieza. hablamos de position
+  absolute: colocar cosas con coordenadas, como chinchetas.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mesa de trabajo</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      /* textura de madera barata hecha con un degradado css */
+      background: repeating-linear-gradient(
+        90deg,
+        #b08d57 0px, #a5834f 60px, #b08d57 120px
+      );
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;   /* la mesa no tiene scroll: lo que hay es lo que hay */
+      font-family: Georgia, serif;
+      position: relative;
+    }
+
+    h1 {
+      position: absolute;
+      bottom: 1rem;
+      right: 1.5rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: normal;
+      font-style: italic;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    /* ─────────────────────────────────────────
+       LAS PIEZAS
+       todas llevan la clase .pieza: eso las hace
+       arrastrables (el js busca esa clase).
+       cada una se coloca con left/top en su style=""
+       (en el html, para editarlas fácil una a una)
+       ───────────────────────────────────────── */
+    .pieza {
+      position: absolute;       /* colocada con coordenadas exactas */
+      cursor: grab;             /* manita de agarrar */
+      user-select: none;        /* que no se seleccione texto al arrastrar */
+      box-shadow: 3px 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .pieza:active { cursor: grabbing; } /* manita cerrada mientras arrastras */
+
+    /* foto con borde blanco, tipo polaroid */
+    .foto {
+      background: white;
+      padding: 10px 10px 34px;  /* más margen abajo, como las polaroid */
+    }
+    .foto img {
+      display: block;
+      width: 200px;
+      pointer-events: none; /* que el arrastre lo capture la pieza, no la imagen */
+    }
+    .foto figcaption {
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 8px;
+      color: #333;
+    }
+
+    /* nota adhesiva */
+    .postit {
+      width: 170px;
+      padding: 1rem;
+      background: #fff9a8;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .postit.rosa { background: #ffc7de; }
+    .postit.verde { background: #c8f0c8; }
+
+    /* recorte de papel con una palabra */
+    .recorte {
+      background: #f4f1ea;
+      padding: 0.3em 0.7em;
+      font-size: 1.3rem;
+      font-style: italic;
+    }
+
+    /* cinta adhesiva decorativa: un pseudo-elemento
+       semitransparente pegado arriba de la pieza */
+    .concinta::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 80px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.45);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>mesa de trabajo — se puede tocar</h1>
+
+  <!-- ══════════ LAS PIEZAS ══════════
+       cada pieza se coloca con left/top (y su rotación)
+       en su propio style="". para añadir una: copia una,
+       cambia el contenido y dale otras coordenadas.
+       las coordenadas van desde la esquina arriba-izquierda. -->
+
+  <figure class="pieza foto" style="left: 6%; top: 12%; transform: rotate(-4deg)">
+    <img src="https://picsum.photos/id/1080/400/300" alt="referencia uno" />
+    <figcaption>esto pero en grande</figcaption>
+  </figure>
+
+  <figure class="pieza foto concinta" style="left: 58%; top: 8%; transform: rotate(3deg)">
+    <img src="https://picsum.photos/id/106/400/300" alt="referencia dos" />
+    <figcaption>¿la paleta de la serie nueva?</figcaption>
+  </figure>
+
+  <div class="pieza postit" style="left: 35%; top: 20%; transform: rotate(2deg)">
+    llamar a la galería antes del jueves!!
+  </div>
+
+  <div class="pieza postit rosa" style="left: 70%; top: 55%; transform: rotate(-3deg)">
+    idea: que la expo entera quepa en un pdf que se envía por mail
+  </div>
+
+  <div class="pieza postit verde concinta" style="left: 12%; top: 60%; transform: rotate(1deg)">
+    comprimir las imágenes ANTES de subirlas ✶
+  </div>
+
+  <div class="pieza recorte" style="left: 45%; top: 65%; transform: rotate(-6deg)">
+    ternura
+  </div>
+
+  <div class="pieza recorte" style="left: 52%; top: 42%; transform: rotate(4deg)">
+    archivo
+  </div>
+
+  <figure class="pieza foto" style="left: 80%; top: 25%; transform: rotate(6deg)">
+    <img src="https://picsum.photos/id/129/400/300" alt="referencia tres" />
+    <figcaption>luz así</figcaption>
+  </figure>
+
+  <!-- ══════════ EL JAVASCRIPT: EL ARRASTRE ══════════
+       la receta clásica en 3 pasos:
+       1. al PULSAR una pieza: apuntamos cuál es y dónde
+          la agarraste (para que no dé un salto al centro)
+       2. al MOVER el ratón: si hay pieza agarrada, la
+          movemos con el ratón
+       3. al SOLTAR: dejamos de mover -->
+  <script>
+    let piezaAgarrada = null; // qué pieza llevamos (ninguna al principio)
+    let dedoX = 0;            // en qué punto de la pieza la agarraste
+    let dedoY = 0;
+
+    // 1 · PULSAR: pointerdown funciona con ratón Y con dedo (móvil)
+    document.addEventListener("pointerdown", (evento) => {
+      // closest busca hacia arriba la pieza que contiene lo pulsado
+      const pieza = evento.target.closest(".pieza");
+      if (!pieza) return; // si pulsaste la mesa vacía, nada
+
+      piezaAgarrada = pieza;
+
+      // distancia entre donde pulsaste y la esquina de la pieza
+      const caja = pieza.getBoundingClientRect();
+      dedoX = evento.clientX - caja.left;
+      dedoY = evento.clientY - caja.top;
+
+      // la pieza agarrada pasa por encima de las demás
+      pieza.style.zIndex = 1000;
+    });
+
+    // 2 · MOVER
+    document.addEventListener("pointermove", (evento) => {
+      if (!piezaAgarrada) return; // si no llevamos nada, nada
+
+      // nueva posición = ratón menos el punto donde agarraste
+      piezaAgarrada.style.left = evento.clientX - dedoX + "px";
+      piezaAgarrada.style.top = evento.clientY - dedoY + "px";
+    });
+
+    // 3 · SOLTAR
+    document.addEventListener("pointerup", () => {
+      piezaAgarrada = null;
+    });
+  </script>
+
+</body>
+</html>

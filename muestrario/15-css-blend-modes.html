@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  15 · CSS PURO: BLEND MODES Y ANIMACIONES
+  ═══════════════════════════════════════════════════════
+  idea: demostrar que sin NINGUNA librería se consiguen
+  efectos de "web cara". tres escenas:
+
+  1. lámpara de lava: círculos borrosos que se mezclan
+     (blend mode multiply + blur + keyframes)
+  2. texto en modo "difference": las letras invierten
+     lo que tienen debajo, como serigrafía imposible
+  3. galería de filtros: la misma foto pasada por
+     filtros css (los de instagram, pero tuyos)
+
+  SOLO HTML + CSS. cero javascript, cero cdn.
+  los blend modes son los mismos que en photoshop:
+  multiply, screen, difference, overlay... pintar
+  con capas, pero en la web.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>css puro · mezclas</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: Helvetica, Arial, sans-serif; }
+
+    section {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pista {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.8rem;
+      opacity: 0.6;
+      z-index: 5;
+    }
+
+    /* ═══════ ESCENA 1: LÁMPARA DE LAVA ═══════
+       tres manchas de color que flotan cada una a su
+       ritmo. mix-blend-mode: multiply hace que donde
+       se solapan, los colores se MULTIPLIQUEN (como
+       superponer acetatos de colores). el blur las
+       vuelve líquidas. */
+    .lava { background: #f4f1ea; }
+
+    .mancha {
+      position: absolute;
+      width: 45vmin;               /* vmin = % del lado corto de la ventana */
+      height: 45vmin;
+      border-radius: 50%;          /* círculo */
+      filter: blur(40px);          /* desenfoque: de círculo a mancha */
+      mix-blend-mode: multiply;    /* ¡LA MEZCLA! probad: screen, overlay */
+      animation: flotar 11s ease-in-out infinite alternate;
+      /* alternate = al acabar vuelve sobre sus pasos, sin salto */
+    }
+
+    .mancha.cian    { background: #00b4d8; animation-duration: 13s; }
+    .mancha.magenta { background: #f72585; animation-duration: 17s; left: 30%; }
+    .mancha.amarilla{ background: #ffd60a; animation-duration: 10s; left: 15%; top: 30%; }
+
+    @keyframes flotar {
+      from { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(28vw, 12vh) scale(1.25); }
+      66%  { transform: translate(6vw, 30vh) scale(0.85); }
+      to   { transform: translate(22vw, 4vh) scale(1.1); }
+    }
+
+    .lava h1 {
+      position: relative;         /* para quedar sobre las manchas */
+      font-size: clamp(2.5rem, 9vw, 7rem);
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    /* ═══════ ESCENA 2: TEXTO DIFFERENCE ═══════
+       una foto de fondo fija, y encima un texto blanco
+       con mix-blend-mode: difference — cada píxel del
+       texto INVIERTE el color que tenga debajo.
+       al hacer scroll, el texto "revela" la imagen
+       de otra manera. */
+    .diferencia {
+      background: url("https://picsum.photos/id/1015/1600/1000") center / cover fixed;
+      /* fixed = la imagen no se mueve con el scroll: efecto ventana */
+    }
+
+    .diferencia h1 {
+      color: #fff;
+      mix-blend-mode: difference;  /* la magia */
+      font-size: clamp(3rem, 13vw, 11rem);
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 0.9;
+    }
+
+    /* ═══════ ESCENA 3: GALERÍA DE FILTROS ═══════
+       la MISMA imagen repetida, cada copia con un
+       filtro css distinto. al pasar el ratón, el
+       filtro se quita y ves la original. */
+    .filtros { background: #111; flex-direction: column; gap: 2rem; padding: 4rem 2rem; }
+
+    .cuadricula {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .cuadricula figure { color: #999; font-size: 0.75rem; font-family: monospace; }
+
+    .cuadricula img {
+      width: 100%;
+      display: block;
+      transition: filter 0.5s;     /* la vuelta a la normalidad, suave */
+      margin-bottom: 0.4rem;
+    }
+
+    /* cada clase, un filtro. son acumulables (ver .fiebre) */
+    .gris     img { filter: grayscale(1); }
+    .invertida img { filter: invert(1); }
+    .acida    img { filter: hue-rotate(120deg) saturate(2); }
+    .fiebre   img { filter: sepia(1) hue-rotate(-30deg) contrast(1.4); }
+    .fantasma img { filter: blur(3px) brightness(1.3); }
+    .noventas img { filter: contrast(1.3) saturate(1.6) sepia(0.25); }
+
+    /* al pasar el ratón: sin filtro, la foto original */
+    .cuadricula figure:hover img { filter: none; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════ ESCENA 1 ══════════ -->
+  <section class="lava">
+    <div class="mancha cian"></div>
+    <div class="mancha magenta"></div>
+    <div class="mancha amarilla"></div>
+    <h1>tinta viva</h1>
+    <p class="pista">tres círculos + blur + multiply. baja ↓</p>
+  </section>
+
+  <!-- ══════════ ESCENA 2 ══════════ -->
+  <section class="diferencia">
+    <h1>lo que<br />no se ve</h1>
+    <p class="pista" style="color:#fff">el texto invierte la foto (mix-blend-mode: difference)</p>
+  </section>
+
+  <!-- ══════════ ESCENA 3 ══════════ -->
+  <section class="filtros">
+    <div class="cuadricula">
+      <figure class="gris">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto con filtro gris" />
+        <figcaption>grayscale(1)</figcaption>
+      </figure>
+      <figure class="invertida">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto invertida" />
+        <figcaption>invert(1)</figcaption>
+      </figure>
+      <figure class="acida">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto ácida" />
+        <figcaption>hue-rotate + saturate</figcaption>
+      </figure>
+      <figure class="fiebre">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto fiebre" />
+        <figcaption>sepia + hue-rotate + contrast</figcaption>
+      </figure>
+      <figure class="fantasma">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto fantasma" />
+        <figcaption>blur + brightness</figcaption>
+      </figure>
+      <figure class="noventas">
+        <img src="https://picsum.photos/id/119/400/400" alt="foto noventas" />
+        <figcaption>contrast + saturate + sepia</figcaption>
+      </figure>
+    </div>
+    <p class="pista">pasa el ratón: se quita el filtro. inventad los vuestros mezclando funciones</p>
+  </section>
+
+</body>
+</html>

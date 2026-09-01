@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sesión 3 · publicar — taller de web autogestionada</title>
+<meta name="description" content="Tercera sesión del taller de web autogestionada de La Escocesa: qué es GitHub, Pages, Cloudflare y un dominio, cómo publicar y cómo mantener la web tú sola.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/taller.css">
+</head>
+<body>
+
+<div class="progreso"></div>
+
+<nav class="barra no-imprimir">
+  <a class="marca" href="index.html">taller · la escocesa</a>
+  <span class="sep"></span>
+  <a href="sesion-1.html">1 · html</a>
+  <a href="sesion-2.html">2 · css</a>
+  <a href="sesion-3.html" aria-current="page">3 · publicar</a>
+  <a href="muestrario/">muestrario</a>
+  <button id="btn-proyectar" type="button">proyectar</button>
+  <button id="btn-tema" type="button">tema</button>
+  <button id="btn-imprimir" type="button">imprimir</button>
+</nav>
+
+<main>
+
+<header class="portada">
+  <div>
+    <p class="portada-num">sesión 3 de 3</p>
+    <h1>publicar<br>y mantener</h1>
+    <p class="entradilla">Tres horas. Al final de hoy tu web está en internet, entiendes por qué, y sabes actualizarla tú sola.</p>
+  </div>
+  <p class="pie">taller de web autogestionada · la escocesa · meowrhino.studio</p>
+</header>
+
+<section class="lamina hueco" id="plan">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">3 horas</span><span class="sep"></span><span class="duracion">el plan de hoy</span></div>
+    <nav class="plan">
+      <a href="#b1"><span class="hora">00:00</span><span class="que">qué es todo esto</span><span class="min">30 min</span></a>
+      <a href="#b2"><span class="hora">00:30</span><span class="que">publicar bien</span><span class="min">30 min</span></a>
+      <a href="#b3"><span class="hora">01:00</span><span class="que">un dominio propio</span><span class="min">20 min</span></a>
+      <a href="#b4"><span class="hora">01:20</span><span class="que">pausa</span><span class="min">15 min</span></a>
+      <a href="#b5"><span class="hora">01:35</span><span class="que">actualizar tu web</span><span class="min">40 min</span></a>
+      <a href="#b6"><span class="hora">02:15</span><span class="que">remates y cómo seguir</span><span class="min">25 min</span></a>
+      <a href="#b7"><span class="hora">02:40</span><span class="que">consultorio</span><span class="min">20 min</span></a>
+    </nav>
+  </div>
+</section>
+
+<!-- ══════════════ bloque 1 · conceptos ══════════════ -->
+<section class="lamina bloque" id="b1">
+  <div>
+    <span class="reloj">00:00 · 30 minutos</span>
+    <h2>qué es todo esto</h2>
+    <p>GitHub, Pages, Cloudflare, dominio, DNS. Cinco palabras que dan miedo y no son nada.</p>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span><span class="duracion">el mapa entero</span></div>
+    <h2>el camino de tu carpeta a internet</h2>
+    <div class="codigo"><pre>tu carpeta          →   el repositorio   →   el servidor    →   la dirección
+en tu ordenador         (GitHub)             (Pages)            (el dominio)
+
+editas aquí             guarda copia         la sirve a         la gente
+                        e histórico          quien la pida      la escribe</pre></div>
+    <p>Cada casilla resuelve un problema distinto. Puedes cambiar cualquiera de ellas sin tocar las demás, y por eso esto no caduca.</p>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
+    <h2>qué es un repositorio, y qué es github</h2>
+    <div class="dos">
+      <div>
+        <h3>Repositorio</h3>
+        <p>Una carpeta que además <strong>guarda el histórico de sus cambios</strong>. Cada vez que subes algo queda registrado qué cambió, cuándo y por qué. Puedes volver a cualquier momento anterior.</p>
+        <p>Es la diferencia entre una carpeta normal y un repositorio. Nada más.</p>
+      </div>
+      <div>
+        <h3>GitHub</h3>
+        <p>Una empresa que <strong>aloja repositorios gratis</strong>. Es de Microsoft. Usarla no te ata: tu carpeta sigue en tu ordenador, y si mañana GitHub cierra o te deja de gustar, subes esa misma carpeta a otro sitio en diez minutos.</p>
+        <p>Eso es lo que hace que esto sea autogestionado: <strong>la copia buena la tienes tú</strong>.</p>
+      </div>
+    </div>
+    <div class="aviso">
+      <span class="etiqueta">nada de línea de comandos</span>
+      <p>Existe una forma de hacer esto escribiendo comandos, y es más cómoda a la larga. Hoy no la necesitas para nada. Todo con el ratón, en la web.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
+    <h2>github pages y cloudflare pages</h2>
+    <p>Un repositorio, por sí solo, solo guarda archivos. Para que alguien pueda <em>visitarlos</em> hace falta un servidor que los entregue. Eso es lo que hacen estos dos, gratis:</p>
+    <div class="tabla-envoltorio">
+    <table class="tabla">
+      <tr><th>servicio</th><th>qué hace</th><th>cuándo</th></tr>
+      <tr><td>GitHub Pages</td><td>Coge tu repositorio y lo publica en <code>tunombre.github.io/mi-web</code>. Cuatro clics, sin configurar nada.</td><td>Lo que usamos hoy.</td></tr>
+      <tr><td>Cloudflare Pages</td><td>Lo mismo, pero conectado al repositorio: cada vez que subes un cambio, republica sola. Y va más rápido en el resto del mundo.</td><td>Buen segundo paso, cuando ya te aburra el proceso manual.</td></tr>
+      <tr><td>Neocities</td><td>Más artesanal, con comunidad de webs personales y editor propio en la web.</td><td>Si te apetece la parte social.</td></tr>
+    </table>
+    </div>
+    <div class="aviso">
+      <span class="etiqueta">hoy, un solo camino</span>
+      <p>Montamos GitHub Pages y ya está. Cloudflare queda apuntado en la guía para cuando quieras. Dos caminos abiertos a la vez en clase es la manera de que nadie acabe ninguno.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">00:00</span><span class="sep"></span></div>
+    <h2>qué es un dominio, y qué es el dns</h2>
+    <div class="dos">
+      <div>
+        <p>Cada servidor de internet tiene un número, algo como <code>185.199.108.153</code>. Nadie se acuerda de eso.</p>
+        <p>Un <strong>dominio</strong> es un nombre alquilado que apunta a ese número: <code>ritamestre.com</code>. Lo alquilas por años, entre 10 y 15 € al año.</p>
+        <p>El <strong>DNS</strong> es la agenda de teléfonos que traduce el nombre al número. Cuando «conectas» un dominio a tu web, lo que haces es escribir una línea en esa agenda.</p>
+      </div>
+      <div>
+        <div class="codigo"><pre>ritamestre.com
+     ↓  <span class="c">el DNS traduce</span>
+185.199.108.153
+     ↓  <span class="c">ahí vive</span>
+tu carpeta publicada</pre></div>
+        <p>Tarda un rato en propagarse — de minutos a un día — porque esa agenda está copiada en medio mundo y cada copia se actualiza a su ritmo.</p>
+      </div>
+    </div>
+    <div class="aviso clave">
+      <span class="etiqueta">la regla que no se salta nunca</span>
+      <p><strong>El dominio se pone a tu nombre y con tu correo. Siempre.</strong> Aunque te lo configure otra persona, aunque sea de confianza, aunque sea más cómodo.</p>
+      <p>Es lo único de todo esto que se puede perder de verdad. La carpeta la tienes tú, el repositorio se rehace — pero un dominio a nombre de otro es un dominio que no es tuyo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ bloque 2 ══════════════ -->
+<section class="lamina bloque" id="b2">
+  <div>
+    <span class="reloj">00:30 · 30 minutos</span>
+    <h2>publicar bien</h2>
+    <p>En la sesión 1 lo hicimos a ciegas. Ahora, entendiendo, y repasando antes.</p>
+  </div>
+</section>
+
+<section class="lamina hueco" id="checklist">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">antes de subir nada</span><span class="sep"></span><span class="duracion">5 min que ahorran 30</span></div>
+    <h2>checklist antes de publicar</h2>
+    <div class="dos">
+      <div>
+        <h3>Archivos</h3>
+        <ul class="casillas">
+          <li>La portada se llama exactamente <code>index.html</code></li>
+          <li>Todas las imágenes están dentro de <code>img/</code></li>
+          <li>Ningún nombre tiene espacios, acentos ni mayúsculas</li>
+        </ul>
+        <h3>HTML</h3>
+        <ul class="casillas">
+          <li>Cada página tiene su <code>&lt;title&gt;</code> propio y descriptivo</li>
+          <li>Todas llevan <code>&lt;meta charset="UTF-8"&gt;</code></li>
+          <li>Todas las imágenes tienen <code>alt</code> escrito</li>
+          <li>El menú es idéntico en todas las páginas</li>
+          <li>Todos los enlaces funcionan en local, en los dos sentidos</li>
+          <li>No quedan comentarios de instrucciones ni texto de relleno</li>
+        </ul>
+      </div>
+      <div>
+        <h3>CSS</h3>
+        <ul class="casillas">
+          <li>El <code>&lt;link&gt;</code> al CSS está en todas las páginas</li>
+          <li><code>img { max-width: 100%; }</code> está puesto</li>
+          <li>Se ve bien estrechando la ventana hasta tamaño móvil</li>
+        </ul>
+        <h3>Peso</h3>
+        <ul class="casillas">
+          <li>Ninguna imagen pasa de 1 MB</li>
+          <li>La carpeta entera pesa menos de 25 MB</li>
+        </ul>
+        <h3>Después de publicar</h3>
+        <ul class="casillas">
+          <li>La web abre en el móvil</li>
+          <li>Las imágenes se ven publicadas, no solo en local</li>
+          <li>Los enlaces del menú funcionan también publicados</li>
+          <li>La dirección está apuntada en papel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lamina" id="ej6">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">ejercicio 6</span><span class="sep"></span><span class="duracion">30 min · paso a paso</span></div>
+    <h2>subir y publicar</h2>
+    <div class="dos">
+      <div>
+        <h3>Subir</h3>
+        <ol>
+          <li><a href="https://github.com">github.com</a> → <strong>New repository</strong>.</li>
+          <li>Nombre <code>mi-web</code>, marcar <strong>Public</strong>, Create.</li>
+          <li><strong>uploading an existing file</strong>.</li>
+          <li>Arrastrar <strong>el contenido de la carpeta</strong>, no la carpeta.</li>
+          <li><strong>Commit changes</strong>.</li>
+        </ol>
+        <h3>Publicar</h3>
+        <ol>
+          <li><strong>Settings → Pages</strong>.</li>
+          <li>Branch: <code>main</code> → <strong>Save</strong>.</li>
+          <li>Esperar un minuto y recargar.</li>
+        </ol>
+      </div>
+      <div>
+        <div class="aviso">
+          <span class="etiqueta">si sale un 404</span>
+          <p>Entra en tu repositorio: ¿ves <code>index.html</code> nada más abrirlo? Si lo que ves es una carpeta, subiste la carpeta contenedora. Bórralo y vuelve a subir solo el contenido.</p>
+        </div>
+        <div class="aviso clave">
+          <span class="etiqueta">apunta aquí tu dirección</span>
+          <p>tunombre.github.io / _______________</p>
+          <p>En papel. Ahora. Y ábrela en el móvil: es donde se ve para qué servía la media query de la sesión pasada.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ bloque 3 ══════════════ -->
+<section class="lamina bloque" id="b3">
+  <div>
+    <span class="reloj">01:00 · 20 minutos</span>
+    <h2>un dominio propio</h2>
+    <p>Opcional, cuesta unos 12 € al año, y hay una regla que ya sabes.</p>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">01:00</span><span class="sep"></span></div>
+    <h2>si quieres tunombre.com</h2>
+    <ul>
+      <li>Se compra aparte: entre 10 y 15 € al año en <strong>Porkbun</strong>, <strong>Namecheap</strong> o <strong>Gandi</strong>.</li>
+      <li>Se conecta desde los ajustes del dominio, apuntándolo a GitHub.</li>
+      <li><strong>Evita los que regalan el primer año</strong> y multiplican el precio del segundo.</li>
+      <li>La dirección de GitHub sigue funcionando igual, y es gratis para siempre.</li>
+    </ul>
+    <div class="aviso">
+      <span class="etiqueta">hoy no compramos nada</span>
+      <p>Nadie mete su tarjeta con catorce personas mirando. Esto se hace en casa, con calma.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ pausa ══════════════ -->
+<section class="lamina bloque" id="b4">
+  <div>
+    <span class="reloj">01:20 · 15 minutos</span>
+    <h2>pausa</h2>
+    <p>Después viene la parte importante del día.</p>
+  </div>
+</section>
+
+<!-- ══════════════ bloque 5 ══════════════ -->
+<section class="lamina bloque" id="b5">
+  <div>
+    <span class="reloj">01:35 · 40 minutos</span>
+    <h2>actualizar tu web</h2>
+    <p>El ciclo que hace que la web sea tuya de verdad. Lo hace cada una, entera, sola.</p>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">01:35</span><span class="sep"></span></div>
+    <h2>el ciclo, siempre igual</h2>
+    <div class="codigo"><pre>1  Editas          2  Guardas y miras     3  Subes           4  Un minuto
+   en VS Code   →     en local         →     a GitHub     →     y está online</pre></div>
+    <p>Subir un archivo cambiado: <strong>Add file → Upload files</strong> → arrastras el nuevo encima del viejo → <strong>Commit changes</strong>.</p>
+    <div class="aviso clave">
+      <span class="etiqueta">las dos costumbres</span>
+      <p><strong>Comprueba en local antes de subir. Siempre.</strong> Así lo que se rompe se rompe en tu ordenador y no delante de todo el mundo.</p>
+      <p><strong>Copia de la carpeta antes de cambios grandes</strong>, con la fecha en el nombre. Es la manera más simple de poder volver atrás.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lamina hueco" id="ej7">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">ejercicio 7</span><span class="sep"></span><span class="duracion">30 min · el más importante del taller</span></div>
+    <h2>cambiar algo y volver a subirlo</h2>
+    <p>Publicar lo hace cualquiera una vez. Lo que hace que la web sea tuya es saber cambiarla dentro de seis meses. <strong>Hazlo tú sola, entera.</strong></p>
+    <div class="dos">
+      <div>
+        <h3>El ciclo completo</h3>
+        <ul class="casillas">
+          <li>En VS Code, cambia algo que se note: una frase, un color, una imagen.</li>
+          <li>Guarda.</li>
+          <li>Ábrelo en tu navegador <strong>en local</strong> y comprueba que está bien.</li>
+          <li>En GitHub: <strong>Add file → Upload files</strong>.</li>
+          <li>Arrastra el archivo cambiado encima del que ya estaba.</li>
+          <li><strong>Commit changes</strong>.</li>
+          <li>Espera un minuto, recarga tu web publicada y comprueba el cambio.</li>
+        </ul>
+        <h3>Repítelo con otra cosa</h3>
+        <ul class="casillas">
+          <li>Añade un proyecto nuevo a <code>proyectos.html</code>.</li>
+          <li>Súbelo tú sola, sin mirar los pasos de arriba.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Antes de irte</h3>
+        <ul class="casillas">
+          <li>Tengo mi dirección apuntada en papel.</li>
+          <li>Tengo la carpeta guardada en mi ordenador.</li>
+          <li>Sé entrar en mi cuenta de GitHub.</li>
+          <li>He hecho el ciclo completo yo sola, al menos dos veces.</li>
+          <li>Me llevo la guía y la chuleta.</li>
+        </ul>
+        <div class="aviso">
+          <span class="etiqueta">por qué esto y no otra cosa</span>
+          <p>Hasta que no lo has hecho sola una vez, no lo sabes hacer. Todo lo demás del taller se puede recuperar leyendo la guía; esto no.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ bloque 6 ══════════════ -->
+<section class="lamina bloque" id="b6">
+  <div>
+    <span class="reloj">02:15 · 25 minutos</span>
+    <h2>remates y cómo seguir</h2>
+    <p>Los detalles que faltan, dónde buscar, y cómo pedir ayuda sin perder tu web.</p>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">02:15</span><span class="sep"></span></div>
+    <h2>cuando algo no funciona</h2>
+    <ol>
+      <li>¿Has guardado el archivo?</li>
+      <li>¿Has recargado? Recarga forzada: <strong>Cmd+Shift+R</strong> o <strong>Ctrl+F5</strong>.</li>
+      <li>¿Falta cerrar una etiqueta, una comilla o un punto y coma? VS Code lo marca en color.</li>
+      <li>¿Una imagen no sale? El nombre del archivo y el <code>src</code> tienen que coincidir <strong>exactamente</strong> — mayúsculas y extensión incluidas. <code>.JPG</code> no es <code>.jpg</code>.</li>
+      <li>Botón derecho → Inspeccionar → pestaña <strong>Console</strong>. Si hay un error, está escrito ahí.</li>
+      <li>Vuelve a la última copia que iba bien y avanza otra vez desde ahí.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="lamina">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">02:15</span><span class="sep"></span></div>
+    <h2>pedirle ayuda a una inteligencia artificial</h2>
+    <div class="dos">
+      <div>
+        <ul>
+          <li><strong>Pega solo el trozo que falla</strong>, no la web entera.</li>
+          <li><strong>Pídele que te explique el cambio</strong>, no solo el código.</li>
+          <li><strong>No aceptes una reescritura completa.</strong></li>
+        </ul>
+      </div>
+      <div>
+        <div class="aviso clave">
+          <span class="etiqueta">por qué importa</span>
+          <p>Si le das la web entera te la devuelve reescrita de arriba abajo. Funcionará, pero ya no sabrás dónde tocar — y eso es justo lo que has venido a aprender.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lamina hueco" id="recursos">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">02:15</span><span class="sep"></span><span class="duracion">seguir por tu cuenta</span></div>
+    <h2>dónde buscar</h2>
+    <div class="rejilla">
+      <a class="tarjeta" href="https://developer.mozilla.org/es/">
+        <span class="nombre">mdn</span>
+        <span class="que">La documentación de referencia de HTML y CSS. Es lo que consulta quien se dedica a esto.</span>
+      </a>
+      <a class="tarjeta" href="https://neocities.org">
+        <span class="nombre">neocities</span>
+        <span class="que">Miles de webs personales hechas a mano. Para mirar cómo están hechas y para no sentirse sola.</span>
+      </a>
+      <a class="tarjeta" href="https://p5js.org/es/">
+        <span class="nombre">p5.js</span>
+        <span class="que">Dibujo y animación con código, con editor online.</span>
+      </a>
+      <a class="tarjeta" href="https://caniuse.com">
+        <span class="nombre">caniuse</span>
+        <span class="que">Comprobar si algo funciona en todos los navegadores.</span>
+      </a>
+      <a class="tarjeta" href="https://squoosh.app">
+        <span class="nombre">squoosh</span>
+        <span class="que">Reducir imágenes en el navegador, sin instalar nada.</span>
+      </a>
+      <a class="tarjeta" href="https://coolors.co">
+        <span class="nombre">coolors</span>
+        <span class="que">Generador de paletas de color.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ preguntas ══════════════ -->
+<section class="lamina" id="preguntas">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">02:40</span><span class="sep"></span><span class="duracion">consultorio</span></div>
+    <h2>las preguntas de siempre</h2>
+    <div class="tabla-envoltorio">
+    <table class="tabla">
+      <tr><td>¿un formulario de contacto?</td><td>Necesita un servidor. Hay servicios que lo resuelven pegando unas líneas (Formspree, Tally). El consejo honesto: pon tu correo con <code>mailto:</code>. No se rompe nunca y a nadie le ha costado nunca un encargo.</td></tr>
+      <tr><td>¿un blog?</td><td>Sí, con una limitación: cada entrada es un archivo que creas a mano. Para tres o cuatro al año, perfecto. Para escribir cada semana, cansa.</td></tr>
+      <tr><td>¿mejor que wordpress o cargo?</td><td>Depende. Ganas: no pagas al mes, nadie puede cerrarte la web, carga rápido y dentro de diez años seguirá igual. Pierdes: no hay panel bonito, ni tienda, ni comentarios.</td></tr>
+      <tr><td>¿puedo vender?</td><td>No con esto. Enlaza a Bandcamp o Big Cartel, que es lo que hace mucha gente.</td></tr>
+      <tr><td>¿cómo salgo en google?</td><td>Tres cosas gratis: un <code>&lt;title&gt;</code> propio por página, los textos como texto y no dentro de imágenes, y que otras webs te enlacen. Lo demás que te vendan sobre SEO, para una web de artista, es humo.</td></tr>
+      <tr><td>¿cuánta gente entra?</td><td>Hay contadores que respetan la privacidad. Pero pregúntate primero si el dato te va a servir para algo.</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ muestrario ══════════════ -->
+<section class="lamina hueco" id="muestrario">
+  <div>
+    <div class="cabecera-lamina"><span class="reloj">muestrario</span><span class="sep"></span><span class="duracion">si te quedas con ganas</span></div>
+    <h2>hasta dónde se puede llegar</h2>
+    <p>Todo esto son archivos sueltos que se publican igual que tu web: los subes y ya está.</p>
+    <div class="rejilla">
+      <a class="tarjeta" href="muestrario/19-save-the-date.html">
+        <span class="nombre">save the date</span>
+        <span class="que">Cuenta atrás en vivo y botón «añadir al calendario».</span>
+        <span class="marca-tec">js mini</span>
+      </a>
+      <a class="tarjeta" href="muestrario/09-dibujo-p5.html">
+        <span class="nombre">cuaderno p5</span>
+        <span class="que">Dibujar con código dentro de tu propia web.</span>
+        <span class="marca-tec">p5.js</span>
+      </a>
+      <a class="tarjeta" href="muestrario/26-mesa-de-trabajo-editable.html">
+        <span class="nombre">mesa de trabajo</span>
+        <span class="que">Moodboard con memoria: añades notas e imágenes y guarda el resultado.</span>
+        <span class="marca-tec">js</span>
+      </a>
+      <a class="tarjeta" href="muestrario/12-hydra-visuales.html">
+        <span class="nombre">hydra</span>
+        <span class="que">Visuales en vivo, escritos en código, dentro de una página.</span>
+        <span class="marca-tec">hydra</span>
+      </a>
+      <a class="tarjeta" href="muestrario/13-tonejs-cajita.html">
+        <span class="nombre">cajita de música</span>
+        <span class="que">Sonido generado en el navegador.</span>
+        <span class="marca-tec">tone.js</span>
+      </a>
+      <a class="tarjeta" href="muestrario/">
+        <span class="nombre">ver las 26</span>
+        <span class="que">El muestrario entero, ordenado por tipo.</span>
+        <span class="marca-tec">índice</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ cierre ══════════════ -->
+<section class="lamina bloque" id="b7">
+  <div>
+    <span class="reloj">02:40 · 20 minutos</span>
+    <h2>lo que te llevas</h2>
+    <p>Y el correo de dudas de las dos semanas siguientes.</p>
+  </div>
+</section>
+
+<section class="lamina" id="final">
+  <div>
+    <ul class="casillas">
+      <li>Una web publicada, con dirección propia.</li>
+      <li>Una carpeta en tu ordenador que puedes cambiar cuando quieras.</li>
+      <li>Una guía escrita y una chuleta para dentro de tres meses.</li>
+      <li>Dos semanas de dudas por correo.</li>
+    </ul>
+    <p class="entradilla">No caduca, no tiene suscripción y no se lo lleva nadie al cerrar. Son archivos de texto en una carpeta: el formato más duradero que existe en internet.</p>
+    <div class="siguiente">
+      <a href="sesion-1.html"><span class="rol">repasar</span><span class="nombre">1 · html</span></a>
+      <a href="sesion-2.html"><span class="rol">repasar</span><span class="nombre">2 · css</span></a>
+      <a href="muestrario/"><span class="rol">seguir jugando</span><span class="nombre">el muestrario</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/taller.js"></script>
+</body>
+</html>

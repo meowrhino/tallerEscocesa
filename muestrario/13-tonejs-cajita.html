@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  13 · TONE.JS (cajita de música)
+  ═══════════════════════════════════════════════════════
+  idea: la web como instrumento. tone.js es una librería
+  de audio que trae sintetizadores, efectos y un reloj
+  musical. aquí montamos una cajita de música:
+
+  · teclas para tocar (escala pentatónica: imposible
+    tocar mal, todo suena bien junto)
+  · un secuenciador de 8 pasos: enciendes casillas y
+    el bucle las toca en orden, como una caja de ritmos
+
+  detalle importante: los navegadores NO dejan sonar
+  nada hasta que la persona hace un primer clic
+  (para protegernos de webs ruidosas). por eso todo
+  empieza con Tone.start() dentro de un clic.
+
+  necesita internet (cdn). con auriculares, mejor vida.
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cajita de música</title>
+
+  <!-- la librería tone.js desde un cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/tone@14.8.49/build/Tone.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: monospace;
+      background: #191724;
+      color: #e0def4;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    h1 { font-weight: normal; font-size: 1rem; letter-spacing: 0.3em; }
+
+    /* ── las teclas ── */
+    #teclado { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+
+    #teclado button {
+      width: 3.5rem;
+      height: 5.5rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      background: #26233a;
+      color: #e0def4;
+      border: 1px solid #6e6a86;
+      border-radius: 0 0 8px 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 0.5rem;
+    }
+
+    /* .sonando se pone un instante desde js al tocar */
+    #teclado button.sonando { background: #eb6f92; color: #191724; }
+
+    /* ── el secuenciador ── */
+    #secuenciador {
+      display: grid;
+      grid-template-columns: repeat(8, 2.6rem); /* 8 pasos */
+      gap: 0.4rem;
+    }
+
+    #secuenciador .paso {
+      width: 2.6rem;
+      height: 2.6rem;
+      background: #26233a;
+      border: 1px solid #6e6a86;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* casilla encendida */
+    #secuenciador .paso.on { background: #9ccfd8; }
+
+    /* columna que está sonando ahora mismo */
+    #secuenciador .paso.ahora { border-color: #eb6f92; border-width: 2px; }
+
+    .controles { display: flex; gap: 1rem; align-items: center; }
+
+    .controles button, .controles input {
+      font-family: inherit;
+      background: transparent;
+      color: #e0def4;
+      border: 1px solid #6e6a86;
+      padding: 0.4em 1em;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .controles button:hover { border-color: #eb6f92; }
+
+    small { color: #6e6a86; text-align: center; line-height: 1.6; }
+  </style>
+</head>
+
+<body>
+
+  <h1>cajita de música</h1>
+
+  <!-- las teclas y el secuenciador se generan desde js
+       (así añadir notas es cambiar UNA lista) -->
+  <div id="teclado"></div>
+
+  <div id="secuenciador"></div>
+
+  <div class="controles">
+    <button id="play">▶ bucle</button>
+    <label>tempo <input id="tempo" type="range" min="60" max="180" value="100" /></label>
+  </div>
+
+  <small>
+    toca las teclas · enciende casillas y dale a ▶<br />
+    cada fila del secuenciador es una nota, cada columna un instante
+  </small>
+
+  <script>
+    // ─── LA ESCALA ─────────────────────────────────
+    // pentatónica de do: 5 notas que siempre casan bien.
+    // la nomenclatura es nota + octava ("C4" = do central)
+    const notas = ["C4", "D4", "E4", "G4", "A4", "C5"];
+    const PASOS = 8; // columnas del secuenciador
+
+    // ─── EL SINTETIZADOR ───────────────────────────
+    // PolySynth = puede tocar varias notas a la vez.
+    // toDestination() = conectado a los altavoces.
+    const sinte = new Tone.PolySynth(Tone.Synth).toDestination();
+    sinte.set({ oscillator: { type: "triangle" } }); // probad "square", "sawtooth"...
+
+    // los navegadores exigen un gesto antes de sonar:
+    // esta función se llama al principio de cada interacción
+    async function despertarAudio() {
+      if (Tone.context.state !== "running") await Tone.start();
+    }
+
+    // ─── EL TECLADO ────────────────────────────────
+    const teclado = document.getElementById("teclado");
+    notas.forEach((nota) => {
+      const tecla = document.createElement("button");
+      tecla.textContent = nota;
+      tecla.addEventListener("pointerdown", async () => {
+        await despertarAudio();
+        sinte.triggerAttackRelease(nota, "8n"); // tocar la nota una corchea
+        // feedback visual un momentito
+        tecla.classList.add("sonando");
+        setTimeout(() => tecla.classList.remove("sonando"), 150);
+      });
+      teclado.appendChild(tecla);
+    });
+
+    // ─── EL SECUENCIADOR ───────────────────────────
+    // una cuadrícula: fila = nota, columna = paso.
+    // guardamos el estado en una matriz de true/false.
+    const cuadricula = notas.map(() => new Array(PASOS).fill(false));
+    const secuenciador = document.getElementById("secuenciador");
+    const celdas = []; // guardamos las celdas para pintarlas luego
+
+    notas.forEach((nota, fila) => {
+      celdas[fila] = [];
+      for (let col = 0; col < PASOS; col++) {
+        const celda = document.createElement("div");
+        celda.className = "paso";
+        celda.addEventListener("click", () => {
+          cuadricula[fila][col] = !cuadricula[fila][col]; // encender/apagar
+          celda.classList.toggle("on");
+        });
+        secuenciador.appendChild(celda);
+        celdas[fila][col] = celda;
+      }
+    });
+
+    // el bucle: cada "16n" (semicorchea) avanza una columna
+    // y toca todas las notas encendidas de esa columna
+    let columna = 0;
+    const bucle = new Tone.Loop((tiempo) => {
+      notas.forEach((nota, fila) => {
+        if (cuadricula[fila][columna]) {
+          sinte.triggerAttackRelease(nota, "16n", tiempo);
+        }
+      });
+      // pintar la columna activa (fuera del hilo de audio)
+      Tone.Draw.schedule(() => {
+        celdas.forEach((filaCeldas) =>
+          filaCeldas.forEach((c, i) => c.classList.toggle("ahora", i === columna))
+        );
+      }, tiempo);
+      columna = (columna + 1) % PASOS; // 0,1,2...7,0,1,2...
+    }, "8n");
+
+    // ─── CONTROLES ─────────────────────────────────
+    let sonando = false;
+    document.getElementById("play").addEventListener("click", async (e) => {
+      await despertarAudio();
+      sonando = !sonando;
+      if (sonando) {
+        bucle.start(0);
+        Tone.Transport.start();
+        e.target.textContent = "■ parar";
+      } else {
+        Tone.Transport.stop();
+        e.target.textContent = "▶ bucle";
+      }
+    });
+
+    document.getElementById("tempo").addEventListener("input", (e) => {
+      Tone.Transport.bpm.value = e.target.value; // pulsaciones por minuto
+    });
+    Tone.Transport.bpm.value = 100;
+
+    // ─── ideas para el taller ──────────────────────
+    // · cambiad la lista de notas (¡o ponedla en menor!)
+    // · type: "square" suena a gameboy; "sawtooth" a rave
+    // · añadid un efecto:
+    //     const eco = new Tone.FeedbackDelay("8n", 0.4).toDestination();
+    //     sinte.connect(eco);
+  </script>
+
+</body>
+</html>

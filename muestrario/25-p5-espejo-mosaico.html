@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  25 · P5.JS: ESPEJO MOSAICO (webcam)
+  ═══════════════════════════════════════════════════════
+  idea: la webcam como material. la cámara te ve, pero
+  la web te devuelve convertida en mosaico de círculos:
+  un espejo de baja resolución, entre puntillismo y
+  cámara de vigilancia cariñosa.
+
+  cómo funciona: en vez de mostrar el vídeo, lo LEEMOS
+  píxel a píxel cada fotograma, saltando de N en N, y
+  en cada punto pintamos un círculo del color que tenga
+  el vídeo ahí. bajar la resolución a mano = estilo.
+
+  avisos para el taller:
+  · el navegador pedirá permiso de cámara (¡bien!
+    buen momento para hablar de permisos y privacidad)
+  · necesita https o localhost — github pages ya es https
+  · nada sale de tu ordenador: no hay servidor, el vídeo
+    se queda en tu pantalla
+
+  interacción:
+  · teclas + y - : más/menos resolución
+  · tecla c : círculos ⇄ letras (¡retrato tipográfico!)
+  · tecla g : guardar el autorretrato
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>espejo mosaico</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; background: #000; }
+    #instrucciones {
+      position: fixed; bottom: 1rem; left: 1rem;
+      font-family: monospace; font-size: 0.8rem;
+      color: #999; pointer-events: none; line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="instrucciones">
+    <strong>+/−</strong>: resolución · <strong>c</strong>: círculos/letras · <strong>g</strong>: guardar
+  </div>
+
+  <script>
+    let video;          // la señal de la cámara
+    let paso = 14;      // tamaño de cada tesela del mosaico (px)
+    let modoLetras = false;
+
+    // con qué letras se pinta en modo texto (de oscuro a claro no,
+    // simplemente se van turnando; cambiad la palabra y sois vosotras)
+    const PALABRA = "espejo";
+    let letraIndice = 0;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+
+      // encender la cámara. esto dispara el permiso del navegador
+      video = createCapture(VIDEO);
+      // pedimos al vídeo un tamaño pequeño: leerlo es más rápido
+      video.size(160, 120);
+      video.hide(); // ocultar el <video> real: solo queremos sus píxeles
+
+      noStroke();
+      textFont("monospace");
+      textAlign(CENTER, CENTER);
+    }
+
+    function draw() {
+      background(0);
+
+      // cargar los píxeles del fotograma actual del vídeo
+      video.loadPixels();
+      if (video.pixels.length === 0) return; // la cámara aún arranca
+
+      // cuántas teselas caben en pantalla
+      const columnas = ceil(width / paso);
+      const filas = ceil(height / paso);
+
+      // recorremos la cuadrícula de teselas
+      for (let i = 0; i < columnas; i++) {
+        for (let j = 0; j < filas; j++) {
+
+          // ── de tesela de pantalla a píxel del vídeo ──
+          // ESPEJO: invertimos la x (1 - ...) para que al
+          // levantar la mano derecha se levante la del reflejo
+          const vx = floor(map(i, 0, columnas, video.width - 1, 0));
+          const vy = floor(map(j, 0, filas, 0, video.height - 1));
+
+          // los píxeles vienen en una lista plana: cada píxel
+          // ocupa 4 huecos (rojo, verde, azul, alfa)
+          const pos = (vy * video.width + vx) * 4;
+          const r = video.pixels[pos];
+          const g = video.pixels[pos + 1];
+          const b = video.pixels[pos + 2];
+
+          // el brillo decide el tamaño: zonas claras, teselas
+          // grandes; zonas oscuras, puntitos tímidos
+          const brillo = (r + g + b) / 3;
+          const tamano = map(brillo, 0, 255, paso * 0.15, paso * 1.05);
+
+          const x = i * paso + paso / 2;
+          const y = j * paso + paso / 2;
+
+          fill(r, g, b);
+
+          if (modoLetras) {
+            // retrato hecho de texto
+            textSize(tamano);
+            text(PALABRA[letraIndice % PALABRA.length], x, y);
+            letraIndice++;
+          } else {
+            circle(x, y, tamano);
+          }
+        }
+      }
+    }
+
+    function keyPressed() {
+      if (key === "+") paso = max(6, paso - 2);   // más fino
+      if (key === "-") paso = min(60, paso + 2);  // más gordo
+      if (key === "c") modoLetras = !modoLetras;
+      if (key === "g") saveCanvas("espejo", "png");
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+    }
+
+    // ═══════ ideas para el taller ═══════
+    // · en fill(), probad fill(255 - r, 255 - g, 255 - b): negativo
+    // · cambiad circle por square, o por rect(x, y, tamano, 2): persianas
+    // · fill(0, g, 0): visión gameboy
+    // · reto: que el tamaño dependa de la distancia al ratón
+    //   además del brillo (dist + map, como en el enjambre)
+  </script>
+
+</body>
+</html>

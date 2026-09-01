@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  00 · ÍNDICE DEL TALLER
+  ═══════════════════════════════════════════════════════
+  el menú para saltar entre todas las plantillas.
+  si subes la carpeta entera a gh pages, renombra ESTE
+  a index.html y tendrás el taller navegable online.
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>taller webexpress · índice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Georgia, serif;
+      background: #f4f1ea;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      line-height: 1.6;
+    }
+    h1 { font-weight: normal; font-style: italic; }
+    h2 {
+      font-weight: normal;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 2.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.3rem;
+    }
+    ul { padding-left: 1.3rem; }
+    li { margin: 0.7rem 0; }
+    a { color: #c94f2e; }
+    small { color: #999; display: block; }
+    .tag {
+      font-family: monospace;
+      font-size: 0.7rem;
+      background: #333;
+      color: #f4f1ea;
+      padding: 0.1em 0.5em;
+      border-radius: 999px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <p style="font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 2rem"><a href="../index.html" style="color:#999">← volver al taller</a></p>
+<h1>taller webexpress</h1>
+  <p>cada plantilla es un solo archivo html con todo dentro, muy comentado.
+     renombrada a <code>index.html</code>, cualquiera se sube a github pages tal cual.</p>
+
+  <h2>básicos</h2>
+  <ul>
+    <li><a href="01-web-que-se-explica.html">la web que se explica a sí misma</a>
+      <small>alfabetización: pasa el ratón y cada elemento te dice qué es <span class="tag">solo css</span></small></li>
+    <li><a href="04-cadaver-exquisito.html">cadáver exquisito</a>
+      <small>generador de frases al azar: listas + un botón <span class="tag">js mini</span></small></li>
+  </ul>
+
+  <h2>plantillas por deseo</h2>
+  <ul>
+    <li><a href="02-galeria-fichas.html">galería con ficha técnica</a>
+      <small>retícula de obras + lightbox con el truco :target <span class="tag">solo css</span></small></li>
+    <li><a href="03-archivador-textos.html">archivador de textos deconstruido</a>
+      <small>fichas giradas con filtros por etiqueta <span class="tag">js mini</span></small></li>
+    <li><a href="cuaderno-local.html">cuaderno local</a>
+      <small>notas sin servidor: localStorage + publicación por commit manual <span class="tag">js</span></small></li>
+    <li><a href="11-dictafono.html">dictáfono de notas</a>
+      <small>hablas y la web escribe (web speech api, mejor en chrome) <span class="tag">js</span></small></li>
+    <li><a href="07-poema-interactivo.html">poema interactivo</a>
+      <small>palabras que se esconden, tiemblan y confiesan + modo noche <span class="tag">solo css</span></small></li>
+    <li><a href="10-mesa-de-trabajo.html">mesa de trabajo</a>
+      <small>moodboard con piezas arrastrables <span class="tag">js mini</span></small></li>
+    <li><a href="26-mesa-de-trabajo-editable.html">mesa de trabajo editable</a>
+      <small>la mesa con memoria: añade notas e imágenes, guarda y copia el snapshot <span class="tag">js</span></small></li>
+  </ul>
+
+  <h2>carteles y papelería</h2>
+  <ul>
+    <li><a href="08-cartel-vivo.html">cartel vivo</a>
+      <small>póster animado: marquesina, tipografía fluida, sello que gira <span class="tag">solo css</span></small></li>
+    <li><a href="17-invitacion.html">invitación a un evento</a>
+      <small>tarjeta elegante con animación de llegada y rsvp por mailto <span class="tag">solo css</span></small></li>
+    <li><a href="18-tarjeta-visita.html">tarjeta de visita</a>
+      <small>tarjeta 3d con dos caras que gira al hacer clic <span class="tag">solo css</span></small></li>
+    <li><a href="19-save-the-date.html">save the date</a>
+      <small>cuenta atrás en vivo + botón "añadir al calendario" (.ics) <span class="tag">js mini</span></small></li>
+  </ul>
+
+  <h2>la familia expo scroll</h2>
+  <ul>
+    <li><a href="06-expo-scroll-horizontal.html">expo horizontal</a>
+      <small>salas en fila, scroll de lado con scroll-snap <span class="tag">solo css</span></small></li>
+    <li><a href="20-expo-scroll-vertical.html">expo vertical</a>
+      <small>salas en columna con imán, título que invierte colores, contador css <span class="tag">solo css</span></small></li>
+    <li><a href="21-expo-scroll-sticky.html">expo sticky (láminas)</a>
+      <small>las obras se quedan clavadas y el texto pasa por encima <span class="tag">solo css</span></small></li>
+    <li><a href="22-expo-scroll-tunel.html">expo túnel</a>
+      <small>bajas en vertical, la sala viaja en horizontal <span class="tag">js mini</span></small></li>
+  </ul>
+
+  <h2>p5.js (dibujar programando)</h2>
+  <ul>
+    <li><a href="09-dibujo-p5.html">cuaderno de dibujo</a>
+      <small>pincel: velocidad = tamaño, posición = color <span class="tag">p5.js</span></small></li>
+    <li><a href="23-p5-particulas.html">enjambre de partículas</a>
+      <small>300 puntitos que te persiguen (y se asustan con el clic) <span class="tag">p5.js</span></small></li>
+    <li><a href="24-p5-escribir-con-palabras.html">escribir con palabras</a>
+      <small>un pincel que suelta las letras de tu frase por el trazo <span class="tag">p5.js</span></small></li>
+    <li><a href="25-p5-espejo-mosaico.html">espejo mosaico</a>
+      <small>la webcam devuelta en círculos o letras (pide permiso de cámara) <span class="tag">p5.js</span></small></li>
+  </ul>
+
+  <h2>otros complementos</h2>
+  <ul>
+    <li><a href="12-hydra-visuales.html">hydra · visuales en vivo</a>
+      <small>sinte de vídeo con 4 presets y cajita de live coding <span class="tag">hydra</span></small></li>
+    <li><a href="13-tonejs-cajita.html">tone.js · cajita de música</a>
+      <small>teclas pentatónicas + secuenciador de 8 pasos <span class="tag">tone.js</span></small></li>
+    <li><a href="14-gsap-animaciones.html">gsap · animación premium</a>
+      <small>título letra a letra, tarjetas al scroll, scrub <span class="tag">gsap</span></small></li>
+    <li><a href="15-css-blend-modes.html">css puro · mezclas</a>
+      <small>lámpara de lava, texto difference, galería de filtros <span class="tag">solo css</span></small></li>
+    <li><a href="16-microjuego-bitsy.html">micro-juego estilo bitsy</a>
+      <small>una habitación de texto con gata que habla (el bitsy real: make.bitsy.org) <span class="tag">js</span></small></li>
+  </ul>
+</body>
+</html>

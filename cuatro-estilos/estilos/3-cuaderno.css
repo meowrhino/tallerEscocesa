@@ -1,0 +1,125 @@
+/* ══ 3 · CUADERNO ════════════════════════════════════════════
+   Columna estrecha, mucho aire, todo alineado a la izquierda.
+   Para quien tiene más texto que imagen.
+   ══════════════════════════════════════════════════════════ */
+
+body {
+  background-color: #f7f4ee;
+  color: #2b2a26;
+  font-family: "Iowan Old Style", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.75;
+  margin: 0;
+  padding: 56px 24px 96px;
+}
+
+header,
+main,
+footer {
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: normal;
+  font-style: italic;
+  margin: 0 0 20px 0;
+}
+
+nav {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 16px;
+  color: #6b6558;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #2b2a26;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+header {
+  margin-bottom: 72px;
+}
+
+h2 {
+  font-size: 21px;
+  font-weight: normal;
+  font-style: italic;
+  color: #6b6558;
+  margin: 0 0 40px 0;
+}
+
+/* La línea vertical a la izquierda es lo único decorativo
+   de toda la hoja. Es un border-left y nada más. */
+article {
+  border-left: 1px solid #d3ccbc;
+  padding-left: 28px;
+  margin-bottom: 64px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0 0 2px 0;
+}
+
+article p {
+  font-size: 17px;
+}
+
+p {
+  margin: 0 0 20px 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 24px 0;
+}
+
+a {
+  color: #2b2a26;
+  text-underline-offset: 4px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 4px 0;
+  font-size: 17px;
+}
+
+footer {
+  margin-top: 88px;
+  font-size: 16px;
+  font-style: italic;
+  color: #6b6558;
+}
+
+footer a {
+  color: #6b6558;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 18px;
+    padding: 32px 18px 56px;
+  }
+
+  article {
+    padding-left: 18px;
+    margin-bottom: 48px;
+  }
+}

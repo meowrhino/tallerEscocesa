@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  21 · EXPO STICKY (variante de la 06: capas que se quedan)
+  ═══════════════════════════════════════════════════════
+  otro tipo de scroll: aquí las obras NO pasan de largo.
+  cada obra se queda PEGADA a la pantalla (position:
+  sticky) mientras sigues bajando, y la siguiente sube
+  y la tapa, como si fueras pasando láminas de un
+  portafolio gigante. el texto de cada obra llega
+  después, deslizándose por encima de la imagen.
+
+  el ingrediente único: position: sticky.
+  un elemento sticky viaja normal con el scroll HASTA
+  tocar el borde que le digas (top: 0) y ahí se queda
+  clavado mientras su contenedor siga en pantalla.
+  es css puro y parece cosa de javascript caro.
+
+  SOLO HTML + CSS.
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>expo sticky</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #111;
+      color: #f4f1ea;
+    }
+
+    /* ─────────────────────────────────────────
+       CADA CAPÍTULO = una obra + su texto.
+       el capítulo mide 200vh (dos pantallas):
+       la primera pantalla es para mirar la obra,
+       la segunda para leer el texto que sube.
+       ───────────────────────────────────────── */
+    .capitulo {
+      height: 200vh;
+      position: relative;
+    }
+
+    /* la obra: sticky. ocupa una pantalla y se queda
+       clavada arriba mientras dura su capítulo */
+    .obra {
+      position: sticky;
+      top: 0;                /* el borde al que se pega */
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .obra img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;     /* la imagen llena la pantalla entera */
+    }
+
+    /* el texto: llega en la segunda pantalla del capítulo
+       y se desliza POR ENCIMA de la imagen clavada */
+    .texto {
+      position: relative;    /* para quedar sobre la obra sticky */
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .tarjeta {
+      background: rgba(17, 17, 17, 0.88);
+      border: 1px solid rgba(244, 241, 234, 0.25);
+      backdrop-filter: blur(6px);  /* difumina lo que hay detrás */
+      max-width: 420px;
+      padding: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .tarjeta h2 {
+      font-weight: normal;
+      font-style: italic;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .tarjeta .ficha {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #b39b52;
+      margin-top: 1.2rem;
+    }
+
+    /* portada y cierre, pantallas normales */
+    .plana {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .plana h1 { font-weight: normal; font-size: clamp(2rem, 7vw, 4.5rem); max-width: 14em; }
+    .plana p { opacity: 0.6; font-size: 0.9rem; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ portada ══ -->
+  <div class="plana">
+    <h1>láminas</h1>
+    <p>baja despacio: cada obra se queda esperando su texto ↓</p>
+  </div>
+
+  <!-- ══ capítulo 1 ══
+       para añadir obras: copiar un .capitulo entero -->
+  <div class="capitulo">
+    <div class="obra">
+      <img src="https://picsum.photos/id/1018/1600/1000" alt="obra: valle" />
+    </div>
+    <div class="texto">
+      <div class="tarjeta">
+        <h2>el valle que inventamos</h2>
+        <p>empezó siendo un error de revelado y acabó siendo la pieza
+        central de la serie. a veces el paisaje solo necesita que
+        te equivoques a su favor.</p>
+        <div class="ficha">2024 · fotografía intervenida</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ capítulo 2 ══ -->
+  <div class="capitulo">
+    <div class="obra">
+      <img src="https://picsum.photos/id/1035/1600/1000" alt="obra: niebla" />
+    </div>
+    <div class="texto">
+      <div class="tarjeta">
+        <h2>lo que la niebla guarda</h2>
+        <p>tres meses esperando este banco de niebla. la espera
+        también está en la imagen, aunque no se vea: es esa
+        zona gris de la esquina, que no es niebla, es tiempo.</p>
+        <div class="ficha">2025 · serie «meteorologías»</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ capítulo 3 ══ -->
+  <div class="capitulo">
+    <div class="obra">
+      <img src="https://picsum.photos/id/1041/1600/1000" alt="obra: ciudad" />
+    </div>
+    <div class="texto">
+      <div class="tarjeta">
+        <h2>último piso</h2>
+        <p>la ciudad desde arriba parece un plano de sí misma.
+        esta pieza cierra la serie porque después de mirar
+        tanto hacia fuera tocaba bajar a la calle.</p>
+        <div class="ficha">2025 · impresión sobre aluminio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ cierre ══ -->
+  <div class="plana">
+    <h1>fin</h1>
+    <p>position: sticky hizo todo el trabajo</p>
+  </div>
+
+</body>
+</html>

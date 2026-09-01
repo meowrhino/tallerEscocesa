@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  14 · GSAP (animación "premium")
+  ═══════════════════════════════════════════════════════
+  idea: gsap es LA librería de animación de la web
+  profesional (y ahora es 100% gratis, plugins incluidos).
+  donde css se queda corto, gsap llega con dos ideas:
+
+  · gsap.to(cosa, {propiedades}) — anima algo hasta ahí
+  · ScrollTrigger — que las animaciones las dirija el
+    scroll, como si la página fuera una película y tu
+    dedo el proyector
+
+  esta página tiene 3 escenas:
+  1. el título entra letra a letra (stagger)
+  2. las tarjetas aparecen al llegar a ellas (scroll)
+  3. una palabra gigante que rota MIENTRAS haces scroll
+     (scrub: la animación va pegada al dedo)
+
+  necesita internet (cdn).
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gsap · animación</title>
+
+  <!-- gsap + su plugin de scroll, desde cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #f4f1ea;
+      color: #111;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      gap: 2rem;
+    }
+
+    /* ── escena 1: el título ── */
+    h1 {
+      font-size: clamp(2.5rem, 9vw, 7rem);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    /* cada letra irá en su propio <span> (lo hace el js).
+       inline-block permite moverlas una a una */
+    h1 span { display: inline-block; }
+
+    .pista { color: #999; font-size: 0.9rem; }
+
+    /* ── escena 2: las tarjetas ── */
+    .tarjetas { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+
+    .tarjeta {
+      width: 220px;
+      height: 300px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+      color: #fff;
+      font-style: italic;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .tarjeta:nth-child(1) { background: #e63946; }
+    .tarjeta:nth-child(2) { background: #457b9d; }
+    .tarjeta:nth-child(3) { background: #2a9d8f; }
+    .tarjeta:nth-child(4) { background: #f4a261; }
+
+    /* ── escena 3: la palabra que gira con el scroll ── */
+    .gira-seccion { background: #111; color: #f4f1ea; overflow: hidden; }
+
+    #palabra {
+      font-size: clamp(3rem, 14vw, 12rem);
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    footer { padding: 3rem; text-align: center; color: #999; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════ ESCENA 1 ══════════ -->
+  <section>
+    <h1 id="titulo">las cosas se mueven</h1>
+    <p class="pista">baja para ver el resto ↓</p>
+  </section>
+
+  <!-- ══════════ ESCENA 2 ══════════ -->
+  <section>
+    <div class="tarjetas">
+      <div class="tarjeta">obra i</div>
+      <div class="tarjeta">obra ii</div>
+      <div class="tarjeta">obra iii</div>
+      <div class="tarjeta">obra iv</div>
+    </div>
+    <p class="pista">estas tarjetas entraron cuando llegaste tú</p>
+  </section>
+
+  <!-- ══════════ ESCENA 3 ══════════ -->
+  <section class="gira-seccion">
+    <div id="palabra">vértigo vértigo vértigo</div>
+    <p class="pista">sube y baja despacio: la palabra obedece al scroll</p>
+  </section>
+
+  <footer>animado con gsap + scrolltrigger</footer>
+
+  <script>
+    // avisar a gsap de que vamos a usar el plugin de scroll
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ─── ESCENA 1: entrada letra a letra ───────────
+    // primero partimos el título en <span>s, uno por letra
+    const titulo = document.getElementById("titulo");
+    titulo.innerHTML = titulo.textContent
+      .split("")
+      .map((letra) => `<span>${letra === " " ? "&nbsp;" : letra}</span>`)
+      .join("");
+
+    // y las animamos todas... con un pelín de retraso entre
+    // ellas (stagger). from = "vienen desde" este estado.
+    gsap.from("#titulo span", {
+      y: 90,               // empiezan 90px más abajo
+      opacity: 0,          // e invisibles
+      rotation: 12,        // y un poco giradas
+      duration: 0.7,
+      stagger: 0.04,       // 0.04s entre letra y letra: el efecto ola
+      ease: "back.out(1.6)", // el rebotito del final. probad "bounce.out"
+    });
+
+    // ─── ESCENA 2: aparecer al hacer scroll ────────
+    gsap.from(".tarjeta", {
+      scrollTrigger: {
+        trigger: ".tarjetas",   // cuando este elemento...
+        start: "top 75%",       // ...asoma por el 75% de la ventana
+      },
+      y: 120,
+      opacity: 0,
+      rotation: () => gsap.utils.random(-8, 8), // cada una torcida distinto
+      duration: 0.8,
+      stagger: 0.12,
+      ease: "power3.out",
+    });
+
+    // ─── ESCENA 3: scrub (pegado al scroll) ────────
+    // scrub: true = la animación no se reproduce sola,
+    // AVANZA Y RETROCEDE con el scroll. tu dedo es la moviola.
+    gsap.to("#palabra", {
+      scrollTrigger: {
+        trigger: ".gira-seccion",
+        start: "top bottom",   // desde que la sección asoma por abajo
+        end: "bottom top",     // hasta que se va por arriba
+        scrub: true,
+      },
+      x: -600,          // se desplaza a la izquierda
+      rotation: -8,     // y se ladea
+      ease: "none",     // sin easing: control total del dedo
+    });
+
+    // ─── ideas para el taller ──────────────────────
+    // · en la escena 1, probad ease: "elastic.out(1, 0.3)"
+    // · en la 2, cambiad y: 120 por scale: 0 (nacen de la nada)
+    // · scrub: 1 (en vez de true) añade 1s de inercia: mantequilla
+  </script>
+
+</body>
+</html>

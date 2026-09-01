@@ -1,0 +1,627 @@
+/* ═══════════════════════════════════════════════════════════
+   taller de web autogestionada · la escocesa
+   hoja de estilo de las presentaciones-documento
+   meowrhino.studio
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --papel:        #ffffff;
+  --papel-hueco:  #fafafa;
+  --tinta:        #000000;
+  --tinta-suave:  #333333;
+  --tinta-tenue:  #737373;
+  --linea:        rgba(0, 0, 0, .12);
+  --linea-fuerte: rgba(0, 0, 0, .35);
+  --acento:       #f2e94e;
+  --acento-tinta: #000000;
+  --codigo-bg:    #fafaf7;
+  --sombra:       rgba(0, 0, 0, .06);
+
+  --display: "Inknut Antiqua", Georgia, serif;
+  --texto:   "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --pad-x: max(4vw, 24px);
+  --medida: 34rem;
+  --rapido: .2s ease;
+  --medio:  .3s ease;
+}
+
+:root:not([data-tema="claro"]) {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --papel:        #121212;
+    --papel-hueco:  #1a1a1a;
+    --tinta:        #e8e8e8;
+    --tinta-suave:  #c4c4c4;
+    --tinta-tenue:  #8a8a8a;
+    --linea:        rgba(255, 255, 255, .14);
+    --linea-fuerte: rgba(255, 255, 255, .4);
+    --codigo-bg:    #191919;
+    --sombra:       rgba(0, 0, 0, .5);
+  }
+}
+
+:root[data-tema="oscuro"] {
+  --papel:        #121212;
+  --papel-hueco:  #1a1a1a;
+  --tinta:        #e8e8e8;
+  --tinta-suave:  #c4c4c4;
+  --tinta-tenue:  #8a8a8a;
+  --linea:        rgba(255, 255, 255, .14);
+  --linea-fuerte: rgba(255, 255, 255, .4);
+  --codigo-bg:    #191919;
+  --sombra:       rgba(0, 0, 0, .5);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 18px;
+  line-height: 1.62;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--medio), color var(--medio);
+}
+
+/* ── barra superior ───────────────────────────────────── */
+
+.barra {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px var(--pad-x);
+  background: color-mix(in srgb, var(--papel) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--linea);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .11em;
+  text-transform: lowercase;
+}
+
+.barra .marca {
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.barra .sep { flex: 1; }
+
+.barra a,
+.barra button {
+  color: var(--tinta-tenue);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 5px 11px;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--rapido), border-color var(--rapido);
+}
+
+.barra a:hover,
+.barra button:hover,
+.barra a[aria-current] {
+  color: var(--tinta);
+  border-color: var(--linea);
+}
+
+/* progreso de lectura */
+.progreso {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--tinta);
+  z-index: 101;
+  transition: width .1s linear;
+}
+
+/* ── láminas ──────────────────────────────────────────── */
+
+main { padding-top: 46px; }
+
+.lamina {
+  padding: clamp(48px, 9vh, 96px) var(--pad-x);
+  border-bottom: 1px solid var(--linea);
+  scroll-margin-top: 46px;
+}
+
+.lamina > * { max-width: 62rem; margin-inline: auto; }
+
+.lamina.hueco { background: var(--papel-hueco); }
+
+/* lámina de bloque: la oscura que separa secciones */
+.lamina.bloque {
+  background: var(--tinta);
+  color: var(--papel);
+  border-bottom-color: transparent;
+}
+.lamina.bloque .reloj,
+.lamina.bloque .duracion { color: color-mix(in srgb, var(--papel) 55%, transparent); }
+.lamina.bloque h2 { font-size: clamp(30px, 5.5vw, 58px); }
+.lamina.bloque p { color: color-mix(in srgb, var(--papel) 78%, transparent); max-width: var(--medida); }
+
+/* ── tipografía ───────────────────────────────────────── */
+
+h1, h2, h3, .marca, .portada-num {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: -.005em;
+}
+
+h1 {
+  font-size: clamp(34px, 7vw, 76px);
+  line-height: 1.12;
+  margin: 0 0 .3em;
+}
+
+h2 {
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 1.2;
+  margin: 0 0 .5em;
+}
+
+h3 {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.3;
+  margin: 2.2em 0 .6em;
+}
+
+p { max-width: var(--medida); margin: 0 0 1.1em; }
+
+.entradilla {
+  font-size: clamp(19px, 2.1vw, 24px);
+  line-height: 1.5;
+  color: var(--tinta-suave);
+  max-width: 40rem;
+}
+
+.reloj, .duracion {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+}
+
+.cabecera-lamina {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--linea);
+}
+.cabecera-lamina .sep { flex: 1; }
+
+/* ── código ───────────────────────────────────────────── */
+
+.codigo {
+  position: relative;
+  margin: 0 0 1.6em;
+  background: var(--codigo-bg);
+  border: 1px solid var(--linea);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.codigo pre {
+  margin: 0;
+  padding: 22px 24px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+.codigo .copiar {
+  position: absolute;
+  top: 8px; right: 8px;
+  padding: 4px 9px;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  background: var(--papel);
+  color: var(--tinta-tenue);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: lowercase;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--rapido), color var(--rapido);
+}
+.codigo:hover .copiar,
+.codigo .copiar:focus-visible { opacity: 1; }
+.codigo .copiar:hover { color: var(--tinta); }
+
+code:not(pre code) {
+  font-family: var(--mono);
+  font-size: .86em;
+  background: var(--codigo-bg);
+  border: 1px solid var(--linea);
+  border-radius: 3px;
+  padding: .1em .38em;
+  white-space: nowrap;
+}
+
+/* coloreado mínimo, sin librerías */
+.t   { color: #0a5ca8; }   /* etiqueta / selector */
+.at  { color: #7a5b00; }   /* atributo / propiedad */
+.v   { color: #9a2f1e; }   /* valor / cadena */
+.c   { color: var(--tinta-tenue); font-style: italic; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) .t  { color: #7cc0ff; }
+  :root:not([data-tema="claro"]) .at { color: #e0c060; }
+  :root:not([data-tema="claro"]) .v  { color: #ff9d85; }
+}
+:root[data-tema="oscuro"] .t  { color: #7cc0ff; }
+:root[data-tema="oscuro"] .at { color: #e0c060; }
+:root[data-tema="oscuro"] .v  { color: #ff9d85; }
+
+/* ── avisos y cajas ───────────────────────────────────── */
+
+.aviso {
+  max-width: 46rem;
+  margin: 0 0 1.6em;
+  padding: 20px 24px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 3px;
+  background: var(--papel-hueco);
+}
+
+.aviso .etiqueta {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+}
+.aviso p:last-child { margin-bottom: 0; }
+
+.aviso.clave {
+  border-color: transparent;
+  background: var(--acento);
+  color: var(--acento-tinta);
+}
+.aviso.clave .etiqueta { color: rgba(0,0,0,.55); }
+
+/* ── tablas de referencia ─────────────────────────────── */
+
+.tabla {
+  width: 100%;
+  max-width: 54rem;
+  border-collapse: collapse;
+  margin: 0 0 1.8em;
+  font-size: 15px;
+}
+.tabla td, .tabla th {
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--linea);
+  text-align: left;
+  vertical-align: baseline;
+}
+.tabla th {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+  font-weight: 400;
+}
+.tabla td:first-child {
+  font-family: var(--mono);
+  font-size: 13px;
+  white-space: nowrap;
+  padding-right: 28px;
+  color: var(--tinta);
+}
+.tabla-envoltorio { overflow-x: auto; }
+
+/* ── listas ───────────────────────────────────────────── */
+
+ul, ol { max-width: var(--medida); padding-left: 1.15em; margin: 0 0 1.2em; }
+li { margin: .45em 0; }
+
+ul.limpia { list-style: none; padding-left: 0; }
+
+ul.casillas { list-style: none; padding-left: 0; max-width: 42rem; }
+ul.casillas li {
+  position: relative;
+  padding-left: 30px;
+  margin: .55em 0;
+}
+ul.casillas li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .42em;
+  width: 13px; height: 13px;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 2px;
+}
+
+/* ── rejilla de tarjetas (muestrario, enlaces) ────────── */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px;
+  max-width: 62rem;
+  background: var(--linea);
+  border: 1px solid var(--linea);
+  margin-bottom: 1.8em;
+}
+
+.tarjeta {
+  display: block;
+  padding: 20px 22px 22px;
+  background: var(--papel);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--rapido);
+}
+.tarjeta:hover { background: var(--papel-hueco); }
+
+.tarjeta .nombre {
+  display: block;
+  font-family: var(--display);
+  font-size: 15px;
+  text-transform: lowercase;
+  margin-bottom: 6px;
+}
+.tarjeta .que {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--tinta-tenue);
+}
+.tarjeta .marca-tec {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+}
+
+/* ── dos columnas ─────────────────────────────────────── */
+
+.dos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+  max-width: 62rem;
+}
+.dos > * { max-width: none; }
+.dos p, .dos ul, .dos ol { max-width: none; }
+
+/* ── portada ──────────────────────────────────────────── */
+
+.portada {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 96px var(--pad-x) 64px;
+  border-bottom: 1px solid var(--linea);
+}
+.portada > * { max-width: 62rem; margin-inline: auto; width: 100%; }
+
+.portada-num {
+  font-size: 12px;
+  letter-spacing: .3em;
+  color: var(--tinta-tenue);
+  margin-bottom: 24px;
+}
+
+.portada .pie {
+  margin-top: auto;
+  padding-top: 48px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: lowercase;
+  color: var(--tinta-tenue);
+}
+
+/* ── plan del día ─────────────────────────────────────── */
+
+.plan { max-width: 46rem; }
+.plan a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--linea);
+  color: inherit;
+  text-decoration: none;
+  transition: padding-left var(--rapido);
+}
+.plan a:hover { padding-left: 12px; }
+.plan .hora {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--tinta-tenue);
+  min-width: 52px;
+}
+.plan .que { flex: 1; font-size: 17px; }
+.plan .min {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--tinta-tenue);
+}
+
+/* ── navegación entre sesiones ────────────────────────── */
+
+.siguiente {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--linea);
+  border: 1px solid var(--linea);
+  max-width: 62rem;
+  margin: 0 auto;
+}
+.siguiente a {
+  flex: 1 1 240px;
+  padding: 26px 24px;
+  background: var(--papel);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--rapido);
+}
+.siguiente a:hover { background: var(--papel-hueco); }
+.siguiente .rol {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--tinta-tenue);
+  margin-bottom: 8px;
+}
+.siguiente .nombre { font-family: var(--display); font-size: 18px; text-transform: lowercase; }
+
+/* ── enlaces de texto ─────────────────────────────────── */
+
+.lamina p a, .lamina li a, .lamina td a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--linea-fuerte);
+  transition: background var(--rapido);
+}
+.lamina p a:hover, .lamina li a:hover, .lamina td a:hover {
+  background: var(--acento);
+  color: var(--acento-tinta);
+  border-bottom-color: transparent;
+}
+
+/* ═══ modo diapositiva ════════════════════════════════ */
+
+body.diapositivas { overflow: hidden; }
+
+body.diapositivas main {
+  height: 100svh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  padding-top: 0;
+}
+
+body.diapositivas .lamina,
+body.diapositivas .portada {
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px var(--pad-x) 64px;
+  scroll-margin-top: 0;
+}
+
+body.diapositivas .lamina > *,
+body.diapositivas .portada > * { width: 100%; }
+
+body.diapositivas { font-size: 21px; }
+body.diapositivas .codigo pre { font-size: clamp(15px, 1.5vw, 20px); }
+body.diapositivas .tabla { font-size: 17px; }
+body.diapositivas .tabla td:first-child { font-size: 15px; }
+body.diapositivas .progreso { display: none; }
+
+body.diapositivas .contador {
+  position: fixed;
+  bottom: 16px; right: var(--pad-x);
+  z-index: 100;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--tinta-tenue);
+}
+.contador { display: none; }
+
+/* láminas que solo tienen sentido leyendo, no proyectando */
+body.diapositivas .solo-documento { display: none; }
+.solo-diapositiva { display: none; }
+body.diapositivas .solo-diapositiva { display: block; }
+
+/* ── impresión: sale como dossier A4 ──────────────────── */
+
+@media print {
+  @page { size: A4; margin: 16mm 15mm; }
+
+  :root {
+    --papel: #fff; --papel-hueco: #fff; --tinta: #000;
+    --tinta-suave: #222; --tinta-tenue: #555;
+    --linea: #ccc; --linea-fuerte: #444; --codigo-bg: #f6f6f6;
+  }
+
+  body { font-size: 10.5pt; line-height: 1.45; }
+  .barra, .progreso, .copiar, .contador, .no-imprimir { display: none !important; }
+  main { padding-top: 0; }
+
+  .lamina, .portada {
+    min-height: 0;
+    padding: 0 0 14pt;
+    margin-bottom: 14pt;
+    border-bottom: .5pt solid #ddd;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .portada { min-height: 0; page-break-after: always; }
+  .lamina.bloque { background: none; color: #000; border-bottom: 1.5pt solid #000; }
+  .lamina.bloque p { color: #333; }
+  .lamina.bloque h2 { font-size: 16pt; }
+
+  h1 { font-size: 24pt; }
+  h2 { font-size: 15pt; }
+  h3 { font-size: 11.5pt; }
+  .entradilla { font-size: 11.5pt; }
+
+  .codigo { break-inside: avoid; page-break-inside: avoid; }
+  .codigo pre { font-size: 8.5pt; padding: 10pt 12pt; }
+  .aviso.clave { background: none; border: 1.5pt solid #000; color: #000; }
+  .rejilla, .siguiente { display: block; border: none; background: none; }
+  .tarjeta, .siguiente a { border-bottom: .5pt solid #ddd; padding: 6pt 0; }
+  a { color: #000; border: none !important; background: none !important; }
+}
+
+/* ── accesibilidad ────────────────────────────────────── */
+
+:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html, body.diapositivas main { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; }
+}

@@ -1,0 +1,226 @@
+/* ══════════════════════════════════════════════════════════════
+   ESTILO.CSS — versión final de la sesión 2
+
+   Cambia los valores y guarda. Si algo se rompe, deshaz con
+   Cmd+Z (Mac) o Ctrl+Z (Windows). No se puede romper nada
+   que no se pueda deshacer.
+   ══════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. LO BÁSICO DE TODA LA PÁGINA ─────────────────────────── */
+
+body {
+  background-color: #fbfaf7;
+  color: #12233a;
+
+  /* La familia tipográfica. El navegador prueba de izquierda a
+     derecha y usa la primera que encuentre instalada. Por eso se
+     pone "serif" al final: es el comodín, siempre existe. */
+  font-family: "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  /* Tamaño de letra base. Todo lo demás se calculará a partir de
+     este número, así que si lo cambias, cambia toda la página. */
+  font-size: 18px;
+
+  /* Separación entre líneas. 1.6 = una vez y media el tamaño de
+     letra. Por debajo de 1.4 el texto largo cansa la vista. */
+  line-height: 1.6;
+
+  /* Margen exterior del cuerpo entero: arriba/abajo 0, a los
+     lados un poco de aire para que en móvil no pegue al borde. */
+  margin: 0;
+  padding: 24px;
+}
+
+
+/* ── 2. TIPOGRAFÍA ──────────────────────────────────────────── */
+
+h1 {
+  font-size: 34px;
+  line-height: 1.2;
+  /* font-weight controla el grosor: normal, bold, o un número. */
+  font-weight: normal;
+  /* letter-spacing separa las letras entre sí. En titulares
+     grandes, un poco de valor negativo suele quedar mejor. */
+  letter-spacing: -0.02em;
+  margin: 0 0 4px 0;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: normal;
+  margin: 48px 0 16px 0;
+}
+
+h3 {
+  font-size: 19px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+}
+
+p {
+  /* margin con dos valores: el primero arriba y abajo, el
+     segundo a izquierda y derecha. */
+  margin: 0 0 16px 0;
+}
+
+a {
+  color: #12233a;
+  /* Quitamos el subrayado por defecto y ponemos uno propio,
+     más separado del texto. */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* :hover significa "cuando el ratón está encima". */
+a:hover {
+  background-color: #f2e94e;
+}
+
+/* em es cursiva. La usamos en el CV para los títulos de obra. */
+em {
+  font-style: italic;
+}
+
+
+/* ── 3. COMPOSICIÓN ─────────────────────────────────────────── */
+
+/* Los tres bloques grandes de la página comparten un ancho
+   máximo. Sin esto, en una pantalla ancha las líneas de texto
+   se hacen larguísimas y se pierde el renglón al leer.
+   Entre 60 y 80 caracteres por línea es lo cómodo. */
+
+header,
+main,
+footer {
+  max-width: 640px;
+  /* margin: arriba/abajo 0, izquierda/derecha "auto".
+     "auto" reparte el espacio sobrante a partes iguales:
+     así el bloque queda centrado. */
+  margin: 0 auto;
+}
+
+header {
+  padding-bottom: 24px;
+  /* Una línea fina debajo de la cabecera. El orden es
+     grosor, tipo de línea, color. */
+  border-bottom: 1px solid #d6d2c8;
+  margin-bottom: 40px;
+}
+
+/* El menú de navegación: los enlaces en una fila.
+   display: flex convierte a nav en un contenedor flexible,
+   y sus hijos (los enlaces) se colocan en línea. */
+nav {
+  display: flex;
+  /* gap es la separación entre los elementos de dentro. */
+  gap: 20px;
+  /* flex-wrap permite que salten de línea si no caben. */
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  /* Versalitas pequeñas para diferenciar el menú del texto. */
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Cada proyecto es un <article>. Le damos aire por debajo
+   y una línea de separación. */
+article {
+  margin-bottom: 56px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid #d6d2c8;
+}
+
+/* :last-child = el último de su tipo. Le quitamos la línea,
+   porque justo debajo ya viene la del pie. */
+article:last-child {
+  border-bottom: none;
+}
+
+ul {
+  /* Quitamos los puntos y el sangrado por defecto. */
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 6px 0;
+  border-bottom: 1px solid #ece8de;
+}
+
+footer {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid #d6d2c8;
+  font-size: 15px;
+  color: #7a8592;
+}
+
+footer a {
+  color: #7a8592;
+}
+
+
+/* ── 4. IMÁGENES ────────────────────────────────────────────── */
+
+img {
+  /* Nunca más ancha que su contenedor. */
+  max-width: 100%;
+  /* La altura se ajusta sola para no deformar la imagen. */
+  height: auto;
+  /* Las imágenes son "en línea" por defecto y dejan un hueco
+     raro debajo. Esto lo arregla. */
+  display: block;
+  margin: 24px 0;
+}
+
+
+/* ── 5. MÓVIL ───────────────────────────────────────────────── */
+
+/* Una media query dice: "estas reglas SOLO se aplican si se
+   cumple la condición". Aquí: pantallas de 600px o menos.
+   Lo de dentro pisa a lo de arriba. */
+
+@media (max-width: 600px) {
+
+  body {
+    font-size: 17px;
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  h2 {
+    font-size: 21px;
+    margin-top: 36px;
+  }
+
+  article {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+  }
+
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   ¿Y AHORA QUÉ?
+
+   Cosas que puedes probar tú, cambiando números de aquí arriba:
+
+   · El color de fondo y el del texto (busca "generador de
+     paletas" si no sabes por dónde empezar).
+   · El max-width de 640px: súbelo a 900 o bájalo a 500 y mira
+     cómo cambia la lectura.
+   · El font-size base de 18px.
+   · Cambiar la familia tipográfica por otra que tengas.
+
+   Guarda una copia de la carpeta antes de hacer cambios
+   grandes. Es la manera más simple de poder volver atrás.
+   ══════════════════════════════════════════════════════════════ */

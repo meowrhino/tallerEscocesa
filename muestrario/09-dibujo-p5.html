@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  09 · CUADERNO DE DIBUJO CON P5.JS
+  ═══════════════════════════════════════════════════════
+  idea: la opción "mucho menos esencial pero mucho más
+  diver". p5.js es una librería pensada para artistas:
+  convierte la pantalla en un lienzo y programar en
+  dibujar. aquí: un pincel que dibuja círculos que
+  cambian de color y tamaño según cómo te muevas.
+
+  ojo: esta es la ÚNICA plantilla que carga código de
+  fuera (la librería p5.js desde un cdn, la línea del
+  <script src="...">). necesita internet para funcionar.
+
+  cómo se lee un sketch de p5:
+  - setup()  se ejecuta UNA vez al principio
+  - draw()   se ejecuta 60 veces por segundo, sin parar
+  - todo lo demás son funciones de dibujo (circle, fill...)
+
+  la referencia es muy amable: https://p5js.org/es/reference/
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cuaderno p5</title>
+
+  <!-- aquí cargamos la librería p5.js desde un cdn
+       (un servidor público que aloja librerías) -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; }
+
+    body {
+      font-family: monospace;
+      overflow: hidden; /* sin scroll: el lienzo llena la ventana */
+    }
+
+    /* las instrucciones, flotando sobre el lienzo */
+    #instrucciones {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      border-radius: 6px;
+      pointer-events: none; /* que no estorbe al dibujar */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="instrucciones">
+    arrastra para dibujar · muévete rápido y verás ·<br />
+    <strong>b</strong> = borrar todo · <strong>g</strong> = guardar imagen
+  </div>
+
+  <!-- p5 crea el lienzo (canvas) solo, no hace falta html -->
+
+  <script>
+    // ═══════════ EL SKETCH ═══════════
+
+    // setup: se ejecuta una vez, al abrir la página
+    function setup() {
+      // un lienzo tan grande como la ventana
+      createCanvas(windowWidth, windowHeight);
+
+      // el fondo se pinta UNA vez: así lo que dibujamos se queda
+      background(245, 242, 234); // colores en (rojo, verde, azul) de 0 a 255
+
+      // los círculos no tendrán borde
+      noStroke();
+    }
+
+    // draw: se ejecuta 60 veces por segundo, siempre
+    function draw() {
+      // solo dibujamos si el ratón está pulsado (o el dedo, en móvil)
+      if (mouseIsPressed) {
+
+        // ── la velocidad del gesto controla el tamaño ──
+        // mouseX es la posición ahora; pmouseX, la de hace un instante.
+        // dist() mide la distancia entre ambas = lo rápido que vas.
+        const velocidad = dist(mouseX, mouseY, pmouseX, pmouseY);
+
+        // map() traduce un rango a otro:
+        // velocidad de 0 a 50 → tamaño de 8 a 80
+        const tamano = map(velocidad, 0, 50, 8, 80);
+
+        // ── la posición horizontal controla el color ──
+        // izquierda = azul noche, derecha = naranja.
+        // lerpColor mezcla dos colores según un porcentaje (0 a 1)
+        const azul = color(30, 40, 90);
+        const naranja = color(230, 110, 40);
+        const mezcla = lerpColor(azul, naranja, mouseX / width);
+
+        // transparencia según la velocidad: rápido = más fantasma
+        mezcla.setAlpha(map(velocidad, 0, 50, 220, 60));
+
+        fill(mezcla);                     // color de relleno
+        circle(mouseX, mouseY, tamano);   // ¡y el círculo!
+      }
+    }
+
+    // se ejecuta cada vez que pulsas una tecla
+    function keyPressed() {
+      if (key === "b") {
+        // borrar = volver a pintar el fondo encima de todo
+        background(245, 242, 234);
+      }
+      if (key === "g") {
+        // descarga el lienzo como imagen png. souvenir del taller
+        saveCanvas("mi-dibujo", "png");
+      }
+    }
+
+    // si la ventana cambia de tamaño, el lienzo también
+    // (ojo: esto borra el dibujo, como en la vida)
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      background(245, 242, 234);
+    }
+
+    // ═══════════ IDEAS PARA JUGAR EN EL TALLER ═══════════
+    // · cambiar circle() por square() o por text("hola", ...)
+    // · cambiar los dos colores de la mezcla
+    // · en draw(), quitar el if y dibujar siempre (sin pulsar)
+    // · añadir al principio de draw() esta línea:
+    //     background(245, 242, 234, 8);
+    //   (un fondo casi transparente cada fotograma
+    //    = el dibujo se desvanece como humo)
+  </script>
+
+</body>
+</html>

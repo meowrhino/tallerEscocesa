@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  22 · EXPO TÚNEL (scroll vertical → viaje horizontal)
+  ═══════════════════════════════════════════════════════
+  el tipo de scroll más "de agencia": bajas con la rueda
+  como siempre, pero la sala se mueve DE LADO. mezcla lo
+  cómodo (todo el mundo sabe bajar) con lo especial del
+  recorrido horizontal.
+
+  cómo funciona, en 3 piezas:
+  1. .tunel — un div altísimo (400vh) que solo existe
+     para darnos "cuerda de scroll". es invisible.
+  2. .visor — sticky dentro del túnel: la ventana por
+     la que miramos, clavada mientras dura el túnel.
+  3. .tren — la fila de salas, dentro del visor.
+     un javascript de 8 líneas mide cuánto has bajado
+     por el túnel (de 0 a 1) y desplaza el tren esa
+     misma proporción hacia la izquierda.
+
+  scroll vertical de entrada, paisaje horizontal de
+  salida. antes y después del túnel puede haber
+  secciones normales (aquí: portada y cierre).
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>expo túnel</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: Helvetica, Arial, sans-serif; background: #f4f1ea; color: #111; }
+
+    /* portada y cierre: pantallas normales de scroll vertical */
+    .plana {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .plana h1 { font-weight: normal; font-size: clamp(2rem, 7vw, 4.5rem); }
+    .plana p { opacity: 0.55; font-size: 0.9rem; }
+
+    /* ── 1 · el túnel: pura cuerda de scroll ──
+       cuanto más alto, más lento el viaje horizontal.
+       400vh = 4 pantallas de cuerda para recorrerlo */
+    .tunel { height: 400vh; position: relative; }
+
+    /* ── 2 · el visor: la ventana clavada ── */
+    .visor {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;   /* esconde lo que asoma del tren */
+    }
+
+    /* ── 3 · el tren de salas ── */
+    .tren {
+      display: flex;
+      height: 100%;
+      width: max-content;   /* tan ancho como la suma de sus vagones */
+      will-change: transform; /* pista al navegador: esto se moverá mucho */
+    }
+
+    .vagon {
+      width: 100vw;
+      height: 100vh;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 3rem;
+    }
+
+    .vagon:nth-child(1) { background: #10312b; color: #f4f1ea; }
+    .vagon:nth-child(2) { background: #7b1e3c; color: #f4f1ea; }
+    .vagon:nth-child(3) { background: #1d3557; color: #f4f1ea; }
+    .vagon:nth-child(4) { background: #ccc5b9; color: #111; }
+
+    .vagon img {
+      max-width: 70vw;
+      max-height: 55vh;
+      object-fit: contain;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .vagon h2 { font-weight: normal; font-style: italic; font-size: 1.3rem; }
+    .ficha { font-size: 0.8rem; opacity: 0.7; text-align: center; line-height: 1.7; }
+
+    /* barrita de progreso del viaje, abajo */
+    #progreso {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background: #e63946;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="progreso"></div>
+
+  <!-- ══ antes del túnel: scroll vertical normal ══ -->
+  <div class="plana">
+    <h1>el túnel</h1>
+    <p>baja como siempre ↓ y mira lo que pasa</p>
+  </div>
+
+  <!-- ══ el túnel ══ -->
+  <div class="tunel" id="tunel">
+    <div class="visor">
+      <div class="tren" id="tren">
+
+        <section class="vagon">
+          <img src="https://picsum.photos/id/1040/900/700" alt="obra uno" />
+          <div class="ficha"><h2>primera parada</h2>2024 · fotografía</div>
+        </section>
+
+        <section class="vagon">
+          <img src="https://picsum.photos/id/1043/700/900" alt="obra dos" />
+          <div class="ficha"><h2>segunda parada</h2>2025 · impresión</div>
+        </section>
+
+        <section class="vagon">
+          <img src="https://picsum.photos/id/1044/900/700" alt="obra tres" />
+          <div class="ficha"><h2>tercera parada</h2>2025 · collage</div>
+        </section>
+
+        <section class="vagon">
+          <div class="ficha" style="font-size: 1.2rem; max-width: 20em">
+            «todo viaje horizontal empieza<br />con una decisión vertical»
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ después del túnel: vuelta a la normalidad ══ -->
+  <div class="plana">
+    <h1>fin del trayecto</h1>
+    <p>¿a que casi no se nota el truco?</p>
+  </div>
+
+  <!-- ══════════ EL JAVASCRIPT (8 líneas de verdad) ══════════ -->
+  <script>
+    const tunel = document.getElementById("tunel");
+    const tren = document.getElementById("tren");
+    const progreso = document.getElementById("progreso");
+
+    // cada vez que la página se desplaza:
+    window.addEventListener("scroll", () => {
+      // ¿cuánto túnel llevamos recorrido? un número de 0 a 1.
+      // offsetTop = dónde empieza el túnel en la página.
+      // la cuerda útil es la altura del túnel menos una pantalla.
+      const recorrido = (window.scrollY - tunel.offsetTop) / (tunel.offsetHeight - window.innerHeight);
+
+      // fuera del túnel el número se sale de 0..1: lo recortamos
+      const p = Math.min(Math.max(recorrido, 0), 1);
+
+      // el tren se desplaza a la izquierda esa misma proporción
+      // (su ancho total menos la pantalla que siempre se ve)
+      tren.style.transform = `translateX(${-p * (tren.scrollWidth - window.innerWidth)}px)`;
+
+      // y la barrita de abajo, de regalo
+      progreso.style.width = p * 100 + "%";
+    });
+  </script>
+
+</body>
+</html>

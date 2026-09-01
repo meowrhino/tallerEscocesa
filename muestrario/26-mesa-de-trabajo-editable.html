@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  26 · MESA DE TRABAJO EDITABLE (la 10, con memoria)
+  ═══════════════════════════════════════════════════════
+  la mesa de trabajo (10) pero viva: puedes AÑADIR
+  post-its e IMÁGENES desde tu ordenador, moverlo todo,
+  y la mesa SE ACUERDA (localStorage). y como en el
+  cuaderno local, hay un botón "copiar html" que genera
+  el snapshot estático para pegarlo en tu web y hacer
+  el commit manual. mismo flujo de publicación:
+  desordenar en privado, publicar cuando tú digas.
+
+  cómo entran las imágenes sin servidor: el archivo se
+  convierte a texto (data URL, base64) y se guarda con
+  todo lo demás. por eso conviene que sean pequeñas
+  (¡compresor de imágenes antes de subirlas!) —
+  localStorage aguanta unos 5 MB en total.
+
+  gestos:
+  · arrastrar: mover pieza (se guarda solo al soltar)
+  · doble clic en una pieza: borrarla
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mesa de trabajo editable</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: repeating-linear-gradient(90deg, #b08d57 0px, #a5834f 60px, #b08d57 120px);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Georgia, serif;
+      position: relative;
+    }
+
+    /* ── la barra de herramientas ── */
+    #herramientas {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2000;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    #herramientas button, #herramientas label {
+      font-family: monospace;
+      font-size: 0.8rem;
+      background: #fdfbf4;
+      border: 1px solid #333;
+      padding: 0.4em 0.9em;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+    #herramientas button:hover, #herramientas label:hover {
+      background: #333; color: #fdfbf4;
+    }
+
+    /* el input de archivo real está oculto; su label hace de botón */
+    #archivo { display: none; }
+
+    /* ── las piezas (mismos estilos que la mesa 10) ── */
+    .pieza {
+      position: absolute;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 3px 4px 12px rgba(0, 0, 0, 0.35);
+    }
+    .pieza:active { cursor: grabbing; }
+
+    .postit {
+      width: 170px;
+      padding: 1rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      background: #fff9a8;
+    }
+    /* colores rotativos de post-it (los reparte el js) */
+    .postit.c1 { background: #fff9a8; }
+    .postit.c2 { background: #ffc7de; }
+    .postit.c3 { background: #c8f0c8; }
+    .postit.c4 { background: #bde0fe; }
+
+    .foto {
+      background: white;
+      padding: 10px 10px 30px;
+    }
+    .foto img {
+      display: block;
+      width: 200px;
+      pointer-events: none; /* que el arrastre lo capture la pieza */
+    }
+    .foto figcaption {
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 8px;
+      color: #333;
+    }
+
+    h1 {
+      position: absolute;
+      bottom: 1rem;
+      right: 1.5rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: normal;
+      font-style: italic;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="herramientas">
+    <button id="nuevaNota">+ nota</button>
+    <label for="archivo">+ imagen</label>
+    <input type="file" id="archivo" accept="image/*" />
+    <button id="copiar">copiar html</button>
+    <button id="vaciar">vaciar mesa</button>
+  </div>
+
+  <h1>mesa editable — doble clic borra una pieza</h1>
+
+  <!-- las piezas se pintan aquí desde el js -->
+
+  <script>
+    // ═══════ LA MEMORIA ═══════
+    // cada pieza es un objetito:
+    // { tipo: "postit"|"foto", texto, src, x, y, rot, color }
+    const CLAVE = "mesa-piezas";
+
+    const leer = () => JSON.parse(localStorage.getItem(CLAVE) || "[]");
+    const guardar = (piezas) => {
+      try {
+        localStorage.setItem(CLAVE, JSON.stringify(piezas));
+      } catch (e) {
+        // localStorage lleno (las fotos en base64 ocupan):
+        alert("la mesa está llena :( usa imágenes más pequeñas o vacía algo");
+      }
+    };
+
+    // ═══════ PIEZA → HTML ═══════
+    // el mismo html sirve para pintar la mesa Y para el
+    // snapshot que se copia (compatible con la mesa 10)
+    function piezaEnHtml(pieza) {
+      const estilo = `left: ${pieza.x}px; top: ${pieza.y}px; transform: rotate(${pieza.rot}deg)`;
+      if (pieza.tipo === "postit") {
+        return `<div class="pieza postit ${pieza.color}" style="${estilo}">${pieza.texto}</div>`;
+      }
+      // foto: la imagen va incrustada como data url (texto base64)
+      const pie = pieza.texto ? `<figcaption>${pieza.texto}</figcaption>` : "";
+      return `<figure class="pieza foto" style="${estilo}"><img src="${pieza.src}" alt="${pieza.texto || "imagen"}" />${pie}</figure>`;
+    }
+
+    // ═══════ PINTAR LA MESA ═══════
+    function pintar() {
+      // quitar las piezas actuales (las de la clase .pieza)
+      document.querySelectorAll(".pieza").forEach((p) => p.remove());
+
+      leer().forEach((pieza, indice) => {
+        const molde = document.createElement("div");
+        molde.innerHTML = piezaEnHtml(pieza);
+        const elemento = molde.firstChild;
+        elemento.dataset.indice = indice; // para saber cuál es al arrastrar
+        document.body.appendChild(elemento);
+      });
+    }
+
+    // ═══════ AÑADIR NOTA ═══════
+    document.getElementById("nuevaNota").addEventListener("click", () => {
+      const texto = prompt("¿qué dice la nota?");
+      if (!texto) return;
+
+      const piezas = leer();
+      piezas.push({
+        tipo: "postit",
+        texto: texto,
+        // aparece por el centro, con algo de azar para que
+        // dos notas seguidas no caigan exactamente encima
+        x: window.innerWidth / 2 - 85 + (Math.random() * 120 - 60),
+        y: window.innerHeight / 2 - 50 + (Math.random() * 120 - 60),
+        rot: Math.random() * 8 - 4, // giro entre -4 y 4 grados
+        color: "c" + (1 + Math.floor(Math.random() * 4)), // c1..c4
+      });
+      guardar(piezas);
+      pintar();
+    });
+
+    // ═══════ AÑADIR IMAGEN ═══════
+    document.getElementById("archivo").addEventListener("change", (evento) => {
+      const archivo = evento.target.files[0];
+      if (!archivo) return;
+
+      // FileReader convierte el archivo en texto base64.
+      // es asíncrono: cuando termina, salta onload.
+      const lector = new FileReader();
+      lector.onload = () => {
+        const pie = prompt("pie de foto (opcional)") || "";
+        const piezas = leer();
+        piezas.push({
+          tipo: "foto",
+          texto: pie,
+          src: lector.result, // la imagen hecha texto
+          x: window.innerWidth / 2 - 110 + (Math.random() * 120 - 60),
+          y: window.innerHeight / 2 - 130 + (Math.random() * 120 - 60),
+          rot: Math.random() * 10 - 5,
+        });
+        guardar(piezas);
+        pintar();
+      };
+      lector.readAsDataURL(archivo);
+      evento.target.value = ""; // por si se sube la misma imagen dos veces
+    });
+
+    // ═══════ ARRASTRAR (como la mesa 10, + guardado) ═══════
+    let agarrada = null, dedoX = 0, dedoY = 0;
+
+    document.addEventListener("pointerdown", (e) => {
+      const pieza = e.target.closest(".pieza");
+      if (!pieza) return;
+      agarrada = pieza;
+      const caja = pieza.getBoundingClientRect();
+      dedoX = e.clientX - caja.left;
+      dedoY = e.clientY - caja.top;
+      pieza.style.zIndex = 1000;
+    });
+
+    document.addEventListener("pointermove", (e) => {
+      if (!agarrada) return;
+      agarrada.style.left = e.clientX - dedoX + "px";
+      agarrada.style.top = e.clientY - dedoY + "px";
+    });
+
+    document.addEventListener("pointerup", () => {
+      if (!agarrada) return;
+      // al soltar: apuntar la nueva posición en la memoria
+      const piezas = leer();
+      const pieza = piezas[agarrada.dataset.indice];
+      pieza.x = parseFloat(agarrada.style.left);
+      pieza.y = parseFloat(agarrada.style.top);
+      guardar(piezas);
+      agarrada = null;
+    });
+
+    // ═══════ BORRAR: doble clic sobre una pieza ═══════
+    document.addEventListener("dblclick", (e) => {
+      const pieza = e.target.closest(".pieza");
+      if (!pieza) return;
+      if (!confirm("¿quitar esta pieza de la mesa?")) return;
+      const piezas = leer();
+      piezas.splice(pieza.dataset.indice, 1);
+      guardar(piezas);
+      pintar();
+    });
+
+    // ═══════ EL SNAPSHOT: copiar html ═══════
+    // genera las piezas como html estático, para pegar en
+    // una copia de la mesa 10 (o donde quieras) y hacer commit
+    document.getElementById("copiar").addEventListener("click", () => {
+      const html = leer().map(piezaEnHtml).join("\n\n");
+      navigator.clipboard.writeText(html);
+      alert("html de la mesa copiado.\npégalo en tu página, commit, y tu mesa es pública tal y como está ahora.");
+    });
+
+    document.getElementById("vaciar").addEventListener("click", () => {
+      if (confirm("¿vaciar toda la mesa? (los borradores se pierden)")) {
+        guardar([]);
+        pintar();
+      }
+    });
+
+    pintar(); // al abrir: recuperar la mesa como la dejaste
+  </script>
+
+</body>
+</html>

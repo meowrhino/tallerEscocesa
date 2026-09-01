@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  01 · LA WEB QUE SE EXPLICA A SÍ MISMA
+  ═══════════════════════════════════════════════════════
+  idea: una página donde cada pieza te cuenta qué es.
+  perfecta para la primera sesión de "alfabetización web":
+  pasas el ratón por encima de cualquier cosa y aparece
+  una etiqueta diciendo qué elemento HTML es.
+
+  SOLO HTML + CSS. cero javascript.
+
+  cómo usarla en el taller:
+  1. abrir el archivo en el navegador
+  2. abrir el mismo archivo en un editor de texto al lado
+  3. comparar: "esto que ves aquí... es esta línea de aquí"
+  4. botón derecho > "inspeccionar" para ver que el navegador
+     piensa igual que nosotras
+
+  para subirla a github pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>una web que se explica</title>
+
+  <style>
+    /* ─────────────────────────────────────────
+       CSS = las reglas de estilo.
+       cada bloque dice: "a este elemento, ponle esto"
+       ───────────────────────────────────────── */
+
+    /* el * significa "todos los elementos" */
+    * {
+      box-sizing: border-box; /* que el padding no ensanche las cajas */
+    }
+
+    body {
+      font-family: Georgia, serif;   /* la tipografía de toda la página */
+      background-color: #f4f1ea;     /* color de fondo (formato hexadecimal) */
+      color: #222;                   /* color del texto */
+      max-width: 700px;              /* que el texto no se haga larguísimo */
+      margin: 0 auto;                /* auto a los lados = centrado */
+      padding: 2rem 1rem;            /* aire por dentro */
+      line-height: 1.6;              /* espacio entre líneas, se lee mejor */
+    }
+
+    /* ─────────────────────────────────────────
+       EL TRUCO DE ESTA PÁGINA:
+       cada elemento "explicable" lleva un atributo
+       data-que-soy="...". con CSS leemos ese texto
+       y lo mostramos al pasar el ratón (hover).
+       ───────────────────────────────────────── */
+
+    [data-que-soy] {
+      position: relative; /* necesario para colocar la etiquetita */
+    }
+
+    /* al pasar el ratón: borde de colores */
+    [data-que-soy]:hover {
+      outline: 2px dashed #e63946;
+      outline-offset: 3px;
+      cursor: help; /* el cursor se convierte en interrogante */
+    }
+
+    /* ::after = un "pseudo-elemento", una cajita fantasma
+       que CSS añade después del contenido. aquí la usamos
+       como etiqueta flotante. */
+    [data-que-soy]:hover::after {
+      content: attr(data-que-soy); /* ¡lee el texto del atributo! */
+      position: absolute;
+      top: -1.8em;
+      left: 0;
+      background: #e63946;
+      color: white;
+      font-family: monospace; /* letra "de código" */
+      font-size: 0.75rem;
+      padding: 0.2em 0.6em;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10; /* que quede por encima de todo */
+    }
+
+    /* estilos normalitos para el resto de elementos */
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: normal;
+      font-style: italic;
+    }
+
+    a {
+      color: #e63946;
+    }
+
+    img {
+      max-width: 100%; /* que la imagen nunca se salga de su caja */
+      display: block;
+    }
+
+    blockquote {
+      border-left: 4px solid #e63946;
+      margin-left: 0;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #555;
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.8rem;
+      color: #888;
+      border-top: 1px solid #ccc;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+
+<body data-que-soy="<body> — el cuerpo: todo lo visible vive aquí dentro">
+
+  <header data-que-soy="<header> — la cabecera de la página">
+    <h1 data-que-soy="<h1> — el título más importante (solo debería haber uno)">
+      hola, soy una página web
+    </h1>
+    <p data-que-soy="<p> — un párrafo de texto">
+      pasa el ratón por encima de cualquier cosa y te diré qué soy.
+    </p>
+  </header>
+
+  <main data-que-soy="<main> — el contenido principal">
+
+    <h2 data-que-soy="<h2> — un título de segundo nivel">de qué estoy hecha</h2>
+
+    <p data-que-soy="<p> — otro párrafo">
+      solo soy un archivo de texto. si me abres con un editor
+      verás exactamente las mismas palabras que estás leyendo,
+      rodeadas de <em data-que-soy="<em> — énfasis, normalmente cursiva">etiquetas</em>
+      que le dicen al navegador qué es cada cosa.
+    </p>
+
+    <blockquote data-que-soy="<blockquote> — una cita">
+      una web es una carta que le escribes al navegador,
+      y el navegador la lee en voz alta.
+    </blockquote>
+
+    <h2 data-que-soy="<h2> — otro título de segundo nivel">cosas que sé hacer</h2>
+
+    <ul data-que-soy="<ul> — una lista sin orden (con puntitos)">
+      <li data-que-soy="<li> — un elemento de la lista">mostrar texto</li>
+      <li data-que-soy="<li> — otro elemento de la lista">
+        enlazar a otros sitios, como
+        <a href="https://developer.mozilla.org/es/" data-que-soy="<a> — un enlace (anchor)">MDN, la enciclopedia de la web</a>
+      </li>
+      <li data-que-soy="<li> — y otro más">enseñar imágenes:</li>
+    </ul>
+
+    <figure data-que-soy="<figure> — una figura: imagen + su pie">
+      <!-- esta imagen se genera sola con un servicio de placeholders.
+           en el taller: cambiadla por una imagen vuestra, por ejemplo
+           <img src="mifoto.jpg" alt="descripción de mi foto"> -->
+      <img
+        src="https://picsum.photos/600/300?grayscale"
+        alt="una foto aleatoria en blanco y negro"
+        data-que-soy="<img> — una imagen (el atributo alt la describe)"
+      />
+      <figcaption data-que-soy="<figcaption> — el pie de la figura">
+        fig. 1 — una imagen que vive en internet
+      </figcaption>
+    </figure>
+
+    <h2 data-que-soy="<h2> — sí, otro título">y el color, ¿de dónde sale?</h2>
+
+    <p data-que-soy="<p> — párrafo">
+      del CSS: unas reglas que viven en la cabecera de este archivo
+      (dentro de la etiqueta <code data-que-soy="<code> — texto con pinta de código">&lt;style&gt;</code>)
+      y que dicen cosas como "el fondo, de color crema" o
+      "los enlaces, rojos". cambia una regla, guarda,
+      recarga el navegador, y mira qué pasa.
+    </p>
+
+  </main>
+
+  <footer data-que-soy="<footer> — el pie de página">
+    hecha a mano con html y css · taller webexpress
+  </footer>
+
+</body>
+</html>

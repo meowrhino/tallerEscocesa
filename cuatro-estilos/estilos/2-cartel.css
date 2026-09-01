@@ -1,0 +1,133 @@
+/* ══ 2 · CARTEL ══════════════════════════════════════════════
+   Todo grande, mucho contraste, poco texto a la vista.
+   Solo se usan cosas de la sesión 2. Ni una más.
+   ══════════════════════════════════════════════════════════ */
+
+body {
+  background-color: #14110f;
+  color: #f5f0e6;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.45;
+  margin: 0;
+  padding: 32px 24px 80px;
+}
+
+header,
+main,
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* El nombre ocupa toda la parte de arriba. Es el cartel. */
+h1 {
+  font-size: 68px;
+  line-height: 0.95;
+  font-weight: bold;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  margin: 40px 0 32px 0;
+}
+
+nav {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #f5f0e6;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: #ff5c2b;
+}
+
+header {
+  padding-bottom: 28px;
+  border-bottom: 4px solid #ff5c2b;
+  margin-bottom: 64px;
+}
+
+h2 {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ff5c2b;
+  margin: 0 0 40px 0;
+}
+
+h3 {
+  font-size: 38px;
+  line-height: 1.05;
+  font-weight: bold;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px 0;
+}
+
+p {
+  margin: 0 0 16px 0;
+  max-width: 620px;
+}
+
+article {
+  margin-bottom: 88px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 28px 0;
+}
+
+a {
+  color: #ff5c2b;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 14px 0;
+  border-bottom: 1px solid #3a3531;
+  font-size: 17px;
+}
+
+footer {
+  margin-top: 80px;
+  padding-top: 28px;
+  border-top: 4px solid #ff5c2b;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h3 {
+    font-size: 26px;
+  }
+
+  body {
+    padding: 20px 16px 48px;
+  }
+
+  article {
+    margin-bottom: 56px;
+  }
+}

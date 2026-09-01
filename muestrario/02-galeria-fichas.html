@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  02 · GALERÍA CON FICHA TÉCNICA
+  ═══════════════════════════════════════════════════════
+  idea: una galería de obras con su ficha técnica
+  (título, año, técnica, medidas), como en una expo.
+
+  SOLO HTML + CSS. cero javascript.
+  el "lightbox" (ver la obra en grande) funciona con
+  un truco de CSS llamado :target — cuando haces clic
+  en una miniatura, la URL cambia (#obra1) y CSS muestra
+  la versión grande. el botón × te devuelve a la galería.
+
+  en el taller:
+  - cada persona sustituye las imágenes por las suyas
+    (recordad pasarlas antes por el compresor de imágenes)
+  - se duplica el bloque <figure> tantas veces como obras
+  - para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>galería · fichas técnicas</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #111;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-size: 1.2rem;
+      letter-spacing: 0.2em;   /* espacio entre letras, rollo museo */
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    /* ─────────────────────────────────────────
+       LA RETÍCULA (grid)
+       display:grid convierte el contenedor en una
+       cuadrícula. auto-fill + minmax hace que las
+       columnas se recoloquen solas según el ancho
+       de la pantalla. responsive gratis.
+       ───────────────────────────────────────── */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+
+    /* cada obra es un <figure> */
+    .obra {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .obra img {
+      width: 100%;
+      aspect-ratio: 4 / 5;    /* todas las miniaturas con la misma proporción */
+      object-fit: cover;      /* recorta la imagen para llenar la caja sin deformarse */
+      display: block;
+      filter: grayscale(100%);          /* en reposo: blanco y negro */
+      transition: filter 0.4s, transform 0.4s;  /* animación suave */
+    }
+
+    /* al pasar el ratón: color y un pelín más grande. lo "diver" */
+    .obra a:hover img {
+      filter: grayscale(0%);
+      transform: scale(1.03) rotate(-1deg);
+    }
+
+    /* ─────────────────────────────────────────
+       LA FICHA TÉCNICA
+       una lista de definiciones <dl>:
+       <dt> = el concepto, <dd> = el dato
+       ───────────────────────────────────────── */
+    .ficha {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      display: grid;
+      grid-template-columns: auto 1fr;  /* dos columnas: concepto | dato */
+      gap: 0 0.8rem;
+    }
+
+    .ficha dt {
+      color: #999;
+    }
+
+    .ficha dd {
+      font-style: italic;
+    }
+
+    .obra figcaption strong {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* ─────────────────────────────────────────
+       EL LIGHTBOX (ver en grande) — el truco :target
+       cada obra grande vive en un <section id="obraN">
+       que normalmente está oculto (display:none).
+       cuando la URL apunta a él (#obraN), :target
+       lo muestra a pantalla completa.
+       ───────────────────────────────────────── */
+    .grande {
+      display: none; /* oculto por defecto */
+    }
+
+    .grande:target {
+      display: flex; /* ¡visible cuando la URL lo nombra! */
+      position: fixed;      /* flota sobre toda la pantalla */
+      inset: 0;             /* pegado a los 4 bordes */
+      background: rgba(0, 0, 0, 0.92);
+      color: white;
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      gap: 1rem;
+    }
+
+    .grande img {
+      max-width: 90vw;    /* vw = % del ancho de la ventana */
+      max-height: 75vh;   /* vh = % del alto de la ventana */
+      object-fit: contain;
+    }
+
+    .grande p {
+      font-size: 0.85rem;
+      color: #ccc;
+      font-style: italic;
+    }
+
+    /* el botón de cerrar es solo un enlace a "#"
+       (una URL sin target = todo se vuelve a ocultar) */
+    .cerrar {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      color: white;
+      text-decoration: none;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>sala uno</h1>
+
+  <!-- ══════════ LA GALERÍA (miniaturas) ══════════ -->
+  <div class="galeria">
+
+    <!-- ── OBRA 1 ─────────────────────────────
+         para añadir tu obra: copia este bloque entero,
+         cambia la imagen, los textos, y los DOS "obra1"
+         (el href de aquí y el id de abajo) por "obra4",
+         "obra5", etc. -->
+    <figure class="obra">
+      <a href="#obra1">
+        <img src="https://picsum.photos/id/1025/440/550" alt="obra uno" />
+      </a>
+      <figcaption>
+        <strong>sin título (perro)</strong>
+        <dl class="ficha">
+          <dt>año</dt>       <dd>2024</dd>
+          <dt>técnica</dt>   <dd>fotografía digital</dd>
+          <dt>medidas</dt>   <dd>40 × 50 cm</dd>
+        </dl>
+      </figcaption>
+    </figure>
+
+    <!-- ── OBRA 2 ───────────────────────────── -->
+    <figure class="obra">
+      <a href="#obra2">
+        <img src="https://picsum.photos/id/1039/440/550" alt="obra dos" />
+      </a>
+      <figcaption>
+        <strong>paisaje que no existe</strong>
+        <dl class="ficha">
+          <dt>año</dt>       <dd>2023</dd>
+          <dt>técnica</dt>   <dd>óleo sobre lino</dd>
+          <dt>medidas</dt>   <dd>120 × 90 cm</dd>
+        </dl>
+      </figcaption>
+    </figure>
+
+    <!-- ── OBRA 3 ───────────────────────────── -->
+    <figure class="obra">
+      <a href="#obra3">
+        <img src="https://picsum.photos/id/1062/440/550" alt="obra tres" />
+      </a>
+      <figcaption>
+        <strong>estudio de la espera</strong>
+        <dl class="ficha">
+          <dt>año</dt>       <dd>2025</dd>
+          <dt>técnica</dt>   <dd>grafito y café</dd>
+          <dt>medidas</dt>   <dd>29,7 × 21 cm</dd>
+        </dl>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <!-- ══════════ LAS VERSIONES GRANDES (lightbox) ══════════
+       una <section> por obra, con el mismo número.
+       viven aquí abajo, ocultas, hasta que alguien
+       hace clic en su miniatura. -->
+
+  <section class="grande" id="obra1">
+    <a href="#" class="cerrar" aria-label="cerrar">×</a>
+    <img src="https://picsum.photos/id/1025/1200/900" alt="obra uno en grande" />
+    <p>sin título (perro), 2024 — fotografía digital, 40 × 50 cm</p>
+  </section>
+
+  <section class="grande" id="obra2">
+    <a href="#" class="cerrar" aria-label="cerrar">×</a>
+    <img src="https://picsum.photos/id/1039/1200/900" alt="obra dos en grande" />
+    <p>paisaje que no existe, 2023 — óleo sobre lino, 120 × 90 cm</p>
+  </section>
+
+  <section class="grande" id="obra3">
+    <a href="#" class="cerrar" aria-label="cerrar">×</a>
+    <img src="https://picsum.photos/id/1062/1200/900" alt="obra tres en grande" />
+    <p>estudio de la espera, 2025 — grafito y café, 29,7 × 21 cm</p>
+  </section>
+
+</body>
+</html>

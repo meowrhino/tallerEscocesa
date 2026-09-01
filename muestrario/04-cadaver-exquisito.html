@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  04 · CADÁVER EXQUISITO (generador de frases)
+  ═══════════════════════════════════════════════════════
+  idea: un generador de frases aleatorias al estilo del
+  cadáver exquisito surrealista. cada clic combina un
+  trozo de cada lista y compone una frase nueva.
+
+  es el ejercicio perfecto para perderle el miedo al
+  javascript: solo hay LISTAS de palabras y UNA función
+  que elige al azar. el resultado cambia toda la
+  personalidad de la web con solo editar las listas.
+
+  en el taller: cada persona escribe sus propias listas
+  (pueden salir de sus cuadernos, de títulos de obras,
+  de cartas...) y sale un oráculo personal.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cadáver exquisito</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #1a1a2e;   /* azul noche */
+      color: #f4f1ea;
+      margin: 0;
+      /* centramos todo vertical y horizontalmente con flexbox */
+      min-height: 100vh;     /* como mínimo, toda la altura de la ventana */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #8888aa;
+    }
+
+    /* aquí aparece la frase generada */
+    #frase {
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      /* clamp = tamaño flexible: mínimo, ideal (según ancho), máximo.
+         así la frase es grande en pantallas grandes y cabe en el móvil */
+      font-style: italic;
+      line-height: 1.4;
+      max-width: 18em;
+      margin: 2rem 0;
+    }
+
+    button {
+      font-family: inherit;    /* hereda la tipografía del body */
+      font-size: 1rem;
+      background: transparent;
+      color: #f4f1ea;
+      border: 1px solid #f4f1ea;
+      padding: 0.8em 2em;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    button:hover {
+      background: #f4f1ea;
+      color: #1a1a2e;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: #555577;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>oráculo doméstico</h1>
+
+  <!-- la frase se escribe aquí dentro desde javascript.
+       ponemos una de inicio para que no esté vacía. -->
+  <p id="frase">pulsa el botón y te diré algo</p>
+
+  <button id="boton">otra vez</button>
+
+  <footer>un cadáver exquisito · se genera solo, no significa nada (o sí)</footer>
+
+  <!-- ══════════ EL JAVASCRIPT ══════════ -->
+  <script>
+    // ─────────────────────────────────────────
+    // LAS LISTAS: aquí está toda la "personalidad".
+    // cambiadlas por completo, añadid frases, quitad...
+    // cada lista es un array: elementos entre comillas,
+    // separados por comas.
+    // ─────────────────────────────────────────
+
+    const sujetos = [
+      "el archivo",
+      "una casa vacía",
+      "la última imagen",
+      "tu nombre",
+      "el mar de los mapas antiguos",
+      "este museo",
+      "la fotocopia de una fotocopia",
+      "lo que no dijiste",
+    ];
+
+    const verbos = [
+      "sueña con",
+      "se esconde detrás de",
+      "colecciona",
+      "traduce mal",
+      "le escribe cartas a",
+      "se disfraza de",
+      "olvida a propósito",
+      "ilumina",
+    ];
+
+    const complementos = [
+      "las horas de la siesta",
+      "un idioma inventado",
+      "todas las puertas abiertas",
+      "el ruido de la nevera",
+      "una exposición que nadie vio",
+      "los lunes por la mañana",
+      "tu casa de la infancia",
+      "el color exacto del membrillo",
+    ];
+
+    // ─────────────────────────────────────────
+    // LA FUNCIÓN: elige un elemento al azar de una lista.
+    // Math.random() da un número entre 0 y 1.
+    // lo multiplicamos por la longitud de la lista y
+    // redondeamos hacia abajo: una posición válida al azar.
+    // ─────────────────────────────────────────
+    function alAzar(lista) {
+      const posicion = Math.floor(Math.random() * lista.length);
+      return lista[posicion];
+    }
+
+    // componer la frase: un trozo de cada lista, unidos
+    function generarFrase() {
+      const frase = alAzar(sujetos) + " " + alAzar(verbos) + " " + alAzar(complementos);
+      // buscamos el párrafo por su id y cambiamos su texto
+      document.getElementById("frase").textContent = frase;
+    }
+
+    // conectar el botón con la función
+    document.getElementById("boton").addEventListener("click", generarFrase);
+
+    // y generamos una al cargar la página, de regalo
+    generarFrase();
+  </script>
+
+</body>
+</html>

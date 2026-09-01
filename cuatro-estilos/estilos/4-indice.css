@@ -1,0 +1,131 @@
+/* ══ 4 · ÍNDICE ══════════════════════════════════════════════
+   Denso, en monoespaciada, casi sin adornos. Una lista de
+   trabajos más que un porfolio. Carga en un suspiro.
+   ══════════════════════════════════════════════════════════ */
+
+body {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 24px 20px 64px;
+}
+
+header,
+main,
+footer {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0 0 2px 0;
+}
+
+nav {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 14px;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 40px 0 12px 0;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+
+p {
+  margin: 0 0 10px 0;
+  max-width: 62ch;
+}
+
+article {
+  padding: 16px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 0;
+}
+
+article:last-child {
+  border-bottom: 1px solid #1a1a1a;
+}
+
+/* Las imágenes salen pequeñas: aquí manda el texto.
+   Al pasar el ratón por encima, no cambia nada. Es honesto. */
+img {
+  max-width: 260px;
+  height: auto;
+  display: block;
+  margin: 12px 0;
+}
+
+a {
+  color: #1a1a1a;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  background-color: #f2e94e;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 2px 0;
+}
+
+footer {
+  margin-top: 56px;
+  padding-top: 12px;
+  border-top: 1px solid #1a1a1a;
+  font-size: 14px;
+  color: #666666;
+}
+
+footer a {
+  color: #666666;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    padding: 16px 14px 40px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}

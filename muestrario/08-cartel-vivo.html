@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  08 · CARTEL VIVO (póster animado para un evento)
+  ═══════════════════════════════════════════════════════
+  idea: la web como cartel. una sola pantalla, tipografía
+  gigante, colores valientes y animaciones css. perfecta
+  para anunciar una expo, un concierto, un taller...
+  se hace en una hora y queda resultona: buen chute de
+  autoestima para la primera sesión.
+
+  SOLO HTML + CSS. cero javascript.
+  conceptos que se tocan: keyframes (animación),
+  clamp (tipografía fluida), position fixed,
+  la cinta-marquesina hecha a mano.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cartel vivo</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ffe600;   /* amarillo cartel */
+      color: #111;
+      font-family: Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;      /* nada de scroll: esto es un cartel */
+    }
+
+    /* ─────────────────────────────────────────
+       LA CINTA DE ARRIBA (marquesina)
+       un texto larguísimo que se desplaza en bucle.
+       el truco: el texto está duplicado, y la
+       animación lo mueve exactamente la mitad de su
+       ancho. cuando acaba, vuelve a empezar y no se
+       nota el corte.
+       ───────────────────────────────────────── */
+    .cinta {
+      background: #111;
+      color: #ffe600;
+      white-space: nowrap;   /* que el texto no salte de línea */
+      overflow: hidden;
+      padding: 0.5em 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .cinta span {
+      display: inline-block;
+      animation: desfilar 15s linear infinite;
+      /* linear = velocidad constante, como un desfile */
+    }
+
+    @keyframes desfilar {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); } /* la mitad: donde empieza la copia */
+    }
+
+    /* ─────────────────────────────────────────
+       EL TITULAR GIGANTE
+       ───────────────────────────────────────── */
+    main {
+      flex: 1;               /* ocupa todo el espacio que sobra */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      /* clamp(mínimo, ideal, máximo): tipografía fluida.
+         13vw = 13% del ancho de la ventana. el título
+         siempre es enorme pero nunca se desborda */
+      font-size: clamp(3rem, 13vw, 11rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: -0.03em; /* letras un pelín apretadas, rollo cartel */
+    }
+
+    /* la segunda línea del título, en hueco (outline).
+       -webkit-text-stroke dibuja solo el contorno */
+    h1 .hueco {
+      color: transparent;
+      -webkit-text-stroke: 2px #111;
+    }
+
+    /* la palabra destacada late como un corazón */
+    h1 .late {
+      display: inline-block;
+      color: #e6007e;        /* rosa chicle */
+      animation: latir 1.2s ease-in-out infinite;
+    }
+
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.06); }
+    }
+
+    /* ─────────────────────────────────────────
+       LOS DATOS DEL EVENTO
+       ───────────────────────────────────────── */
+    .datos {
+      margin-top: 2rem;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      line-height: 1.6;
+      max-width: 30em;
+    }
+
+    .datos strong { background: #111; color: #ffe600; padding: 0 0.3em; }
+
+    /* ─────────────────────────────────────────
+       EL SELLO QUE GIRA (esquina)
+       un circulito de texto que rota sin parar,
+       como una pegatina de "¡nuevo!"
+       ───────────────────────────────────────── */
+    .sello {
+      position: fixed;       /* clavado a la ventana, pase lo que pase */
+      right: 3rem;
+      top: 3.5rem;
+      width: 110px;
+      height: 110px;
+      background: #e6007e;
+      color: #fff;
+      border-radius: 50%;    /* un cuadrado con esquinas 50% = un círculo */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      animation: girar 8s linear infinite;
+    }
+
+    @keyframes girar {
+      to { transform: rotate(360deg); }
+    }
+
+    footer {
+      padding: 1rem 2rem;
+      font-size: 0.8rem;
+      border-top: 3px solid #111;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- la cinta: fíjate en que el texto está DOS veces.
+       es la clave de que el bucle no tenga costura. -->
+  <div class="cinta">
+    <span>
+      entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶
+      entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶ entrada libre ✶
+    </span>
+  </div>
+
+  <main>
+    <h1>
+      noche<br />
+      <span class="hueco">abierta</span><br />
+      en el <span class="late">estudio</span>
+    </h1>
+
+    <div class="datos">
+      <p><strong>viernes 13 de septiembre · 19 h</strong></p>
+      <p>obra reciente, vino tibio y conversación.<br />
+      trae a alguien que no conozcamos.</p>
+    </div>
+  </main>
+
+  <div class="sello">ni se te ocurra faltar</div>
+
+  <footer>
+    c/ inventada 42, bajos · un cartel hecho solo con html y css
+  </footer>
+
+</body>
+</html>

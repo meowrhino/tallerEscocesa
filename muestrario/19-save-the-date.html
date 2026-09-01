@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  19 · SAVE THE DATE (variante del cartel, con cuenta atrás)
+  ═══════════════════════════════════════════════════════
+  idea: una página de una sola cosa: LA FECHA. con una
+  cuenta atrás en vivo que crea urgencia y un botón que
+  descarga el evento al calendario (un archivo .ics
+  generado por la propia página, sin servidor).
+
+  html + css + un js pequeño en dos partes:
+  · la cuenta atrás: restar dos fechas y repartir el
+    resultado en días/horas/minutos/segundos
+  · el .ics: el formato de texto plano que entienden
+    todos los calendarios desde los 90
+
+  en el taller solo hay que cambiar UNA línea (la fecha)
+  y los textos. para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>guarda la fecha</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0b3d2e;   /* verde botella */
+      color: #f2e9d8;
+      font-family: Georgia, serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .antetitulo {
+      font-family: Helvetica, sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5em;
+      color: #d4a95f;
+    }
+
+    h1 {
+      font-weight: normal;
+      font-style: italic;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      line-height: 1.1;
+      max-width: 16em;
+    }
+
+    .fecha-grande {
+      font-family: Helvetica, sans-serif;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      letter-spacing: 0.15em;
+      border-top: 1px solid #d4a95f;
+      border-bottom: 1px solid #d4a95f;
+      padding: 0.8em 2em;
+    }
+
+    /* ── la cuenta atrás ── */
+    #cuenta {
+      display: flex;
+      gap: clamp(1rem, 4vw, 2.5rem);
+    }
+
+    .bloque { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    /* tabular-nums: todos los dígitos igual de anchos,
+       así los números no "bailan" al cambiar */
+    .bloque strong {
+      font-family: Helvetica, sans-serif;
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bloque span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: #d4a95f;
+    }
+
+    /* los dos puntos parpadean como un reloj de mesilla */
+    .puntos {
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-family: Helvetica, sans-serif;
+      animation: parpadeo 1s steps(1) infinite;
+      /* steps(1) = sin transición suave: o está o no está */
+    }
+    @keyframes parpadeo { 50% { opacity: 0.15; } }
+
+    button {
+      font-family: Helvetica, sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      background: transparent;
+      color: #f2e9d8;
+      border: 1px solid #d4a95f;
+      padding: 1em 2.5em;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    button:hover { background: #d4a95f; color: #0b3d2e; }
+
+    .nota { font-size: 0.8rem; color: #7ba393; font-style: italic; }
+  </style>
+</head>
+
+<body>
+
+  <p class="antetitulo">save the date</p>
+
+  <h1>inauguración de<br />«todo lo que cabe en un enlace»</h1>
+
+  <p class="fecha-grande">13 · septiembre · 2026 — 19:00</p>
+
+  <!-- la cuenta atrás: el js rellena los números -->
+  <div id="cuenta">
+    <div class="bloque"><strong id="dias">–</strong><span>días</span></div>
+    <div class="puntos">:</div>
+    <div class="bloque"><strong id="horas">–</strong><span>horas</span></div>
+    <div class="puntos">:</div>
+    <div class="bloque"><strong id="minutos">–</strong><span>min</span></div>
+    <div class="puntos">:</div>
+    <div class="bloque"><strong id="segundos">–</strong><span>seg</span></div>
+  </div>
+
+  <button id="calendario">añadir al calendario</button>
+
+  <p class="nota">no hace falta confirmar. hace falta venir.</p>
+
+  <script>
+    // ═══════ LA FECHA DEL EVENTO ═══════
+    // la única línea que hay que cambiar.
+    // formato: año-mes-díaThora (T separa día y hora)
+    const FECHA_EVENTO = new Date("2026-09-13T19:00:00");
+    const DURACION_HORAS = 4;
+    const TITULO = "inauguración: todo lo que cabe en un enlace";
+    const LUGAR = "c/ inventada 42, bajos, barcelona";
+
+    // ═══════ LA CUENTA ATRÁS ═══════
+    function actualizar() {
+      // restar fechas da MILISEGUNDOS. los vamos troceando:
+      let falta = FECHA_EVENTO - new Date();
+
+      if (falta < 0) falta = 0; // si ya pasó, todo a cero
+
+      const segundosTotales = Math.floor(falta / 1000);
+      const dias = Math.floor(segundosTotales / 86400);        // 86400 seg = 1 día
+      const horas = Math.floor((segundosTotales % 86400) / 3600); // % = "el resto"
+      const minutos = Math.floor((segundosTotales % 3600) / 60);
+      const segundos = segundosTotales % 60;
+
+      // padStart(2,"0") escribe 07 en vez de 7
+      document.getElementById("dias").textContent = dias;
+      document.getElementById("horas").textContent = String(horas).padStart(2, "0");
+      document.getElementById("minutos").textContent = String(minutos).padStart(2, "0");
+      document.getElementById("segundos").textContent = String(segundos).padStart(2, "0");
+    }
+
+    actualizar();                     // una vez al cargar
+    setInterval(actualizar, 1000);    // y luego cada segundo
+
+    // ═══════ EL ARCHIVO .ICS (calendario) ═══════
+    // un .ics es solo texto con un formato de 1990.
+    // lo fabricamos aquí y lo ofrecemos como descarga.
+    function fechaICS(fecha) {
+      // el formato quiere: 20260913T190000 (sin guiones ni puntos)
+      return fecha.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    }
+
+    document.getElementById("calendario").addEventListener("click", () => {
+      const fin = new Date(FECHA_EVENTO.getTime() + DURACION_HORAS * 3600 * 1000);
+
+      const ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "BEGIN:VEVENT",
+        "DTSTART:" + fechaICS(FECHA_EVENTO),
+        "DTEND:" + fechaICS(fin),
+        "SUMMARY:" + TITULO,
+        "LOCATION:" + LUGAR,
+        "END:VEVENT",
+        "END:VCALENDAR",
+      ].join("\r\n");
+
+      // truco clásico de descarga: un enlace invisible a un
+      // "archivo" hecho de texto, y le hacemos clic nosotros
+      const enlace = document.createElement("a");
+      enlace.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+      enlace.download = "evento.ics";
+      enlace.click();
+    });
+  </script>
+
+</body>
+</html>

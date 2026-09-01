@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios — Taller de web autogestionada</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 24px 64px;
+      background: #eae6dc;
+      color: #12233a;
+      font-family: "Iowan Old Style", Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .ficha {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      background: #fbfaf7;
+      padding: 38px 44px 46px;
+      box-shadow: 0 1px 0 #cfcabd, 0 14px 34px rgba(18, 35, 58, .1);
+    }
+
+    .cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #12233a;
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+    }
+
+    .cabecera h1 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .cabecera span {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7a8592;
+    }
+
+    h2 {
+      font-size: 25px;
+      font-weight: normal;
+      letter-spacing: -.01em;
+      margin: 0 0 6px;
+    }
+
+    .meta {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7a8592;
+      margin: 0 0 22px;
+    }
+
+    h3 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin: 24px 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #d6d2c8;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ol,
+    ul {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      background: #f0ece1;
+      padding: 1px 4px;
+    }
+
+    pre {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      background: #f4f1e8;
+      border-left: 3px solid #d6d2c8;
+      padding: 12px 14px;
+      overflow-x: auto;
+      margin: 0 0 14px;
+    }
+
+    mark {
+      background: linear-gradient(100deg,
+          rgba(242, 233, 78, 0) 0,
+          rgba(242, 233, 78, .95) 4px,
+          rgba(242, 233, 78, .75) calc(100% - 5px),
+          rgba(242, 233, 78, 0) 100%);
+      padding: 1px 2px;
+    }
+
+    /* Casillas para ir tachando: la ficha se usa con boli encima. */
+    .check li {
+      list-style: none;
+      margin-left: -20px;
+      padding-left: 30px;
+      position: relative;
+      margin-bottom: 11px;
+    }
+
+    .check li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 3px;
+      width: 15px;
+      height: 15px;
+      border: 1.5px solid #12233a;
+    }
+
+    .aviso {
+      border-left: 3px solid #d8402f;
+      padding: 4px 0 4px 13px;
+      margin: 16px 0;
+      font-size: 14px;
+      color: #8c2b1f;
+    }
+
+    .aviso strong {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10.5px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: block;
+      color: #d8402f;
+      margin-bottom: 2px;
+    }
+
+    .atasco {
+      background: #f4f1e8;
+      padding: 14px 16px;
+      margin-top: 22px;
+      font-size: 14px;
+    }
+
+    .atasco strong {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10.5px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: block;
+      color: #7a8592;
+      margin-bottom: 6px;
+    }
+
+    .pie {
+      margin-top: 28px;
+      padding-top: 10px;
+      border-top: 1px solid #d6d2c8;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10.5px;
+      letter-spacing: .06em;
+      color: #7a8592;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+        font-size: 10.5pt;
+      }
+
+      .ficha {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        page-break-after: always;
+      }
+
+      .ficha:last-child {
+        page-break-after: auto;
+      }
+
+      mark {
+        background: #f2e94e;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ E1 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 1</h1><span>Sesión 1 · 00:40</span>
+    </div>
+    <h2>Tu portada</h2>
+    <p class="meta">50 minutos · Se hace en clase</p>
+
+    <p>
+      Abre la carpeta <code>mi-web</code> en VS Code y trabaja sobre
+      <code>index.html</code>. Al terminar, tu portada tiene que hablar de ti y
+      no de nadie más.
+    </p>
+
+    <h3>Lo que hay que conseguir</h3>
+    <ul class="check">
+      <li>Tu nombre en el <code>&lt;h1&gt;</code> y también en el <code>&lt;title&gt;</code>.</li>
+      <li>Tu bio en dos o tres <code>&lt;p&gt;</code> separados, uno por idea.</li>
+      <li>Una imagen tuya o de tu trabajo, con su <code>alt</code> escrito.</li>
+      <li>Tu correo en el pie, funcionando con <code>mailto:</code>.</li>
+      <li>Todos los comentarios de instrucciones borrados.</li>
+    </ul>
+
+    <h3>Si acabas antes</h3>
+    <ul class="check">
+      <li>Añade un enlace a alguna web tuya o de alguien que admires.</li>
+      <li>Pon una segunda imagen.</li>
+      <li>Prueba a cambiar <code>background-color</code> en <code>estilo.css</code>. Solo eso, no toques nada más todavía.</li>
+    </ul>
+
+    <div class="aviso">
+      <strong>Si has pegado texto desde Word</strong>
+      Mira las comillas y los guiones: vienen curvados y a veces rompen el
+      código. Bórralos y reescríbelos a mano.
+    </div>
+
+    <div class="atasco">
+      <strong>Si te atascas</strong>
+      Mira la chuleta, cara A. Y si algo no cambia: ¿has guardado? ¿has recargado
+      la página en el navegador?
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E2 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 2</h1><span>Sesión 1 · 01:45</span>
+    </div>
+    <h2>Tu segunda página</h2>
+    <p class="meta">55 minutos · Se hace en clase</p>
+
+    <p>
+      Ahora tienes una sola página. Vamos a hacer la de proyectos, y a
+      conectarlas.
+    </p>
+
+    <h3>Paso a paso</h3>
+    <ol>
+      <li>Duplica <code>index.html</code> y llama a la copia <code>proyectos.html</code>.</li>
+      <li>Cambia el <code>&lt;title&gt;</code> y vacía el <code>&lt;main&gt;</code>.</li>
+      <li>Pon <code>&lt;h2&gt;Proyectos&lt;/h2&gt;</code> y debajo un bloque por proyecto:</li>
+    </ol>
+
+    <pre>&lt;article&gt;
+  &lt;h3&gt;Título del proyecto&lt;/h3&gt;
+  &lt;p&gt;Año · Técnica · Lugar&lt;/p&gt;
+  &lt;img src="img/obra-1.jpg" alt="Describe la obra"&gt;
+  &lt;p&gt;Dos líneas sobre el proyecto.&lt;/p&gt;
+&lt;/article&gt;</pre>
+
+    <ol start="4">
+      <li>Copia ese bloque entero para el segundo proyecto y cambia el contenido.</li>
+      <li>Añade el enlace al menú <mark>de las dos páginas</mark>:
+        <code>&lt;a href="proyectos.html"&gt;Proyectos&lt;/a&gt;</code></li>
+      <li>Comprueba que puedes ir y volver clicando, sin tocar la barra del navegador.</li>
+    </ol>
+
+    <h3>Lo que hay que conseguir</h3>
+    <ul class="check">
+      <li>Dos páginas que se enlazan entre sí en los dos sentidos.</li>
+      <li>Al menos dos proyectos con imagen y texto.</li>
+      <li>Ningún enlace roto.</li>
+    </ul>
+
+    <div class="atasco">
+      <strong>El fallo típico</strong>
+      Añadir el enlace nuevo solo en una de las dos páginas. Desde la otra no se
+      llega, y parece que el enlace está mal cuando lo que falta es repetirlo.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E3 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 3</h1><span>Entre la sesión 1 y la 2</span>
+    </div>
+    <h2>Deberes: reunir el material</h2>
+    <p class="meta">Una hora, en casa · Sin esto la sesión 2 no cunde</p>
+
+    <p>
+      No hay que programar nada. Es preparar el contenido, que es la parte que
+      más tarda y la que no se puede improvisar en clase.
+    </p>
+
+    <h3>Textos</h3>
+    <ul class="check">
+      <li>Tu bio, escrita y revisada.</li>
+      <li>La ficha de cada proyecto: título, año, técnica, lugar, dos o tres líneas.</li>
+      <li>Tu CV: exposiciones, formación, lo que quieras incluir.</li>
+    </ul>
+
+    <h3>Imágenes</h3>
+    <ul class="check">
+      <li>Entre 5 y 10, en una carpeta.</li>
+      <li>Reducidas a unos 1600 píxeles de ancho. Con Vista Previa o Paint, o en <code>squoosh.app</code>.</li>
+      <li>Renombradas: <mark>sin espacios, sin acentos, en minúsculas</mark>.
+        <code>obra-2024.jpg</code>, no <code>Obra 2024.JPG</code>.</li>
+    </ul>
+
+    <h3>Referencias</h3>
+    <ul class="check">
+      <li>Dos o tres webs que te gusten. Apunta de cada una qué te gusta:
+        ¿el tamaño de letra? ¿que tenga mucho blanco? ¿los colores?</li>
+    </ul>
+
+    <div class="aviso">
+      <strong>Ojo con el peso</strong>
+      Una foto recién salida de la cámara pesa 8 MB y tarda una eternidad en
+      cargar. Reducida son 300 KB y se ve exactamente igual en pantalla.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E4 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 4</h1><span>Sesión 2 · 00:00</span>
+    </div>
+    <h2>Elige una dirección</h2>
+    <p class="meta">10 minutos · Antes de escribir una sola línea de CSS</p>
+
+    <p>
+      Vas a ver cuatro webs con <mark>exactamente el mismo contenido</mark> y
+      distinto CSS. Elige la que más se parezca a lo que quieres, y apunta por
+      qué.
+    </p>
+
+    <h3>Rodea la que más te acerque</h3>
+    <ol>
+      <li><strong>Ficha</strong> — columna estrecha, letra con remates, líneas finas.</li>
+      <li><strong>Cartel</strong> — fondo oscuro, nombre enorme, un color fuerte.</li>
+      <li><strong>Cuaderno</strong> — mucho aire, cursivas, más texto que imagen.</li>
+      <li><strong>Índice</strong> — monoespaciada, denso, imágenes pequeñas.</li>
+    </ol>
+
+    <h3>Y contesta en una línea cada una</h3>
+    <p>¿Qué es lo primero que quieres que vea alguien que entra?</p>
+    <pre>
+
+
+</pre>
+    <p>¿Tu web es más de mirar o más de leer?</p>
+    <pre>
+
+
+</pre>
+    <p>¿Un color de fondo claro u oscuro?</p>
+    <pre>
+
+
+</pre>
+
+    <div class="atasco">
+      <strong>Para qué sirve esto</strong>
+      Para no quedarte en blanco cuando abras <code>estilo.css</code>. No vas a
+      copiar el ejemplo: vas a construir el tuyo, pero con una dirección tomada.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E5 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 5</h1><span>Sesión 2 · a lo largo de la sesión</span>
+    </div>
+    <h2>Tu CSS, por capas</h2>
+    <p class="meta">Se va haciendo a la vez que la explicación</p>
+
+    <p>
+      Trabaja siempre sobre <code>estilo.css</code>. Ve en este orden: si
+      empiezas por los detalles, luego cambias la base y se descuadra todo.
+    </p>
+
+    <h3>1 · La base</h3>
+    <ul class="check">
+      <li><code>background-color</code> y <code>color</code> en <code>body</code>.</li>
+      <li><code>font-family</code>: elige entre una con remates (serif) o sin ellos (sans-serif).</li>
+      <li><code>font-size</code> y <code>line-height</code>. Prueba 17, 18 y 20px y quédate con el que te canse menos.</li>
+    </ul>
+
+    <h3>2 · La columna</h3>
+    <ul class="check">
+      <li><code>max-width</code> y <code>margin: 0 auto</code> en <code>header</code>, <code>main</code> y <code>footer</code>.</li>
+      <li>Prueba 500px, 640px y 900px. Fíjate en cuál se lee mejor, no en cuál llena más.</li>
+    </ul>
+
+    <h3>3 · Los titulares</h3>
+    <ul class="check">
+      <li>Tamaño de <code>h1</code>, <code>h2</code> y <code>h3</code>. Que se note la diferencia entre ellos.</li>
+      <li><code>font-weight</code> y, si quieres, <code>letter-spacing</code> negativo en el <code>h1</code>.</li>
+    </ul>
+
+    <h3>4 · El menú</h3>
+    <ul class="check">
+      <li><code>display: flex</code> y <code>gap</code> en <code>nav</code>.</li>
+      <li>Quitar el subrayado con <code>text-decoration: none</code>.</li>
+      <li>Un <code>:hover</code> que se note.</li>
+    </ul>
+
+    <h3>5 · Separar los bloques</h3>
+    <ul class="check">
+      <li><code>margin-bottom</code> en <code>article</code>.</li>
+      <li>Una <code>border-bottom</code> fina entre proyectos.</li>
+      <li>Aire arriba y abajo del <code>footer</code>.</li>
+    </ul>
+
+    <h3>6 · El móvil</h3>
+    <ul class="check">
+      <li>Una <code>@media (max-width: 600px)</code> al final del archivo.</li>
+      <li>Dentro: bajar <code>font-size</code> del <code>body</code> y del <code>h1</code>, y reducir el <code>padding</code>.</li>
+      <li>Comprobarlo estrechando la ventana hasta que quede como un móvil.</li>
+    </ul>
+
+    <div class="aviso">
+      <strong>Antes de cambios grandes</strong>
+      Duplica la carpeta entera y ponle la fecha al nombre. Es la manera más
+      simple que existe de poder volver atrás.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E6 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 6</h1><span>Sesión 3 · 00:00</span>
+    </div>
+    <h2>Publicar</h2>
+    <p class="meta">75 minutos · Se hace en clase, paso a paso</p>
+
+    <h3>Antes de subir nada</h3>
+    <ul class="check">
+      <li>Todas las imágenes están dentro de <code>img/</code>.</li>
+      <li>Ningún nombre de archivo tiene espacios, acentos ni mayúsculas.</li>
+      <li>La portada se llama exactamente <code>index.html</code>.</li>
+      <li>Todos los enlaces del menú funcionan en local.</li>
+      <li>Cada página tiene su <code>&lt;title&gt;</code> propio.</li>
+      <li>Todas las imágenes tienen <code>alt</code>.</li>
+    </ul>
+
+    <h3>Subir</h3>
+    <ol>
+      <li><code>github.com</code> → <strong>New repository</strong>.</li>
+      <li>Nombre <code>mi-web</code>, marcar <strong>Public</strong>, Create.</li>
+      <li><strong>uploading an existing file</strong>.</li>
+      <li>Arrastrar <mark>el contenido de la carpeta</mark>, no la carpeta.</li>
+      <li><strong>Commit changes</strong>.</li>
+    </ol>
+
+    <h3>Publicar</h3>
+    <ol>
+      <li><strong>Settings</strong> → <strong>Pages</strong>.</li>
+      <li>Branch: <code>main</code> → <strong>Save</strong>.</li>
+      <li>Esperar un minuto y recargar.</li>
+    </ol>
+
+    <h3>Apunta aquí tu dirección</h3>
+    <pre>
+
+
+</pre>
+
+    <div class="aviso">
+      <strong>Si sale un 404</strong>
+      Entra en tu repositorio: ¿ves <code>index.html</code> nada más abrirlo? Si
+      lo que ves es una carpeta, subiste la carpeta contenedora. Bórralo y vuelve
+      a subir solo el contenido.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+  <!-- ═══ E7 ═══ -->
+  <section class="ficha">
+    <div class="cabecera">
+      <h1>Ejercicio 7</h1><span>Sesión 3 · 01:50</span>
+    </div>
+    <h2>Cambiar algo y volver a subirlo</h2>
+    <p class="meta">30 minutos · El ejercicio más importante de todo el taller</p>
+
+    <p>
+      Publicar lo hace cualquiera una vez. Lo que hace que la web sea tuya es
+      saber cambiarla dentro de seis meses. <mark>Hazlo tú sola, entera.</mark>
+    </p>
+
+    <h3>El ciclo completo</h3>
+    <ol>
+      <li>En VS Code, cambia algo que se note: una frase, un color, una imagen.</li>
+      <li>Guarda.</li>
+      <li>Ábrelo en tu navegador <strong>en local</strong> y comprueba que está bien.</li>
+      <li>En GitHub: <strong>Add file</strong> → <strong>Upload files</strong>.</li>
+      <li>Arrastra el archivo cambiado encima del que ya estaba.</li>
+      <li><strong>Commit changes</strong>.</li>
+      <li>Espera un minuto, recarga tu web publicada y comprueba el cambio.</li>
+    </ol>
+
+    <h3>Repítelo con otra cosa</h3>
+    <ul class="check">
+      <li>Añade un proyecto nuevo a <code>proyectos.html</code>.</li>
+      <li>Súbelo tú sola, sin mirar los pasos de arriba.</li>
+    </ul>
+
+    <h3>Antes de irte</h3>
+    <ul class="check">
+      <li>Tengo mi dirección apuntada en papel.</li>
+      <li>Tengo la carpeta guardada en mi ordenador.</li>
+      <li>Sé entrar en mi cuenta de GitHub.</li>
+      <li>He hecho el ciclo completo yo sola, al menos dos veces.</li>
+      <li>Me llevo la guía y la chuleta.</li>
+    </ul>
+
+    <div class="atasco">
+      <strong>La costumbre que hay que coger</strong>
+      Comprobar en local antes de subir. Siempre. Así lo que se rompe se rompe en
+      tu ordenador y no delante de todo el mundo.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa</div>
+  </section>
+
+</body>
+
+</html>

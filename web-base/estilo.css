@@ -1,0 +1,46 @@
+/* ══════════════════════════════════════════════════════════════
+   ESTILO.CSS — el aspecto de tu web
+
+   En CSS los comentarios van entre barra-asterisco y asterisco-barra,
+   como este. En HTML son distintos. Cada lenguaje tiene los suyos.
+
+   Una regla de CSS tiene esta forma:
+
+       selector {
+         propiedad: valor;
+       }
+
+   El selector dice A QUÉ afecta. La propiedad, QUÉ le cambias.
+   No te olvides del punto y coma al final de cada línea.
+   ══════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. LO BÁSICO DE TODA LA PÁGINA ─────────────────────────── */
+
+body {
+  /* Prueba a cambiar estos valores y guarda para ver qué pasa. */
+  background-color: white;
+  color: black;
+}
+
+
+/* ── 2. TIPOGRAFÍA ──────────────────────────────────────────── */
+/* Lo rellenamos en la sesión 2. */
+
+
+/* ── 3. COMPOSICIÓN ─────────────────────────────────────────── */
+/* Lo rellenamos en la sesión 2. */
+
+
+/* ── 4. IMÁGENES ────────────────────────────────────────────── */
+/* Esta regla evita que una imagen enorme se salga de la pantalla.
+   Es de las pocas que conviene tener desde el principio. */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ── 5. MÓVIL ───────────────────────────────────────────────── */
+/* Lo rellenamos en la sesión 2. */

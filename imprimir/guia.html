@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía — Taller de web autogestionada</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 24px 80px;
+      background: #eae6dc;
+      color: #12233a;
+      font-family: "Iowan Old Style", Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      line-height: 1.62;
+    }
+
+    .hoja {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fbfaf7;
+      padding: 52px 56px 64px;
+      box-shadow: 0 1px 0 #cfcabd, 0 14px 34px rgba(18, 35, 58, .1);
+    }
+
+    .portada {
+      border-bottom: 2px solid #12233a;
+      padding-bottom: 20px;
+      margin-bottom: 8px;
+    }
+
+    .portada p {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #7a8592;
+      margin: 0 0 10px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: normal;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .entradilla {
+      font-size: 17px;
+      color: #45536b;
+      margin: 22px 0 44px;
+    }
+
+    /* Los pasos sí son una secuencia, así que van numerados. */
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 21px;
+      font-weight: normal;
+      margin: 0 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #d6d2c8;
+    }
+
+    h2 .n {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: .1em;
+      color: #7a8592;
+      flex: none;
+    }
+
+    h3 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin: 26px 0 8px;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    ol,
+    ul {
+      margin: 0 0 14px;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13.5px;
+      background: #f0ece1;
+      padding: 1px 4px;
+    }
+
+    pre {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      background: #f4f1e8;
+      border-left: 3px solid #d6d2c8;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 0 0 16px;
+    }
+
+    mark {
+      background: linear-gradient(100deg,
+          rgba(242, 233, 78, 0) 0,
+          rgba(242, 233, 78, .95) 4px,
+          rgba(242, 233, 78, .75) calc(100% - 5px),
+          rgba(242, 233, 78, 0) 100%);
+      color: inherit;
+      padding: 1px 2px;
+    }
+
+    .aviso {
+      border-left: 3px solid #d8402f;
+      padding: 4px 0 4px 14px;
+      margin: 18px 0;
+      font-size: 15px;
+      color: #8c2b1f;
+    }
+
+    .aviso strong {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: block;
+      color: #d8402f;
+      margin-bottom: 2px;
+    }
+
+    .pie {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 2px solid #12233a;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: #7a8592;
+    }
+
+    a {
+      color: #12233a;
+      text-underline-offset: 3px;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+        font-size: 10.5pt;
+      }
+
+      .hoja {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      section {
+        page-break-inside: avoid;
+      }
+
+      mark {
+        background: #f2e94e;
+      }
+
+      pre {
+        background: #f4f1e8;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 20px 12px 48px;
+      }
+
+      .hoja {
+        padding: 28px 22px 40px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hoja">
+
+    <div class="portada">
+      <p>Taller de web autogestionada · La Escocesa</p>
+      <h1>Cómo hacer y mantener tu web sin depender de nadie</h1>
+    </div>
+
+    <p class="entradilla">
+      Esta guía repite lo que hacemos en el taller, por escrito, para cuando
+      estés sola delante del ordenador dentro de tres meses. No hace falta
+      leerla entera de un tirón: busca el paso en el que estés.
+    </p>
+
+    <section>
+      <h2><span class="n">00</span> Antes de empezar</h2>
+      <p>Necesitas dos cosas instaladas y una cuenta creada:</p>
+      <ul>
+        <li><strong>Visual Studio Code</strong> — el programa donde escribes.
+          Es un editor de texto, como un Word pero para código.
+          Gratis, en <code>code.visualstudio.com</code>.</li>
+        <li><strong>Un navegador</strong> — el que ya tengas.</li>
+        <li><strong>Una cuenta de GitHub</strong> — gratis, en
+          <code>github.com</code>. Ahí vive tu web para que la vea todo el mundo.
+        </li>
+      </ul>
+      <p>
+        No necesitas pagar nada. No necesitas saber matemáticas. No necesitas
+        la terminal.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">01</span> Tu web es una carpeta</h2>
+      <p>
+        Esto es lo único que hay que creerse de verdad:
+        <mark>una web es una carpeta con archivos de texto dentro</mark>.
+        No hay nada más. La tuya se ve así:
+      </p>
+      <pre>mi-web/
+├── index.html      ← la portada
+├── proyectos.html
+├── cv.html
+├── estilo.css      ← el aspecto de todas las páginas
+└── img/
+    ├── obra-1.jpg
+    └── retrato.jpg</pre>
+      <p>
+        Guarda esa carpeta donde guardes tus cosas importantes. Si la mueves
+        entera, sigue funcionando. Si sacas un archivo de dentro, se rompe.
+      </p>
+
+      <h3>Abrirla en VS Code</h3>
+      <p>
+        <mark>Archivo → Abrir carpeta</mark>, y eliges la carpeta entera.
+        No abras los archivos sueltos: si abres la carpeta, ves toda tu web
+        en la columna de la izquierda y puedes saltar entre archivos.
+      </p>
+
+      <h3>Verla en el navegador</h3>
+      <p>
+        Doble clic en <code>index.html</code> desde el escritorio, o botón
+        derecho → Abrir con → tu navegador. Fíjate en que arriba no pone
+        <code>https://</code> sino una ruta de tu ordenador: todavía es una
+        web privada, solo tuya.
+      </p>
+      <p>
+        Cada vez que guardes un cambio, <mark>recarga la página en el
+        navegador</mark> para verlo.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">02</span> Escribir el contenido (HTML)</h2>
+      <p>
+        El HTML dice <em>qué es</em> cada cosa: esto es un título, esto un
+        párrafo, esto una imagen. Se escribe con etiquetas, que van en parejas:
+      </p>
+      <pre>&lt;h1&gt;Tu nombre&lt;/h1&gt;
+&lt;p&gt;Una línea sobre ti.&lt;/p&gt;
+&lt;img src="img/retrato.jpg" alt="Retrato en el taller"&gt;</pre>
+      <p>
+        Una abre y otra cierra, y la de cerrar lleva una barra. Lo que escribas
+        entre medias es lo que se ve.
+      </p>
+
+      <h3>Añadir un proyecto nuevo</h3>
+      <p>
+        En <code>proyectos.html</code>, copia un bloque
+        <code>&lt;article&gt;</code> entero, pégalo debajo y cambia el texto y
+        el nombre de la imagen. Así de aburrido es. Así de fiable.
+      </p>
+
+      <h3>Añadir una página nueva</h3>
+      <ol>
+        <li>Duplica <code>cv.html</code> y renómbralo, por ejemplo
+          <code>textos.html</code>.</li>
+        <li>Cambia el <code>&lt;title&gt;</code> y el contenido de
+          <code>&lt;main&gt;</code>.</li>
+        <li><mark>Añade el enlace al menú de todas las páginas</mark>:
+          <code>&lt;a href="textos.html"&gt;Textos&lt;/a&gt;</code>. Si solo lo
+          pones en una, desde las demás no se llega.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="n">03</span> Las imágenes</h2>
+      <p>Tres reglas y ya está:</p>
+      <ol>
+        <li><strong>Van dentro de la carpeta <code>img/</code></strong>. Una
+          imagen que esté en tu escritorio se ve en tu ordenador y en ningún
+          otro sitio del mundo.</li>
+        <li><strong>El nombre, sin espacios, sin acentos, sin mayúsculas.</strong>
+          <code>Foto Taller.JPG</code> falla al publicar;
+          <code>foto-taller.jpg</code> no.</li>
+        <li><strong>Redúcelas antes de subirlas.</strong> Una foto de cámara pesa
+          8 MB y tarda una eternidad en cargar. <mark>Con 1600 píxeles de ancho
+          y calidad media va sobrada</mark>: unos 300 KB. Con Vista Previa (Mac)
+          o Paint (Windows) se hace en un minuto.</li>
+      </ol>
+      <p>
+        El <code>alt</code> no es opcional: es lo que lee en voz alta un lector
+        de pantalla y lo que aparece si la imagen no carga. Describe lo que se
+        ve, en una línea.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">04</span> El aspecto (CSS)</h2>
+      <p>
+        Si el HTML dice qué es cada cosa, el CSS dice cómo se ve. Todo va en
+        <code>estilo.css</code>, y una regla tiene esta forma:
+      </p>
+      <pre>body {
+  background-color: #fbfaf7;
+  font-size: 18px;
+}</pre>
+      <p>
+        El selector (<code>body</code>) dice a qué afecta; dentro van las
+        propiedades. <mark>Punto y coma al final de cada línea.</mark>
+      </p>
+      <p>
+        La lista de propiedades está en la chuleta. La forma de aprender esto
+        no es memorizarla: es <mark>cambiar un número, guardar, recargar y
+        mirar</mark>. Cuarenta veces. No se rompe nada.
+      </p>
+
+      <h3>Robar ideas legalmente</h3>
+      <p>
+        En cualquier web que te guste: botón derecho → Inspeccionar. Ahí ves su
+        HTML y su CSS. Mirar cómo está hecho algo es la manera normal de
+        aprender esto, y no tiene nada de malo.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">05</span> Publicarla</h2>
+      <p>
+        Hasta ahora tu web solo existe en tu ordenador. Para que exista en
+        internet hay que copiar la carpeta a un servidor. Usamos GitHub, que es
+        gratis y no te pide tarjeta.
+      </p>
+      <ol>
+        <li>En <code>github.com</code>, botón <strong>New repository</strong>.</li>
+        <li>Nombre: <code>mi-web</code>. Marca <strong>Public</strong>. Crear.</li>
+        <li>En la página que sale, <strong>uploading an existing file</strong>.</li>
+        <li>Arrastra <mark>el contenido de tu carpeta</mark> (los archivos y la
+          carpeta <code>img</code>), no la carpeta que los contiene.</li>
+        <li>Abajo, botón verde <strong>Commit changes</strong>.</li>
+        <li>Pestaña <strong>Settings</strong> → <strong>Pages</strong> → en
+          Branch elige <code>main</code> y guarda.</li>
+        <li>Espera un minuto y recarga. Aparece tu dirección:
+          <code>tunombre.github.io/mi-web</code>.</li>
+      </ol>
+      <div class="aviso">
+        <strong>Si sale una página en blanco o un 404</strong>
+        Casi siempre es una de dos: el archivo no se llama exactamente
+        <code>index.html</code>, o subiste la carpeta en vez de su contenido y
+        ahora está todo un nivel más abajo. Entra en el repositorio y mira si
+        ves <code>index.html</code> nada más abrirlo.
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="n">06</span> Actualizarla</h2>
+      <p>
+        Este es el paso que hace que la web sea tuya de verdad. El ciclo es
+        siempre el mismo:
+      </p>
+      <ol>
+        <li>Editas en tu ordenador, en VS Code.</li>
+        <li>Guardas y lo compruebas en tu navegador, en local.</li>
+        <li>Subes el archivo cambiado a GitHub: entras en el repositorio,
+          <strong>Add file → Upload files</strong>, arrastras el archivo nuevo
+          encima del viejo y <strong>Commit changes</strong>.</li>
+        <li>Un minuto después está online.</li>
+      </ol>
+      <p>
+        <mark>Comprueba siempre en local antes de subir.</mark> Y guarda una
+        copia de la carpeta antes de hacer cambios grandes: es la manera más
+        simple de poder volver atrás.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">07</span> Un dominio propio</h2>
+      <p>
+        <code>tunombre.github.io/mi-web</code> funciona perfectamente y es
+        gratis para siempre. Si quieres <code>tunombre.com</code>, se compra
+        aparte: entre 10 y 15 € al año en sitios como Porkbun, Namecheap o
+        Gandi. Se conecta desde los ajustes del dominio, apuntándolo a GitHub.
+      </p>
+      <p>
+        <mark>El dominio se pone a tu nombre y con tu correo, siempre</mark>,
+        aunque te lo configure otra persona. Es lo único de todo esto que se
+        puede perder de verdad.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">08</span> Cuando algo no funciona</h2>
+      <p>Por orden, y funciona casi siempre:</p>
+      <ol>
+        <li>¿Has guardado el archivo?</li>
+        <li>¿Has recargado la página? Prueba recarga forzada:
+          Cmd+Shift+R (Mac), Ctrl+F5 (Windows).</li>
+        <li>¿Falta cerrar una etiqueta, una comilla, una llave o un punto y
+          coma? VS Code te lo marca en color.</li>
+        <li>Si es una imagen que no sale: el nombre del archivo y lo que pone
+          en el <code>src</code> tienen que coincidir <em>exactamente</em>,
+          incluidas mayúsculas y extensión.</li>
+        <li>Botón derecho → Inspeccionar → pestaña Console. Si hay un error,
+          está escrito ahí.</li>
+        <li>Vuelve a la última copia que funcionaba y avanza otra vez desde
+          ahí.</li>
+      </ol>
+      <p>
+        Si le preguntas a una inteligencia artificial, <mark>pídele que te
+        explique el cambio, no solo que te dé el código</mark>, y pega solo el
+        trozo que falla. Si le das la web entera te la devuelve reescrita de
+        arriba abajo y dejará de ser tuya.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="n">09</span> Seguir por tu cuenta</h2>
+      <ul>
+        <li><strong>developer.mozilla.org</strong> — la documentación de
+          referencia. Busca ahí cualquier etiqueta o propiedad.</li>
+        <li><strong>neocities.org</strong> — miles de webs personales hechas a
+          mano. Para mirar cómo están hechas y para no sentirse sola.</li>
+        <li><strong>p5js.org</strong> — si quieres meter dibujo o animación
+          hecha con código en tu web.</li>
+        <li><strong>caniuse.com</strong> — si algo funciona en tu navegador
+          pero dudas del resto.</li>
+      </ul>
+      <p>
+        Lo que has montado no caduca, no tiene suscripción y no se lo lleva
+        ninguna empresa cuando cierre. Son archivos de texto en una carpeta:
+        el formato más duradero que existe en internet.
+      </p>
+    </section>
+
+    <div class="pie">Taller de web autogestionada · La Escocesa · 2026</div>
+
+  </div>
+</body>
+
+</html>

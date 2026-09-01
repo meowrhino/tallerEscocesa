@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  18 · TARJETA DE VISITA (variante del cartel)
+  ═══════════════════════════════════════════════════════
+  idea: tu tarjeta de visita, pero web: una tarjeta 3D
+  que GIRA al hacer clic y tiene dos caras (nombre
+  delante, contactos detrás). el enlace de gh pages es
+  la tarjeta: se pega en la bio de instagram y listo.
+
+  SOLO HTML + CSS. el giro usa el truco del checkbox
+  (como el modo noche del poema 07): la tarjeta entera
+  es un <label> de un checkbox invisible, y cuando está
+  marcado, css la rota 180 grados en 3D.
+
+  conceptos: transform 3d, perspective, backface-visibility
+  (ocultar "la espalda" de cada cara).
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tarjeta de visita</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      background: #e9e5dc;
+      font-family: Helvetica, Arial, sans-serif;
+      /* perspective: cuánto "ojo de pez" tiene el 3d.
+         sin esto el giro se vería plano */
+      perspective: 1200px;
+    }
+
+    /* el checkbox invisible que guarda el estado girada/no girada */
+    #giro { display: none; }
+
+    /* ─────────────────────────────────────────
+       LA TARJETA: proporción 85x55mm, como las
+       de papel. es un label: clicarla marca el
+       checkbox. dentro lleva las dos caras.
+       ───────────────────────────────────────── */
+    .tarjeta {
+      width: min(85vw, 460px);
+      aspect-ratio: 85 / 55;           /* proporción tarjeta de verdad */
+      position: relative;
+      cursor: pointer;
+      transform-style: preserve-3d;    /* que las caras vivan en 3d */
+      transition: transform 0.8s cubic-bezier(0.4, 0.1, 0.2, 1);
+    }
+
+    /* cuando el checkbox está marcado, media vuelta */
+    #giro:checked + .tarjeta {
+      transform: rotateY(180deg);
+    }
+
+    /* un balanceo sutil constante para que pida ser tocada */
+    .tarjeta:hover { transform: rotateY(12deg) rotateX(-4deg); }
+    #giro:checked + .tarjeta:hover { transform: rotateY(168deg) rotateX(4deg); }
+
+    /* ── las dos caras ── */
+    .cara {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+      backface-visibility: hidden;   /* ¡clave!: cada cara oculta su reverso */
+    }
+
+    .delante {
+      background: #14141e;
+      color: #f4f1ea;
+      align-items: center;
+      text-align: center;
+      gap: 0.6rem;
+    }
+
+    .detras {
+      background: #f4f1ea;
+      color: #14141e;
+      transform: rotateY(180deg);    /* nace ya girada: es el dorso */
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+    }
+
+    .oficio {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4em;
+      color: #b39b52;
+    }
+
+    .detras a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid #b39b52;
+      width: fit-content;
+    }
+    .detras a:hover { color: #b39b52; }
+
+    .detras .etiqueta {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #999;
+      margin-top: 0.6rem;
+    }
+
+    .pista { font-size: 0.8rem; color: #999; }
+  </style>
+</head>
+
+<body>
+
+  <!-- checkbox oculto + la tarjeta como su label:
+       clic en cualquier parte de la tarjeta = girar -->
+  <input type="checkbox" id="giro" />
+  <label class="tarjeta" for="giro">
+
+    <!-- ══ CARA DELANTERA ══ -->
+    <div class="cara delante">
+      <div class="oficio">artista visual</div>
+      <h1>manuela la tour</h1>
+      <div>✶</div>
+    </div>
+
+    <!-- ══ CARA TRASERA ══ -->
+    <div class="cara detras">
+      <span class="etiqueta">correo</span>
+      <a href="mailto:hola@ejemplo.com">hola@ejemplo.com</a>
+
+      <span class="etiqueta">web</span>
+      <a href="https://meowrhino.github.io" target="_blank">meowrhino.github.io</a>
+
+      <span class="etiqueta">estudio</span>
+      <span>c/ inventada 42, bajos · barcelona</span>
+    </div>
+
+  </label>
+
+  <p class="pista">clic para dar la vuelta</p>
+
+</body>
+</html>

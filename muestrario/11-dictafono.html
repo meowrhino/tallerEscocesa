@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  11 · DICTÁFONO DE NOTAS (voz → texto)
+  ═══════════════════════════════════════════════════════
+  idea: hablas y la web escribe. usa la Web Speech API,
+  que viene DENTRO del navegador: sin whisper, sin APIs
+  de pago, sin servidor.
+
+  avisos importantes (contarlos en el taller):
+  · funciona bien en CHROME y EDGE. en firefox/safari
+    puede no existir (la página avisa si no está).
+  · necesita internet (el navegador manda el audio a su
+    servicio de reconocimiento).
+  · necesita https o localhost — github pages ya es https,
+    así que ahí funciona.
+  · pedirá permiso de micrófono la primera vez.
+
+  las notas dictadas se guardan en localStorage y se
+  publican con el mismo flujo "commit manual" del
+  cuaderno local: copiar html → pegar → commit.
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dictáfono</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #f2ede3;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    h1 { font-weight: normal; font-style: italic; }
+
+    /* el botón grande de grabar */
+    #grabar {
+      font-family: inherit;
+      font-size: 1.1rem;
+      width: 100%;
+      padding: 1em;
+      border: 2px solid #333;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    /* cuando está grabando le ponemos la clase .grabando
+       desde js, y late en rojo */
+    #grabar.grabando {
+      background: #c0392b;
+      color: #fff;
+      border-color: #c0392b;
+      animation: latir 1s ease-in-out infinite;
+    }
+
+    @keyframes latir {
+      50% { transform: scale(0.985); opacity: 0.85; }
+    }
+
+    /* donde va apareciendo el texto reconocido */
+    #texto {
+      width: 100%;
+      min-height: 6em;
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      background: #fffdf6;
+      resize: vertical;
+    }
+
+    /* lo que aún es provisional (el navegador todavía duda) */
+    #provisional { color: #999; font-style: italic; min-height: 1.5em; }
+
+    .fila { display: flex; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
+
+    .fila button {
+      font-family: monospace;
+      font-size: 0.85rem;
+      padding: 0.5em 1em;
+      border: 1px solid #ccc;
+      background: #fafafa;
+      cursor: pointer;
+    }
+    .fila button:hover { background: #333; color: #fff; }
+
+    article {
+      background: #fffdf6;
+      border: 1px solid #e5e0d0;
+      padding: 1rem 1.2rem;
+      margin-top: 1rem;
+      position: relative;
+    }
+    article p { margin: 0.3em 0; line-height: 1.5; }
+
+    .datos {
+      display: flex; justify-content: flex-end; gap: 1em;
+      margin-top: 0.8rem; font-family: monospace;
+      font-size: 0.7rem; color: #aaa;
+    }
+
+    .borrar {
+      position: absolute; top: 0.4rem; right: 0.5rem;
+      border: none; background: none; color: #ccc;
+      font-size: 1rem; cursor: pointer;
+    }
+    .borrar:hover { color: #c00; }
+
+    #aviso { color: #c0392b; font-size: 0.9rem; }
+  </style>
+</head>
+
+<body>
+
+  <h1>dictáfono</h1>
+  <p id="aviso"></p>
+
+  <button id="grabar">● empezar a dictar</button>
+
+  <!-- el texto reconocido cae aquí; se puede corregir a mano
+       antes de guardar (el reconocimiento no es perfecto,
+       y a veces sus errores son mejores que el original) -->
+  <textarea id="texto" placeholder="aquí caerá lo que digas..."></textarea>
+  <p id="provisional"></p>
+
+  <div class="fila">
+    <button id="guardar">guardar nota</button>
+    <button id="copiar">copiar html de las notas</button>
+    <button id="vaciar">vaciar</button>
+  </div>
+
+  <section id="notas"></section>
+
+  <!-- ══════════ EL JAVASCRIPT ══════════ -->
+  <script>
+    // ─── 1 · EL RECONOCIMIENTO DE VOZ ───────────────
+    // según el navegador la api se llama SpeechRecognition
+    // o webkitSpeechRecognition. probamos las dos:
+    const Reconocedor = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const botonGrabar = document.getElementById("grabar");
+    const cajaTexto = document.getElementById("texto");
+    const provisional = document.getElementById("provisional");
+
+    let escuchando = false;
+    let rec = null;
+
+    if (!Reconocedor) {
+      // navegador sin la api: avisamos y desactivamos el botón
+      document.getElementById("aviso").textContent =
+        "tu navegador no tiene reconocimiento de voz — prueba con chrome o edge.";
+      botonGrabar.disabled = true;
+    } else {
+      rec = new Reconocedor();
+      rec.lang = "es-ES";           // idioma. probad "ca-ES", "en-US"...
+      rec.continuous = true;         // que no se pare a la primera pausa
+      rec.interimResults = true;     // que enseñe resultados provisionales
+
+      // cada vez que reconoce algo, llega un evento con resultados.
+      // los "final" van al textarea; los provisionales, en gris debajo
+      rec.onresult = (evento) => {
+        let dudando = "";
+        for (const resultado of evento.results) {
+          if (resultado.isFinal) continue; // los finales ya se añadieron
+          dudando += resultado[0].transcript;
+        }
+        // el último resultado nuevo que sea final, lo añadimos al texto
+        const ultimo = evento.results[evento.results.length - 1];
+        if (ultimo.isFinal) {
+          cajaTexto.value += ultimo[0].transcript + "\n";
+          dudando = "";
+        }
+        provisional.textContent = dudando;
+      };
+
+      // si se corta solo (silencio largo), reflejamos el estado
+      rec.onend = () => {
+        if (escuchando) rec.start(); // seguimos escuchando hasta que pulses parar
+      };
+    }
+
+    // el botón alterna entre grabar y parar
+    botonGrabar.addEventListener("click", () => {
+      escuchando = !escuchando;
+      if (escuchando) {
+        rec.start();
+        botonGrabar.textContent = "■ parar";
+        botonGrabar.classList.add("grabando");
+      } else {
+        rec.stop();
+        provisional.textContent = "";
+        botonGrabar.textContent = "● empezar a dictar";
+        botonGrabar.classList.remove("grabando");
+      }
+    });
+
+    // ─── 2 · GUARDAR NOTAS (igual que el cuaderno local) ───
+    const CLAVE = "dictafono-notas";
+
+    const leer = () => JSON.parse(localStorage.getItem(CLAVE) || "[]");
+    const guardar = (notas) => localStorage.setItem(CLAVE, JSON.stringify(notas));
+
+    function notaEnHtml(nota) {
+      const parrafos = nota.texto
+        .split("\n")
+        .filter((l) => l.trim())
+        .map((l) => `  <p>${l}</p>`)
+        .join("\n");
+      return `<article>\n${parrafos}\n  <div class="datos"><span>${nota.fecha}</span><span>dictada</span></div>\n</article>`;
+    }
+
+    function pintar() {
+      const seccion = document.getElementById("notas");
+      seccion.innerHTML = "";
+      leer().forEach((nota, i) => {
+        const caja = document.createElement("div");
+        caja.innerHTML = notaEnHtml(nota);
+        const articulo = caja.firstChild;
+        const boton = document.createElement("button");
+        boton.className = "borrar";
+        boton.textContent = "×";
+        boton.onclick = () => {
+          const notas = leer();
+          notas.splice(i, 1);
+          guardar(notas);
+          pintar();
+        };
+        articulo.prepend(boton);
+        seccion.prepend(articulo);
+      });
+    }
+
+    document.getElementById("guardar").addEventListener("click", () => {
+      if (!cajaTexto.value.trim()) return;
+      const ahora = new Date();
+      const fecha =
+        ahora.toLocaleDateString("es", { day: "2-digit", month: "2-digit", year: "2-digit" }) +
+        " " + ahora.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
+      const notas = leer();
+      notas.push({ texto: cajaTexto.value, fecha });
+      guardar(notas);
+      cajaTexto.value = "";
+      pintar();
+    });
+
+    document.getElementById("copiar").addEventListener("click", () => {
+      navigator.clipboard.writeText(leer().map(notaEnHtml).join("\n\n"));
+      alert("html copiado: pégalo en tu web, commit, y listo.");
+    });
+
+    document.getElementById("vaciar").addEventListener("click", () => {
+      if (confirm("¿borrar todas las notas de este navegador?")) {
+        guardar([]);
+        pintar();
+      }
+    });
+
+    pintar();
+  </script>
+
+</body>
+</html>

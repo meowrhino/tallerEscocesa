@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  07 · POEMA INTERACTIVO (solo CSS)
+  ═══════════════════════════════════════════════════════
+  idea: un texto que reacciona al ratón. hay palabras
+  que se revelan al pasar por encima, palabras tachadas
+  que enseñan lo que había debajo, y un interruptor de
+  día/noche hecho SOLO con css (el truco del checkbox).
+
+  SOLO HTML + CSS. cero javascript.
+  demuestra que la interactividad no siempre necesita
+  programar: hover y :checked dan mucho juego.
+
+  en el taller: cada persona trae un texto suyo y decide
+  qué palabras esconde, cuáles tacha, cuáles tiemblan.
+  editar poemas ajenos también vale (¡y es muy divertido!)
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>poema interactivo</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    /* ─────────────────────────────────────────
+       VARIABLES CSS: colores con nombre.
+       las definimos una vez y las usamos en todas
+       partes con var(). cambiar el tema = cambiar
+       las variables. --lo-que-sea es un nombre libre.
+       ───────────────────────────────────────── */
+    body {
+      --fondo: #fdfbf4;
+      --tinta: #1c1c1c;
+      --acento: #c94f2e;
+
+      background: var(--fondo);
+      color: var(--tinta);
+      font-family: Georgia, serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      line-height: 2;
+      font-size: 1.15rem;
+      transition: background 0.6s, color 0.6s; /* el cambio de tema, suave */
+    }
+
+    /* ─────────────────────────────────────────
+       EL TRUCO DEL CHECKBOX (modo noche sin JS):
+       1. hay un <input type="checkbox" id="noche"> arriba del todo
+       2. su etiqueta <label> es lo único visible (la luna)
+       3. cuando está marcado, el selector
+          #noche:checked ~ * alcanza a lo que viene después
+       aquí lo aplicamos al body entero con :has()
+       ───────────────────────────────────────── */
+    body:has(#noche:checked) {
+      --fondo: #14141e;
+      --tinta: #e8e4da;
+      --acento: #e8b34b;
+    }
+
+    /* escondemos la casilla en sí (fea), dejamos solo la etiqueta */
+    #noche { display: none; }
+
+    label[for="noche"] {
+      cursor: pointer;
+      font-size: 1.5rem;
+      float: right;
+      user-select: none; /* que no se seleccione el emoji al hacer clic */
+    }
+
+    h1 {
+      font-weight: normal;
+      font-style: italic;
+      font-size: 1.6rem;
+    }
+
+    /* ─────────────────────────────────────────
+       LAS PALABRAS QUE HACEN COSAS
+       cada efecto es una clase que se pone a un <span>
+       ───────────────────────────────────────── */
+
+    /* 1 · SECRETO: invisible hasta que pasas el ratón */
+    .secreto {
+      color: transparent;                      /* texto invisible */
+      background: var(--tinta);                /* barrita de censura */
+      transition: color 0.4s, background 0.4s;
+    }
+    .secreto:hover {
+      color: var(--acento);
+      background: transparent;
+    }
+
+    /* 2 · TACHADO: tachada, pero al pasar el ratón aparece
+       la palabra "verdadera" (guardada en data-verdad) */
+    .tachado {
+      text-decoration: line-through;
+      position: relative;
+      cursor: help;
+    }
+    .tachado:hover::after {
+      content: attr(data-verdad);   /* lee el atributo data-verdad */
+      position: absolute;
+      left: 0;
+      top: -1.4em;
+      font-size: 0.75em;
+      color: var(--acento);
+      white-space: nowrap;
+      font-style: italic;
+    }
+
+    /* 3 · TEMBLOROSA: vibra un poquito al pasar por encima */
+    .tiembla { display: inline-block; }
+    .tiembla:hover {
+      animation: temblar 0.15s infinite;
+    }
+    @keyframes temblar {
+      0%   { transform: translate(0.5px, -0.5px) rotate(0.4deg); }
+      50%  { transform: translate(-0.5px, 0.5px) rotate(-0.4deg); }
+      100% { transform: translate(0.5px, 0.5px) rotate(0deg); }
+    }
+
+    /* 4 · CRECE: la palabra se agranda con dignidad */
+    .crece {
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+    .crece:hover { transform: scale(1.6); }
+
+    /* 5 · SE VA: la palabra huye (se desvanece) si la persigues */
+    .seva {
+      display: inline-block;
+      transition: opacity 1.2s;
+    }
+    .seva:hover { opacity: 0; }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.75rem;
+      opacity: 0.5;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- el interruptor de noche: checkbox oculto + su etiqueta visible.
+       tiene que ir ANTES del contenido para que el truco funcione
+       en navegadores antiguos, aunque con :has() ya da igual. -->
+  <input type="checkbox" id="noche" />
+  <label for="noche" title="modo noche">☾</label>
+
+  <h1>poema con trampas</h1>
+
+  <!-- cada <span class="..."> es una palabra con superpoder.
+       en el taller: cambiad el texto entero y repartid
+       las clases donde tengan sentido (o donde no). -->
+  <p>
+    en esta casa
+    <span class="secreto">todo lo importante</span>
+    está escrito
+    <span class="tiembla">con miedo</span>
+    y con las luces
+    <span class="seva">a punto de irse</span>.
+  </p>
+
+  <p>
+    yo quería decir
+    <span class="tachado" data-verdad="quédate">vete</span>
+    pero me salió un poema
+    <span class="crece">enorme</span>
+    y ahora vivo dentro.
+  </p>
+
+  <p>
+    si encuentras
+    <span class="secreto">la palabra escondida</span>
+    no se lo digas a nadie:
+    las palabras
+    <span class="tachado" data-verdad="nos guardan">se guardan</span>
+    mejor
+    <span class="tiembla">temblando</span>.
+  </p>
+
+  <footer>
+    pasa el ratón por el poema: hay palabras escondidas, tachadas que confiesan,
+    palabras que tiemblan, crecen o se van. la luna de arriba apaga la luz.
+    todo esto es solo css.
+  </footer>
+
+</body>
+</html>

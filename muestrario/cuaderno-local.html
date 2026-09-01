@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  05 · CUADERNO LOCAL (notas sin servidor)
+  ═══════════════════════════════════════════════════════
+  idea: un cuaderno tipo "notas" pero SIN ninguna
+  infraestructura: ni cloudflare, ni base de datos, ni
+  backend. las notas se guardan en el localStorage del
+  navegador (una cajita de memoria que cada navegador
+  tiene para cada web).
+
+  el flujo de publicación es "commit manual":
+  1. escribes notas tranquilamente (se guardan solas
+     en tu navegador, sobreviven a recargar la página)
+  2. cuando quieras publicarlas, pulsas "copiar html"
+  3. pegas ese html dentro de tu index.html, en la zona
+     marcada, haces commit y push a github
+  4. tus notas ya son públicas. tú decides cuándo.
+
+  ojo: localStorage es POR NAVEGADOR Y POR ORDENADOR.
+  si abres la web en otro sitio, no verás tus borradores
+  (pero sí las notas ya publicadas en el html).
+
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cuaderno</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #f7f4ec;
+      margin: 0 auto;
+      max-width: 640px;
+      padding: 2rem 1rem;
+    }
+
+    h1 { font-weight: normal; font-style: italic; }
+
+    /* ── el formulario de escribir ── */
+    form {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    textarea {
+      font-family: inherit;
+      font-size: 1rem;
+      border: none;
+      resize: vertical;   /* se puede estirar hacia abajo */
+      min-height: 5em;
+      outline: none;
+      line-height: 1.5;
+    }
+
+    .fila {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    input, button {
+      font-family: monospace;
+      font-size: 0.85rem;
+      padding: 0.4em 0.8em;
+      border: 1px solid #ccc;
+      background: #fafafa;
+    }
+
+    button { cursor: pointer; }
+    button:hover { background: #333; color: #fff; }
+
+    /* ── las notas ── */
+    article {
+      background: #fffdf6;
+      border: 1px solid #e5e0d0;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    article p { margin: 0.3em 0; line-height: 1.5; }
+
+    .datos {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1em;
+      margin-top: 0.8rem;
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: #aaa;
+    }
+
+    /* botón de borrar cada nota (solo borradores) */
+    .borrar {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.5rem;
+      border: none;
+      background: none;
+      color: #ccc;
+      font-size: 1rem;
+    }
+    .borrar:hover { color: #c00; background: none; }
+
+    /* las notas ya publicadas (las del html) se ven igual
+       pero con una marquita para distinguirlas */
+    .publicada { border-left: 3px solid #b5a642; }
+
+    hr { border: none; border-top: 1px dashed #ccc; margin: 2rem 0; }
+
+    .ayuda { font-size: 0.8rem; color: #999; line-height: 1.5; }
+  </style>
+</head>
+
+<body>
+
+  <h1>cuaderno</h1>
+
+  <!-- ══════════ ESCRIBIR ══════════ -->
+  <form id="formulario">
+    <textarea id="texto" placeholder="escribe aquí..." required></textarea>
+    <div class="fila">
+      <input id="lugar" placeholder="lugar (opcional)" />
+      <input id="tipo" placeholder="tipo: diario, idea..." />
+      <button type="submit">guardar</button>
+    </div>
+  </form>
+
+  <div class="fila" style="margin-bottom: 2rem">
+    <button id="copiar">copiar html de los borradores</button>
+    <button id="vaciar">vaciar borradores</button>
+  </div>
+
+  <!-- ══════════ BORRADORES (localStorage) ══════════ -->
+  <section id="borradores"></section>
+
+  <hr />
+
+  <!-- ══════════ NOTAS PUBLICADAS ══════════
+       AQUÍ es donde pegas el html copiado, antes de
+       hacer commit. entre las dos marcas de abajo. -->
+  <section id="publicadas">
+    <!-- ▼▼▼ PEGAR NOTAS AQUÍ ▼▼▼ -->
+
+    <article class="publicada">
+      <p>esta nota ya vive en el html.</p>
+      <p>las que escribas arriba quedan en tu navegador hasta que las copies aquí y hagas commit.</p>
+      <div class="datos"><span>01/08/26</span><span>casa</span><span>ejemplo</span></div>
+    </article>
+
+    <!-- ▲▲▲ PEGAR NOTAS AQUÍ ▲▲▲ -->
+  </section>
+
+  <p class="ayuda">
+    flujo: escribir → «copiar html» → abrir index.html en el editor →
+    pegar entre las marcas ▼▲ → commit → push. sin servidores, sin prisas.
+  </p>
+
+  <!-- ══════════ EL JAVASCRIPT ══════════ -->
+  <script>
+    // ─── dónde guardamos: una clave en localStorage.
+    // localStorage solo guarda texto, así que convertimos
+    // la lista de notas a texto JSON y de vuelta.
+    const CLAVE = "cuaderno-notas";
+
+    function leerNotas() {
+      const guardado = localStorage.getItem(CLAVE);
+      // si no hay nada guardado aún, empezamos con lista vacía
+      return guardado ? JSON.parse(guardado) : [];
+    }
+
+    function guardarNotas(notas) {
+      localStorage.setItem(CLAVE, JSON.stringify(notas));
+    }
+
+    // ─── convertir UNA nota en su html.
+    // este mismo html es el que luego se copia al index.
+    function notaEnHtml(nota) {
+      // cada línea del texto se convierte en un párrafo <p>
+      const parrafos = nota.texto
+        .split("\n")                       // partir por saltos de línea
+        .filter((linea) => linea.trim())   // ignorar líneas vacías
+        .map((linea) => `  <p>${linea}</p>`)
+        .join("\n");
+
+      return `<article class="publicada">
+${parrafos}
+  <div class="datos"><span>${nota.fecha}</span><span>${nota.lugar || "—"}</span><span>${nota.tipo || "nota"}</span></div>
+</article>`;
+    }
+
+    // ─── pintar todos los borradores en pantalla
+    function pintar() {
+      const notas = leerNotas();
+      const seccion = document.getElementById("borradores");
+      seccion.innerHTML = ""; // vaciar y volver a pintar
+
+      notas.forEach((nota, indice) => {
+        const caja = document.createElement("article");
+        caja.innerHTML = notaEnHtml(nota)
+          .replace('<article class="publicada">', "")
+          .replace("</article>", "");
+        // botón de borrar este borrador
+        const boton = document.createElement("button");
+        boton.className = "borrar";
+        boton.textContent = "×";
+        boton.addEventListener("click", () => {
+          notas.splice(indice, 1); // quitar 1 elemento en esa posición
+          guardarNotas(notas);
+          pintar();
+        });
+        caja.prepend(boton);
+        seccion.prepend(caja); // prepend = la más nueva arriba
+      });
+    }
+
+    // ─── guardar una nota nueva al enviar el formulario
+    document.getElementById("formulario").addEventListener("submit", (evento) => {
+      evento.preventDefault(); // que el formulario no recargue la página
+
+      const ahora = new Date();
+      // fecha cortita estilo 01/08/26 14:32
+      const fecha = ahora.toLocaleDateString("es", { day: "2-digit", month: "2-digit", year: "2-digit" })
+        + " " + ahora.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
+
+      const notas = leerNotas();
+      notas.push({
+        texto: document.getElementById("texto").value,
+        lugar: document.getElementById("lugar").value,
+        tipo: document.getElementById("tipo").value,
+        fecha: fecha,
+      });
+      guardarNotas(notas);
+
+      // limpiar el formulario y repintar
+      evento.target.reset();
+      pintar();
+    });
+
+    // ─── copiar el html de todos los borradores al portapapeles
+    document.getElementById("copiar").addEventListener("click", () => {
+      const html = leerNotas().map(notaEnHtml).join("\n\n");
+      navigator.clipboard.writeText(html);
+      alert("html copiado. pégalo en tu index.html, commit, y a volar.");
+    });
+
+    // ─── vaciar borradores (después de publicarlos, por ejemplo)
+    document.getElementById("vaciar").addEventListener("click", () => {
+      if (confirm("¿borrar todos los borradores de este navegador?")) {
+        guardarNotas([]);
+        pintar();
+      }
+    });
+
+    // al abrir la página, pintar lo que hubiera guardado
+    pintar();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuleta — Taller de web autogestionada</title>
+  <style>
+    /* ── Ficha de taller. Pensada para imprimirse a doble cara en A4. ── */
+
+    @page {
+      size: A4;
+      margin: 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 24px 64px;
+      background: #eae6dc;
+      color: #12233a;
+      font-family: "Iowan Old Style", Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .hoja {
+      max-width: 780px;
+      margin: 0 auto 28px;
+      background: #fbfaf7;
+      padding: 40px 44px 48px;
+      box-shadow: 0 1px 0 #cfcabd, 0 14px 34px rgba(18, 35, 58, .1);
+    }
+
+    /* ── Cabecera de la ficha ── */
+
+    .cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #12233a;
+      padding-bottom: 10px;
+      margin-bottom: 28px;
+    }
+
+    .cabecera h1 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .cabecera span {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #7a8592;
+    }
+
+    /* ── Secciones ── */
+
+    h2 {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #12233a;
+      margin: 34px 0 12px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #d6d2c8;
+    }
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
+
+    /* ── Tabla de referencia ── */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 4px;
+    }
+
+    td {
+      vertical-align: top;
+      padding: 6px 10px 6px 0;
+      border-bottom: 1px solid #ece8de;
+    }
+
+    td:first-child {
+      width: 43%;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      color: #12233a;
+      white-space: nowrap;
+      overflow-wrap: break-word;
+    }
+
+    td:last-child {
+      font-size: 14px;
+    }
+
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      background: #f0ece1;
+      padding: 1px 4px;
+    }
+
+    /* ── El subrayado a rotulador: lo importante de cada bloque ── */
+
+    mark {
+      background: linear-gradient(100deg,
+          rgba(242, 233, 78, 0) 0,
+          rgba(242, 233, 78, .95) 4px,
+          rgba(242, 233, 78, .75) calc(100% - 5px),
+          rgba(242, 233, 78, 0) 100%);
+      color: inherit;
+      padding: 1px 2px;
+    }
+
+    /* ── Nota al margen, en boli rojo ── */
+
+    .aviso {
+      border-left: 3px solid #d8402f;
+      padding: 4px 0 4px 14px;
+      margin: 16px 0 0;
+      font-size: 14px;
+      color: #8c2b1f;
+    }
+
+    .aviso strong {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      display: block;
+      color: #d8402f;
+      margin-bottom: 2px;
+    }
+
+    .pie {
+      margin-top: 34px;
+      padding-top: 12px;
+      border-top: 1px solid #d6d2c8;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: #7a8592;
+    }
+
+    /* ── Impresión ── */
+
+    @media print {
+
+      body {
+        background: #fff;
+        padding: 0;
+        font-size: 10.5pt;
+      }
+
+      .hoja {
+        box-shadow: none;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        page-break-after: always;
+      }
+
+      .hoja:last-child {
+        page-break-after: auto;
+      }
+
+      mark {
+        background: #f2e94e;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════ CARA A · HTML ══════════ -->
+  <section class="hoja">
+
+    <div class="cabecera">
+      <h1>Chuleta · HTML</h1>
+      <span>Cara A · La Escocesa</span>
+    </div>
+
+    <h2>Lo que hay que entender antes que nada</h2>
+    <p>
+      Una web es <mark>una carpeta con archivos de texto</mark>. El navegador
+      abre <code>index.html</code>, lee las etiquetas y dibuja lo que dicen.
+      Si mueves la carpeta entera, la web sigue funcionando. Si sacas un
+      archivo de dentro, se rompe.
+    </p>
+    <p>
+      Las etiquetas van <mark>en parejas</mark>: una abre y otra cierra.
+      <code>&lt;p&gt;texto&lt;/p&gt;</code>. La de cerrar lleva una barra.
+    </p>
+
+    <h2>Estructura de la página</h2>
+    <table>
+      <tr>
+        <td>&lt;html&gt;</td>
+        <td>Todo el documento va dentro.</td>
+      </tr>
+      <tr>
+        <td>&lt;head&gt;</td>
+        <td>Lo que <em>no</em> se ve: título de la pestaña, enlace al CSS.</td>
+      </tr>
+      <tr>
+        <td>&lt;body&gt;</td>
+        <td>Lo que sí se ve.</td>
+      </tr>
+      <tr>
+        <td>&lt;header&gt;</td>
+        <td>Cabecera: tu nombre y el menú.</td>
+      </tr>
+      <tr>
+        <td>&lt;main&gt;</td>
+        <td>El contenido propio de cada página.</td>
+      </tr>
+      <tr>
+        <td>&lt;footer&gt;</td>
+        <td>Pie: contacto, créditos.</td>
+      </tr>
+      <tr>
+        <td>&lt;article&gt;</td>
+        <td>Una unidad suelta: un proyecto, una obra.</td>
+      </tr>
+    </table>
+
+    <h2>Contenido</h2>
+    <table>
+      <tr>
+        <td>&lt;h1&gt; … &lt;h6&gt;</td>
+        <td>Títulos, de más a menos importante. <mark>Un solo <code>h1</code> por página.</mark></td>
+      </tr>
+      <tr>
+        <td>&lt;p&gt;</td>
+        <td>Un párrafo. Uno por idea, no uno para todo el texto.</td>
+      </tr>
+      <tr>
+        <td>&lt;br&gt;</td>
+        <td>Salto de línea suelto. No lleva cierre. Úsalo poco.</td>
+      </tr>
+      <tr>
+        <td>&lt;em&gt; &lt;strong&gt;</td>
+        <td>Cursiva y negrita.</td>
+      </tr>
+      <tr>
+        <td>&lt;ul&gt; &lt;li&gt;</td>
+        <td>Lista. <code>ul</code> es la lista entera, cada <code>li</code> una línea.</td>
+      </tr>
+      <tr>
+        <td>&lt;hr&gt;</td>
+        <td>Línea de separación.</td>
+      </tr>
+      <tr>
+        <td>&lt;!-- … --&gt;</td>
+        <td>Comentario: no se ve en el navegador.</td>
+      </tr>
+    </table>
+
+    <h2>Enlaces e imágenes</h2>
+    <table>
+      <tr>
+        <td>&lt;a href="cv.html"&gt;CV&lt;/a&gt;</td>
+        <td>Enlace a otra página de tu web.</td>
+      </tr>
+      <tr>
+        <td>&lt;a href="https://…"&gt;</td>
+        <td>Enlace a otra web. Necesita el <code>https://</code> delante.</td>
+      </tr>
+      <tr>
+        <td>&lt;a href="mailto:tu@correo"&gt;</td>
+        <td>Enlace que abre el programa de correo.</td>
+      </tr>
+      <tr>
+        <td>&lt;img src="img/obra.jpg" alt="…"&gt;</td>
+        <td>Imagen. <mark><code>alt</code> describe la imagen</mark> para quien no la ve.</td>
+      </tr>
+    </table>
+
+    <div class="aviso">
+      <strong>Nombres de archivo</strong>
+      Sin espacios, sin acentos, sin ñ, sin mayúsculas. <code>Foto Taller.JPG</code>
+      falla al publicar; <code>foto-taller.jpg</code> no. Y ojo: <code>.jpg</code> y
+      <code>.JPG</code> son archivos distintos para el servidor.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · Guarda esta hoja</div>
+  </section>
+
+  <!-- ══════════ CARA B · CSS ══════════ -->
+  <section class="hoja">
+
+    <div class="cabecera">
+      <h1>Chuleta · CSS</h1>
+      <span>Cara B · La Escocesa</span>
+    </div>
+
+    <h2>Cómo se escribe una regla</h2>
+    <p>
+      <code>selector { propiedad: valor; }</code> — el selector dice a qué
+      afecta, la propiedad qué le cambias.
+      <mark>Punto y coma al final de cada línea.</mark>
+      Si te lo olvidas, esa línea y a veces la siguiente dejan de funcionar,
+      y no avisa nadie.
+    </p>
+
+    <h2>Selectores</h2>
+    <table>
+      <tr>
+        <td>p { }</td>
+        <td>Todos los párrafos.</td>
+      </tr>
+      <tr>
+        <td>header, main { }</td>
+        <td>Los dos a la vez. La coma es "y también".</td>
+      </tr>
+      <tr>
+        <td>nav a { }</td>
+        <td>Los enlaces que estén dentro de <code>nav</code>.</td>
+      </tr>
+      <tr>
+        <td>a:hover { }</td>
+        <td>Cuando el ratón está encima.</td>
+      </tr>
+      <tr>
+        <td>article:last-child { }</td>
+        <td>Solo el último de la serie.</td>
+      </tr>
+    </table>
+
+    <h2>Texto</h2>
+    <table>
+      <tr>
+        <td>color</td>
+        <td>Color de la letra. <code>#12233a</code>, <code>black</code>.</td>
+      </tr>
+      <tr>
+        <td>background-color</td>
+        <td>Color de fondo.</td>
+      </tr>
+      <tr>
+        <td>font-family</td>
+        <td>Tipografía. Varias separadas por comas: usa la primera que encuentre.</td>
+      </tr>
+      <tr>
+        <td>font-size</td>
+        <td>Tamaño. <code>18px</code>.</td>
+      </tr>
+      <tr>
+        <td>font-weight</td>
+        <td><code>normal</code>, <code>bold</code>, o un número.</td>
+      </tr>
+      <tr>
+        <td>font-style</td>
+        <td><code>italic</code> para cursiva.</td>
+      </tr>
+      <tr>
+        <td>line-height</td>
+        <td>Separación entre líneas. <mark>1.5 o 1.6 para texto largo.</mark></td>
+      </tr>
+      <tr>
+        <td>letter-spacing</td>
+        <td>Separación entre letras. <code>0.08em</code>.</td>
+      </tr>
+      <tr>
+        <td>text-align</td>
+        <td><code>left</code>, <code>center</code>, <code>right</code>.</td>
+      </tr>
+      <tr>
+        <td>text-transform</td>
+        <td><code>uppercase</code> pone en mayúsculas sin tocar el HTML.</td>
+      </tr>
+      <tr>
+        <td>text-decoration</td>
+        <td><code>none</code> quita el subrayado de los enlaces.</td>
+      </tr>
+    </table>
+
+    <h2>La caja</h2>
+    <p>
+      Todo elemento es una caja: <mark>contenido, <code>padding</code> (relleno
+      por dentro), <code>border</code> (línea) y <code>margin</code> (aire por
+      fuera)</mark>, en ese orden de dentro hacia fuera.
+    </p>
+    <table>
+      <tr>
+        <td>padding: 24px;</td>
+        <td>Los cuatro lados.</td>
+      </tr>
+      <tr>
+        <td>margin: 16px 0;</td>
+        <td>Dos valores: arriba/abajo, luego lados.</td>
+      </tr>
+      <tr>
+        <td>margin: 0 0 16px 0;</td>
+        <td>Cuatro valores: arriba, derecha, abajo, izquierda.</td>
+      </tr>
+      <tr>
+        <td>border-bottom: 1px solid #ccc;</td>
+        <td>Grosor, tipo, color.</td>
+      </tr>
+      <tr>
+        <td>max-width: 640px;</td>
+        <td>Ancho máximo. Evita líneas de texto larguísimas.</td>
+      </tr>
+      <tr>
+        <td>margin: 0 auto;</td>
+        <td><mark>Centra un bloque</mark> que tenga <code>max-width</code>.</td>
+      </tr>
+    </table>
+
+    <h2>Poner cosas en fila</h2>
+    <table>
+      <tr>
+        <td>display: flex;</td>
+        <td>Los hijos se colocan en fila.</td>
+      </tr>
+      <tr>
+        <td>gap: 20px;</td>
+        <td>Separación entre ellos.</td>
+      </tr>
+      <tr>
+        <td>flex-wrap: wrap;</td>
+        <td>Que salten de línea si no caben.</td>
+      </tr>
+      <tr>
+        <td>justify-content: center;</td>
+        <td>Alineación horizontal dentro de la fila.</td>
+      </tr>
+    </table>
+
+    <h2>Móvil</h2>
+    <p>
+      <code>@media (max-width: 600px) { … }</code> — lo que va dentro solo se
+      aplica en pantallas de 600px o menos, y pisa lo de arriba.
+      <mark>Va siempre al final del archivo.</mark>
+    </p>
+
+    <div class="aviso">
+      <strong>Si algo no cambia</strong>
+      1. ¿Has guardado? · 2. ¿Falta un punto y coma o una llave?
+      · 3. ¿El selector apunta de verdad a ese elemento? · 4. Recarga con
+      Cmd+Shift+R (Mac) o Ctrl+F5 (Windows) para saltarte la caché.
+    </div>
+
+    <div class="pie">Taller de web autogestionada · Guarda esta hoja</div>
+  </section>
+
+</body>
+
+</html>

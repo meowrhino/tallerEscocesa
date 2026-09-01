@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  12 · HYDRA (visuales psicodélicos en vivo)
+  ═══════════════════════════════════════════════════════
+  idea: hydra es un sintetizador de vídeo que se toca
+  escribiendo. lo inventó olivia jack para hacer live
+  coding visual. cero instalación: una librería y ya.
+
+  cómo se piensa hydra: como los sintes modulares.
+  hay FUENTES (osc, noise, shape, voronoi) y las vas
+  transformando encadenando funciones con puntitos:
+
+    osc(10).rotate(0.5).kaleid(4).out()
+    └fuente┘└transformas┘└caleidosc┘└a pantalla┘
+
+  esta página trae 4 presets y una cajita para escribir
+  tu propio código en vivo (ctrl+enter para ejecutar).
+
+  referencia amable: https://hydra.ojack.xyz
+  (ahí está el editor oficial, con más ejemplos)
+
+  necesita internet (carga la librería de un cdn).
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hydra · visuales en vivo</title>
+
+  <!-- la librería hydra desde un cdn -->
+  <script src="https://unpkg.com/hydra-synth@1.3.29/dist/hydra-synth.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { overflow: hidden; font-family: monospace; }
+
+    /* el lienzo llena toda la ventana, detrás de todo */
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* el panel de control flota encima */
+    #panel {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+      background: rgba(0, 0, 0, 0.65);
+      color: #0f0;
+      padding: 0.8rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    #codigo {
+      width: 100%;
+      background: transparent;
+      color: #0f0;
+      border: 1px solid #0f05;
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 0.5rem;
+      resize: vertical;
+      min-height: 3.5em;
+    }
+
+    .fila { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    button {
+      font-family: monospace;
+      background: transparent;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 0.3em 0.8em;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover { background: #0f0; color: #000; }
+
+    #error { color: #f66; font-size: 0.8rem; min-height: 1em; }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="lienzo"></canvas>
+
+  <div id="panel">
+    <div class="fila">
+      <button data-preset="0">ondas</button>
+      <button data-preset="1">células</button>
+      <button data-preset="2">caleidoscopio</button>
+      <button data-preset="3">tele rota</button>
+      <button id="ejecutar">ejecutar (ctrl+enter)</button>
+    </div>
+    <textarea id="codigo" spellcheck="false"></textarea>
+    <div id="error"></div>
+  </div>
+
+  <script>
+    // ─── arrancar hydra sobre nuestro canvas ───────
+    const hydra = new Hydra({
+      canvas: document.getElementById("lienzo"),
+      detectAudio: false,          // sin micrófono (hoy no)
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    // ─── los presets: código hydra guardado como texto.
+    // leedlos en voz alta: casi se explican solos.
+    const presets = [
+      // 0 · ondas: un oscilador lento, rotado, coloreado
+      `osc(8, 0.05, 0.9)
+  .rotate(0.3)
+  .color(1.2, 0.5, 0.9)
+  .out()`,
+
+      // 1 · células: ruido voronoi que respira
+      `voronoi(8, 0.4)
+  .color(0.4, 0.9, 0.6)
+  .modulate(noise(2), 0.3)
+  .out()`,
+
+      // 2 · caleidoscopio: una forma multiplicada en espejo
+      `shape(5, 0.4, 0.2)
+  .repeat(3, 3)
+  .kaleid(6)
+  .rotate(() => time * 0.1)
+  .color(0.9, 0.4, 1.2)
+  .out()`,
+
+      // 3 · tele rota: la propia pantalla realimentada (feedback!)
+      `src(o0)
+  .scale(1.01)
+  .rotate(0.003)
+  .blend(osc(20, 0.2, 1.5), 0.08)
+  .out()`,
+    ];
+
+    const caja = document.getElementById("codigo");
+    const cajaError = document.getElementById("error");
+
+    // ─── ejecutar lo que haya en la caja.
+    // eval() convierte el texto en código de verdad.
+    // (normalmente eval da miedo; aquí es justo lo que
+    // queremos: una página que ejecuta lo que escribes)
+    function ejecutar() {
+      try {
+        eval(caja.value);
+        cajaError.textContent = "";
+      } catch (e) {
+        // si te equivocas no pasa nada: se avisa y sigues
+        cajaError.textContent = "⚠ " + e.message;
+      }
+    }
+
+    // botones de preset: cargar el código en la caja y ejecutarlo
+    document.querySelectorAll("[data-preset]").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        caja.value = presets[boton.dataset.preset];
+        ejecutar();
+      });
+    });
+
+    document.getElementById("ejecutar").addEventListener("click", ejecutar);
+
+    // ctrl+enter (o cmd+enter) desde la caja, como en el editor oficial
+    caja.addEventListener("keydown", (evento) => {
+      if ((evento.ctrlKey || evento.metaKey) && evento.key === "Enter") {
+        evento.preventDefault();
+        ejecutar();
+      }
+    });
+
+    // empezamos con el primer preset puesto
+    caja.value = presets[0];
+    ejecutar();
+
+    // ─── ideas para jugar en el taller ─────────────
+    // · cambiad los números UNO A UNO y mirad qué pasa
+    // · () => time * 0.1  significa "que cambie con el tiempo"
+    //   probad a meterlo en cualquier parámetro
+    // · añadid .invert() o .pixelate(20, 20) a cualquier cadena
+    // · el preset 3 (feedback) + paciencia = hipnosis
+  </script>
+
+</body>
+</html>

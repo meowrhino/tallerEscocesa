@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+  ═══════════════════════════════════════════════════════
+  24 · P5.JS: ESCRIBIR CON PALABRAS
+  ═══════════════════════════════════════════════════════
+  idea: un pincel que no pinta trazos, pinta LETRAS.
+  arrastras el ratón y va soltando, una a una, las
+  letras de una frase tuya: el dibujo y el texto son
+  la misma cosa. caligrafía al revés: primero el gesto,
+  después el significado.
+
+  ideal para gente de arte que trabaja con texto:
+  se puede "reescribir" un poema encima de sí mismo,
+  dibujar una figura con una carta de amor, etc.
+
+  interacción:
+  · arrastrar: escribe la frase por donde pases
+  · la velocidad manda: despacio = letras chicas,
+    rápido = letras enormes
+  · tecla b: borrar · tecla g: guardar imagen
+
+  necesita internet (cdn de p5).
+  para gh pages: renombrar a index.html
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>escribir con palabras</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; }
+    body { overflow: hidden; }
+    #instrucciones {
+      position: fixed; bottom: 1rem; left: 1rem;
+      font-family: monospace; font-size: 0.8rem;
+      color: #999; pointer-events: none; line-height: 1.6;
+      background: rgba(250, 248, 240, 0.8); padding: 0.5rem 0.8rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="instrucciones">
+    arrastra para escribir · rápido = grande, despacio = pequeño<br />
+    <strong>b</strong>: borrar · <strong>g</strong>: guardar
+  </div>
+
+  <script>
+    // ═══════ LA FRASE ═══════
+    // el material del pincel. cambiadla por la vuestra:
+    // un verso, una confesión, la lista de la compra...
+    const FRASE = "todo lo que escribo se convierte en dibujo y viceversa ";
+
+    // por qué letra de la frase vamos (el "cabezal" del pincel)
+    let indice = 0;
+
+    // acumulamos distancia recorrida para soltar letras
+    // a intervalos regulares, no en cada píxel
+    let distanciaAcumulada = 0;
+
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      background(250, 248, 240);
+      textFont("Georgia");
+      fill(20, 20, 40);
+    }
+
+    function draw() {
+      if (!mouseIsPressed) return; // solo escribimos arrastrando
+
+      // ¿cuánto te has movido desde el último fotograma?
+      const paso = dist(mouseX, mouseY, pmouseX, pmouseY);
+      distanciaAcumulada += paso;
+
+      // el tamaño de letra depende de la velocidad del gesto
+      const tamano = constrain(map(paso, 0, 40, 14, 90), 14, 90);
+      // constrain = que no se pase de los límites
+
+      // soltamos una letra cada vez que acumulamos ~60% del
+      // tamaño de la letra (así van bien pegaditas)
+      if (distanciaAcumulada > tamano * 0.6) {
+        distanciaAcumulada = 0;
+
+        const letra = FRASE[indice % FRASE.length];
+        // el % (resto) hace que al acabar la frase vuelva a empezar
+        indice++;
+
+        // ── girar la letra según la dirección del gesto ──
+        // atan2 da el ángulo del movimiento: la letra
+        // "camina" por tu trazo como por una cuerda floja
+        const angulo = atan2(mouseY - pmouseY, mouseX - pmouseX);
+
+        push();                    // guardar el estado (posición, giro)
+        translate(mouseX, mouseY); // llevar el origen a la punta del pincel
+        rotate(angulo);            // girar como el trazo
+        textSize(tamano);
+        text(letra, 0, 0);         // ¡la letra!
+        pop();                     // restaurar el estado
+      }
+    }
+
+    function keyPressed() {
+      if (key === "b") background(250, 248, 240); // borrar = repintar el fondo
+      if (key === "g") saveCanvas("escrito", "png");
+    }
+
+    function windowResized() {
+      resizeCanvas(windowWidth, windowHeight);
+      background(250, 248, 240);
+    }
+
+    // ═══════ ideas para el taller ═══════
+    // · frase distinta para cada persona: retrato con su firma
+    // · en fill() de setup, cambiad el color de la tinta
+    // · quitad rotate(angulo): letras siempre derechas, otro carácter
+    // · reto: que el color cambie con la velocidad (map + fill en draw)
+  </script>
+
+</body>
+</html>
