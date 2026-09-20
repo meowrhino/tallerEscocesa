@@ -17,7 +17,7 @@ con una web funcionando en internet y sabiendo actualizarla.
 |---|---|---|
 | [`sesion-1.html`](sesion-1.html) | **HTML** | Qué es y por qué estructura en vez de dibujar. Dos páginas propias, enlazadas, con contenido real. Publicación rápida el mismo día. |
 | [`sesion-2.html`](sesion-2.html) | **CSS** | Qué es la cascada. Selectores, caja, tipografía, color, composición y móvil. |
-| [`sesion-3.html`](sesion-3.html) | **Publicar** | Qué son GitHub, Pages, Cloudflare, un dominio y el DNS. Publicar bien y el ciclo de mantenimiento. |
+| [`sesion-3.html`](sesion-3.html) | **Publicar** | Qué son GitHub, Pages, un dominio y el DNS. Publicar bien, el ciclo de mantenimiento y por dónde salir de GitHub cuando quieras. |
 
 Cada sesión es **una sola página que funciona de tres maneras**:
 
