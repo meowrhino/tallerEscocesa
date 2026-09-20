@@ -57,7 +57,7 @@ Cada práctica trae además:
 ## El chuletón
 
 [`chuleton.html`](chuleton.html) es la referencia para tener abierta en otra pestaña
-mientras se trastea, y para llevarse a casa. **75 fichas** organizadas en nueve bloques —
+mientras se trastea, y para llevarse a casa. **77 fichas** organizadas en nueve bloques —
 html, reglas y selectores, texto, color, la caja, composición, móvil, efectos y
 plantillas—, cada una con:
 
@@ -69,12 +69,12 @@ plantillas—, cada una con:
 Lleva **buscador** (busca sin tildes: «movil» encuentra «móvil»), filtro por
 **esenciales / avanzadas**, y una sección de **plantillas enteras** para copiar: una página
 completa, un `estilo.css` de arranque comentado, un proyecto, una galería en rejilla, un
-CV y un menú desplegable sin JavaScript. Se imprime como dossier.
+CV, un menú desplegable sin JavaScript y un pie con licencia Creative Commons. Se imprime como dossier.
 
 ## Qué más hay aquí
 
 ```
-chuleton.html      la referencia completa: 75 fichas de HTML y CSS, con buscador
+chuleton.html      la referencia completa: 77 fichas de HTML y CSS, con buscador
 muestrario/        26 páginas de ejemplo, cada una en un solo archivo muy comentado
 web-base/          punto de partida de la sesión 1, con los huecos comentados
 rescate/sesion-1/  cómo queda la web al terminar la primera sesión
